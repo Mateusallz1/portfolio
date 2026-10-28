@@ -1,0 +1,65 @@
+---
+interface BenchmarkItem {
+  label: string;
+  value: number; // e.g. seconds
+  unit?: string;
+  highlight?: boolean;
+  note?: string;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  items: BenchmarkItem[];
+}
+
+const { title, subtitle, items } = Astro.props;
+
+// Calculate the maximum value to scale the bars proportionally
+const maxValue = Math.max(...items.map((i) => i.value));
+---
+
+<div class="my-8 p-5 border border-base-content/15 rounded-lg bg-base-200/20">
+  <div class="mb-4">
+    <h4 class="text-xs font-mono uppercase tracking-wider text-base-content/50 font-semibold">
+      Benchmark Real
+    </h4>
+    <h3 class="text-sm sm:text-base font-bold text-base-content mt-0.5">
+      {title}
+    </h3>
+    {subtitle && (
+      <p class="text-xs text-base-content/60 font-mono mt-0.5">
+        {subtitle}
+      </p>
+    )}
+  </div>
+
+  <div class="space-y-4 pt-2">
+    {items.map((item) => {
+      const percentage = Math.max(5, (item.value / maxValue) * 100);
+      const isWinner = item.highlight;
+      return (
+        <div>
+          <div class="flex items-baseline justify-between text-xs font-mono mb-1.5">
+            <span class={isWinner ? "font-bold text-base-content" : "text-base-content/70"}>
+              {item.label}
+              {item.note && <span class="text-base-content/40 font-normal ml-2">({item.note})</span>}
+            </span>
+            <span class={isWinner ? "font-bold text-emerald-500" : "text-base-content/60"}>
+              {item.value}{item.unit || 's'}
+            </span>
+          </div>
+
+          <div class="h-2 w-full bg-base-300 rounded-full overflow-hidden">
+            <div
+              class={`h-full rounded-full transition-[width] duration-500 ${
+                isWinner ? 'bg-emerald-500' : 'bg-base-content/30'
+              }`}
+              style={`width: ${percentage}%`}
+            />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>

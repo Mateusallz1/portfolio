@@ -1,0 +1,42 @@
+---
+interface Props {
+  type?: 'note' | 'tip' | 'warning' | 'caution';
+  title?: string;
+}
+
+const { type = 'note', title } = Astro.props;
+
+const config = {
+  note: {
+    label: 'NOTA TÉCNICA',
+    border: 'border-base-content/20',
+    headerColor: 'text-base-content/60',
+  },
+  tip: {
+    label: 'DICA DE PRODUTIVIDADE',
+    border: 'border-emerald-500/30',
+    headerColor: 'text-emerald-500',
+  },
+  warning: {
+    label: 'ATENÇÃO EM PRODUÇÃO',
+    border: 'border-amber-500/30',
+    headerColor: 'text-amber-500',
+  },
+  caution: {
+    label: 'CUIDADO / CRÍTICO',
+    border: 'border-rose-500/30',
+    headerColor: 'text-rose-500',
+  },
+}[type];
+---
+
+<aside class={`my-6 p-4 border-l-2 bg-base-200/30 rounded-r-md ${config.border}`}>
+  <div class="flex items-center gap-2 mb-2 font-mono text-[11px] font-semibold tracking-wider">
+    <span class={config.headerColor}>
+      {title ? title.toUpperCase() : config.label}
+    </span>
+  </div>
+  <div class="text-xs sm:text-sm text-base-content/85 leading-relaxed [&>p]:my-1.5">
+    <slot />
+  </div>
+</aside>

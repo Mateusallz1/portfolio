@@ -23,7 +23,7 @@ const formattedDate = new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : 'en-US',
   day: 'numeric',
 }).format(new Date(pubDate));
 
-const cleanSlug = article.id.replace(/^(pt\/|en\/)/, '');
+const cleanSlug = article.id.replace(/^(pt\/|en\/)/, '').replace(/\.(md|mdx)$/, '');
 const articleUrl = `/${lang}/blog/${cleanSlug}`;
 ---
 
