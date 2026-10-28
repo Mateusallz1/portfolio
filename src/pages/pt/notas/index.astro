@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import NoteCard from '../../../components/NoteCard.astro';
+import { profile } from '../../../data/profile';
+import { getCollection } from 'astro:content';
+
+const lang = 'pt';
+const allNotes = await getCollection('notes');
+const ptNotes = allNotes
+  .filter((n) => n.data.lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Unique categories
+const categories = Array.from(new Set(ptNotes.map((n) => n.data.category)));
+---
+
+<BaseLayout
+  title={`Notas & TIL (Today I Learned) · ${profile.name}`}
+  description="Hub de estudos, snippets úteis, cheatsheets e anotações rápidas de aprendizado contínuo."
+  lang={lang}
+>
+  <div class="py-6 sm:py-10 border-b border-base-content/10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
+      <span>Digital Garden & TIL</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+      Notas de Estudo & Snippets
+    </h1>
+    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
+      Anotações rápidas, soluções de bugs do dia a dia, cheatsheets e conceitos que estou estudando. Menos formal que um artigo longo, mas útil e direto ao ponto.
+    </p>
+
+    <!-- Category filter pills -->
+    <div class="flex flex-wrap gap-2 pt-6">
+      <span class="badge badge-sm badge-primary font-mono text-xs">
+        Todas ({ptNotes.length})
+      </span>
+      {categories.map((cat) => (
+        <span class="badge badge-sm badge-ghost font-mono text-xs">
+          {cat}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="py-8 flex flex-col gap-3">
+    {ptNotes.map((note) => (
+      <NoteCard note={note} lang={lang} />
+    ))}
+  </div>
+</BaseLayout>

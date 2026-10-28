@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { profile } from '../../../data/profile';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes
+    .filter((entry) => entry.data.lang === 'pt')
+    .map((entry) => ({
+      params: { slug: entry.id.replace(/^(pt\/)/, '') },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, pubDate, category, tags } = entry.data;
+
+const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date(pubDate));
+---
+
+<BaseLayout
+  title={`${title} · Notas de ${profile.name}`}
+  description={`Nota de estudo sobre ${category}: ${title}`}
+  lang="pt"
+>
+  <div class="max-w-3xl mx-auto py-6">
+    <a
+      href="/pt/notas"
+      class="inline-flex items-center gap-1.5 text-xs font-mono text-base-content/60 hover:text-primary transition-colors mb-6"
+    >
+      <span>←</span>
+      Voltar para todas as notas
+    </a>
+
+    <header class="border-b border-base-content/10 pb-6 mb-6">
+      <div class="flex items-center gap-3 text-xs font-mono text-base-content/60 mb-2">
+        <span class="badge badge-sm badge-primary badge-soft">{category}</span>
+        <span>·</span>
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mb-3">
+        {title}
+      </h1>
+
+      <div class="flex flex-wrap gap-1.5">
+        {tags.map((tag) => (
+          <span class="badge badge-xs badge-ghost font-mono text-[10px]">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose prose-invert max-w-none prose-headings:font-bold prose-code:font-mono prose-code:bg-base-200/80 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-base-300 prose-pre:border prose-pre:border-base-content/10">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

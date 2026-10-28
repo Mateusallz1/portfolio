@@ -1,0 +1,89 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { profile } from '../../../data/profile';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  return articles
+    .filter((entry) => entry.data.lang === 'en')
+    .map((entry) => ({
+      params: { slug: entry.id.replace(/^(en\/)/, '') },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, pubDate, readingTime, tags } = entry.data;
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date(pubDate));
+---
+
+<BaseLayout
+  title={`${title} · ${profile.name}`}
+  description={description}
+  lang="en"
+>
+  <article class="max-w-3xl mx-auto py-6">
+    <a
+      href="/en/blog"
+      class="inline-flex items-center gap-1.5 text-xs font-mono text-base-content/60 hover:text-primary transition-colors mb-6"
+    >
+      <span>←</span>
+      Back to all articles
+    </a>
+
+    <header class="border-b border-base-content/10 pb-8 mb-8">
+      <div class="flex items-center gap-3 text-xs font-mono text-base-content/60 mb-3">
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        <span>·</span>
+        <span>{readingTime} read</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content mb-4 leading-tight">
+        {title}
+      </h1>
+
+      <p class="text-base text-base-content/80 leading-relaxed mb-6">
+        {description}
+      </p>
+
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="badge badge-sm badge-ghost font-mono text-[11px]">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary prose-code:font-mono prose-code:bg-base-200/80 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-base-300 prose-pre:border prose-pre:border-base-content/10">
+      <Content />
+    </div>
+
+    <footer class="mt-12 pt-8 border-t border-base-content/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-neutral text-neutral-content flex items-center justify-center font-mono font-bold text-base border border-base-content/20">
+          M
+        </div>
+        <div>
+          <span class="font-semibold text-sm block">{profile.name}</span>
+          <span class="text-xs text-base-content/60 font-mono">{profile.headline.en}</span>
+        </div>
+      </div>
+
+      <a
+        href={`mailto:${profile.email}?subject=Feedback%20on:%20${encodeURIComponent(title)}`}
+        class="btn btn-sm btn-outline gap-2 font-medium"
+      >
+        Discuss this article via email
+        <span>→</span>
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

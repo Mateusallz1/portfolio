@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import { profile } from '../../../data/profile';
+import { getCollection } from 'astro:content';
+
+const lang = 'pt';
+const allArticles = await getCollection('articles');
+const ptArticles = allArticles
+  .filter((a) => a.data.lang === lang)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title={`Blog Técnico & Artigos · ${profile.name}`}
+  description="Artigos aprofundados sobre Python, Django, uv, TypeScript, arquitetura de sistemas e boas práticas."
+  lang={lang}
+>
+  <div class="py-6 sm:py-10 border-b border-base-content/10">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
+      <span>Deep Dives & Tutoriais</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+      Artigos & Publicações Técnicas
+    </h1>
+    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
+      Reflexões detalhadas sobre design de software, desafios de produção e ferramentas de alta produtividade.
+    </p>
+  </div>
+
+  <div class="py-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+    {ptArticles.map((article) => (
+      <ArticleCard article={article} lang={lang} />
+    ))}
+  </div>
+</BaseLayout>

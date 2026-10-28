@@ -1,0 +1,49 @@
+---
+interface Props {
+  note: {
+    id: string;
+    data: {
+      title: string;
+      pubDate: Date;
+      category: string;
+      tags: string[];
+      lang: 'pt' | 'en';
+    };
+  };
+  lang: 'pt' | 'en';
+}
+
+const { note, lang } = Astro.props;
+const { title, pubDate, category, tags } = note.data;
+
+const formattedDate = new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : 'en-US', {
+  month: 'short',
+  day: 'numeric',
+}).format(new Date(pubDate));
+
+const cleanSlug = note.id.replace(/^(pt\/|en\/)/, '');
+const noteUrl = `/${lang}/${lang === 'pt' ? 'notas' : 'notes'}/${cleanSlug}`;
+---
+
+<a
+  href={noteUrl}
+  class="glass-panel glow-hover rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-base-content/10 group transition-colors"
+>
+  <div class="flex items-center gap-3">
+    <span class="badge badge-sm badge-outline font-mono text-[11px] text-primary border-primary/30">
+      {category}
+    </span>
+    <span class="text-sm font-semibold text-base-content group-hover:text-primary transition-colors">
+      {title}
+    </span>
+  </div>
+
+  <div class="flex items-center gap-3 text-xs font-mono text-base-content/50 shrink-0">
+    <div class="hidden sm:flex gap-1.5">
+      {tags.slice(0, 2).map((tag) => (
+        <span class="text-[10px] text-base-content/40">#{tag}</span>
+      ))}
+    </div>
+    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+  </div>
+</a>

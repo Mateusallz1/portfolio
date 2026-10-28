@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { profile } from '../../data/profile';
+
+const lang = 'en';
+---
+
+<BaseLayout
+  title={`Resume / CV · ${profile.name}`}
+  description={`Curriculum Vitae and professional experience for ${profile.name}, Software Engineer specializing in Python, Django, and TypeScript.`}
+  lang={lang}
+>
+  <div class="max-w-3xl mx-auto py-6">
+    <!-- Header with Print action -->
+    <div class="flex items-center justify-between border-b border-base-content/10 pb-6 mb-8">
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+          {profile.name}
+        </h1>
+        <p class="text-primary font-mono font-medium text-sm sm:text-base mt-1">
+          {profile.headline.en}
+        </p>
+        <p class="text-xs text-base-content/60 font-mono mt-1">
+          Teresina, PI - Brazil · Open to worldwide remote contracts (UTC-3)
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          onclick="window.print()"
+          class="btn btn-sm btn-outline font-mono text-xs gap-1.5"
+          title="Print or Save as PDF"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          Print / PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- Contact & Links Bar -->
+    <div class="glass-panel rounded-lg p-4 mb-8 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+      <a href={`mailto:${profile.email}`} class="text-base-content/80 hover:text-primary transition-colors flex items-center gap-1.5">
+        <span>✉</span> {profile.email}
+      </a>
+      <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" class="text-base-content/80 hover:text-primary transition-colors flex items-center gap-1.5">
+        <span>★</span> github.com/{profile.githubUser}
+      </a>
+      <span class="text-emerald-500 font-semibold flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        Available for hire
+      </span>
+    </div>
+
+    <!-- Summary -->
+    <section class="mb-10">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-base-content/50 mb-3 font-bold">
+        Executive Summary
+      </h2>
+      <div class="space-y-3 text-sm text-base-content/85 leading-relaxed">
+        {profile.aboutLong.en.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+    </section>
+
+    <!-- Technical Skills Matrix -->
+    <section class="mb-10">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-base-content/50 mb-4 font-bold">
+        Technical Proficiencies
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {profile.skills.map((skillGroup) => (
+          <div class="glass-panel rounded-lg p-3.5 border border-base-content/10">
+            <h3 class="text-xs font-semibold text-primary mb-2">
+              {skillGroup.category.en}
+            </h3>
+            <ul class="text-xs font-mono text-base-content/80 space-y-1">
+              {skillGroup.items.map((skill) => (
+                <li class="flex items-center gap-1.5">
+                  <span class="text-primary/60">›</span>
+                  <span class={skill.highlight ? 'font-bold text-base-content' : ''}>
+                    {skill.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="mb-10">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-base-content/50 mb-6 font-bold">
+        Work Experience
+      </h2>
+      <div class="space-y-8">
+        {profile.experience.map((exp) => (
+          <div class="relative pl-6 border-l-2 border-primary/30">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-primary"></div>
+            
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <h3 class="text-base font-bold text-base-content">
+                {exp.role.en} · <span class="text-primary font-normal">{exp.company}</span>
+              </h3>
+              <span class="text-xs font-mono text-base-content/50">
+                {exp.period.en}
+              </span>
+            </div>
+
+            <p class="text-xs text-base-content/75 mb-3">
+              {exp.description.en}
+            </p>
+
+            <ul class="space-y-1.5 text-xs text-base-content/85 mb-4">
+              {exp.achievements.en.map((item) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-primary font-bold">✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="flex flex-wrap gap-1.5">
+              {exp.techs.map((tech) => (
+                <span class="badge badge-xs badge-ghost font-mono text-[10px]">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Engineering Principles / Core Values -->
+    <section class="mb-10">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-base-content/50 mb-4 font-bold">
+        Engineering Principles
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-base-content/80">
+        <div class="glass-panel rounded-lg p-3.5 border border-base-content/10">
+          <strong class="text-base-content block mb-1">Developer Ergonomics with uv</strong>
+          Fast build cycles and deterministic environments mean fewer CI bottlenecks and higher team velocity.
+        </div>
+        <div class="glass-panel rounded-lg p-3.5 border border-base-content/10">
+          <strong class="text-base-content block mb-1">Strict Type Safety</strong>
+          Catching contract regressions at compile-time prevents catastrophic runtime bugs in production APIs.
+        </div>
+        <div class="glass-panel rounded-lg p-3.5 border border-base-content/10">
+          <strong class="text-base-content block mb-1">Database-First Query Design</strong>
+          Proper indices and targeted ORM prefetching are far more effective than throwing hardware at slow queries.
+        </div>
+        <div class="glass-panel rounded-lg p-3.5 border border-base-content/10">
+          <strong class="text-base-content block mb-1">Pragmatic Modularity</strong>
+          Clear boundaries and testable services without over-engineering speculative abstractions prematurely.
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
