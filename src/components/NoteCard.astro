@@ -27,23 +27,18 @@ const noteUrl = `/${lang}/${lang === 'pt' ? 'notas' : 'notes'}/${cleanSlug}`;
 
 <a
   href={noteUrl}
-  class="glass-panel glow-hover rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-base-content/10 group transition-colors"
+  class="py-3 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-base-content/10 group transition-colors"
 >
-  <div class="flex items-center gap-3">
-    <span class="badge badge-sm badge-outline font-mono text-[11px] text-primary border-primary/30">
-      {category}
+  <div class="flex items-baseline gap-3">
+    <span class="text-xs font-mono text-base-content/50 shrink-0">
+      [{category}]
     </span>
-    <span class="text-sm font-semibold text-base-content group-hover:text-primary transition-colors">
+    <span class="text-sm font-medium text-base-content group-hover:underline">
       {title}
     </span>
   </div>
 
-  <div class="flex items-center gap-3 text-xs font-mono text-base-content/50 shrink-0">
-    <div class="hidden sm:flex gap-1.5">
-      {tags.slice(0, 2).map((tag) => (
-        <span class="text-[10px] text-base-content/40">#{tag}</span>
-      ))}
-    </div>
-    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-  </div>
+  <time datetime={pubDate.toISOString()} class="text-xs font-mono text-base-content/40 shrink-0">
+    {formattedDate}
+  </time>
 </a>

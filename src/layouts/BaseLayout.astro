@@ -39,13 +39,10 @@ const { title, description, lang } = Astro.props;
       document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
   </head>
-  <body class="bg-base-100 text-base-content font-sans antialiased min-h-screen flex flex-col selection:bg-primary/20 selection:text-primary">
-    <!-- Subtle Background Glow / Grid (Linear style) -->
-    <div class="fixed inset-0 pointer-events-none -z-10 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.12),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.18),rgba(255,255,255,0))]"></div>
-
+  <body class="bg-base-100 text-base-content font-sans antialiased min-h-screen flex flex-col selection:bg-base-content selection:text-base-100">
     <Header lang={lang} />
 
-    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <main class="flex-1 max-w-4xl w-full mx-auto px-6 sm:px-8 py-12 sm:py-20">
       <slot />
     </main>
 

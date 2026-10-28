@@ -9,15 +9,15 @@ const { lang } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="w-full border-t border-base-content/10 bg-base-100/50 mt-16 transition-colors">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+<footer class="w-full border-t border-base-content/10 bg-base-100 mt-20 transition-colors">
+  <div class="max-w-4xl mx-auto px-6 sm:px-8 py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
     <!-- Status / Info -->
-    <div class="flex flex-col items-center md:items-start gap-2">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-mono">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+    <div class="flex flex-col items-start gap-1.5">
+      <div class="flex items-center gap-2 text-xs font-mono text-base-content/70">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
         <span>{profile.availability[lang]}</span>
       </div>
-      <p class="text-xs text-base-content/60 font-mono">
+      <p class="text-xs text-base-content/50 font-mono">
         Teresina - PI, Brasil · {lang === 'pt' ? 'Trabalho 100% Remoto' : '100% Remote Available'}
       </p>
     </div>

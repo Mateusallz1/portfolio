@@ -35,17 +35,13 @@ const navLinks = lang === 'pt'
     ];
 ---
 
-<header class="sticky top-0 z-50 w-full backdrop-blur-md bg-base-100/80 border-b border-base-content/10 transition-colors">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<header class="sticky top-0 z-50 w-full bg-base-100 border-b border-base-content/10 transition-colors">
+  <div class="max-w-4xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
     <!-- Brand / Logo -->
-    <a href={lang === 'pt' ? '/pt' : '/en'} class="flex items-center gap-2 group">
-      <div class="w-8 h-8 rounded-lg bg-neutral text-neutral-content flex items-center justify-center font-mono font-bold text-sm border border-base-content/20 group-hover:border-primary/50 transition-colors">
-        M
-      </div>
-      <div class="flex flex-col">
-        <span class="font-semibold text-sm tracking-tight group-hover:text-primary transition-colors">Mateus Alves</span>
-        <span class="text-[10px] text-base-content/60 font-mono -mt-1">Software Engineer</span>
-      </div>
+    <a href={lang === 'pt' ? '/pt' : '/en'} class="flex items-center gap-2.5 group">
+      <span class="font-mono font-bold text-sm tracking-tight text-base-content">M/A</span>
+      <span class="text-base-content/30 font-mono text-xs">/</span>
+      <span class="text-xs text-base-content/70 font-mono">Mateus Alves</span>
     </a>
 
     <!-- Desktop Navigation -->

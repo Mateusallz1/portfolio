@@ -9,31 +9,7 @@
   }
 }
 
-/* Linear & Raycast subtle glow and glass tokens */
-.glass-panel {
-  background: color-mix(in oklab, var(--color-base-200) 70%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid color-mix(in oklab, var(--color-base-content) 10%, transparent);
-}
-
-.glow-hover {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glow-hover:hover {
-  border-color: color-mix(in oklab, var(--color-primary) 50%, transparent);
-  box-shadow: 0 0 25px -5px color-mix(in oklab, var(--color-primary) 20%, transparent);
-}
-
-.text-gradient {
-  background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .text-gradient {
-  background: linear-gradient(135deg, #0f172a 30%, #475569 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Minimalist Editorial Helpers */
+.editorial-rule {
+  border-color: color-mix(in oklab, var(--color-base-content) 12%, transparent);
 }
