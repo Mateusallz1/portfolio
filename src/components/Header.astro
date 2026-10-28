@@ -1,4 +1,6 @@
 ---
+import SearchModal from './SearchModal.astro';
+
 interface Props {
   lang: 'pt' | 'en';
 }
@@ -64,8 +66,11 @@ const navLinks = lang === 'pt'
       })}
     </nav>
 
-    <!-- Actions (Language, Theme, Mobile toggle) -->
+    <!-- Actions (Search, Language, Theme, Mobile toggle) -->
     <div class="flex items-center gap-2">
+      <!-- Search Trigger & Modal -->
+      <SearchModal lang={lang} />
+
       <!-- Language Switcher Pill -->
       <a
         href={switchLangUrl}

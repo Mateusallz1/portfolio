@@ -1,0 +1,289 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  lang: 'pt' | 'en';
+}
+
+const { lang } = Astro.props;
+
+const allArticles = await getCollection('articles');
+const allNotes = await getCollection('notes');
+
+const localIndex = [
+  ...allArticles.map((a) => {
+    const slug = a.id.replace(/^(pt\/|en\/)/, '').replace(/\.(md|mdx)$/, '');
+    return {
+      type: a.data.lang === 'pt' ? 'Artigo' : 'Article',
+      title: a.data.title,
+      description: a.data.description,
+      url: `/${a.data.lang}/blog/${slug}`,
+      tags: a.data.tags,
+      lang: a.data.lang,
+    };
+  }),
+  ...allNotes.map((n) => {
+    const slug = n.id.replace(/^(pt\/|en\/)/, '').replace(/\.(md|mdx)$/, '');
+    return {
+      type: `Nota (${n.data.category})`,
+      title: n.data.title,
+      description: `Anotação / Snippet sobre ${n.data.category}`,
+      url: `/${n.data.lang}/${n.data.lang === 'pt' ? 'notas' : 'notes'}/${slug}`,
+      tags: n.data.tags,
+      lang: n.data.lang,
+    };
+  }),
+];
+
+const placeholderText = lang === 'pt'
+  ? 'Buscar artigos, notas, Django, uv...'
+  : 'Search articles, notes, Django, uv...';
+---
+
+<!-- Search Trigger Button (for Header) -->
+<button
+  id="search-trigger"
+  type="button"
+  class="btn btn-ghost btn-xs font-mono text-[11px] border border-base-content/15 text-base-content/70 hover:text-base-content hover:border-base-content/40 px-2 flex items-center gap-1.5 transition-colors"
+  title={lang === 'pt' ? 'Buscar no site (Ctrl + K)' : 'Search site (Ctrl + K)'}
+>
+  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+  <span class="hidden sm:inline">{lang === 'pt' ? 'Buscar' : 'Search'}</span>
+  <kbd class="hidden sm:inline-block px-1 py-0.2 rounded bg-base-200 border border-base-content/15 text-[10px] text-base-content/50">⌘K</kbd>
+</button>
+
+<!-- Search Modal Backdrop & Dialog -->
+<div
+  id="search-dialog"
+  class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-20 flex justify-center items-start animate-fade"
+  role="dialog"
+  aria-modal="true"
+  aria-label={lang === 'pt' ? 'Busca no site' : 'Site search'}
+>
+  <div
+    class="w-full max-w-xl bg-base-100 border border-base-content/20 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+    id="search-container"
+  >
+    <!-- Search Input Header -->
+    <div class="flex items-center gap-3 px-4 py-3.5 border-b border-base-content/10">
+      <svg class="w-4 h-4 text-base-content/50 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="search-input"
+        type="search"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder={placeholderText}
+        class="w-full bg-transparent text-sm text-base-content placeholder:text-base-content/40 outline-none font-sans"
+      />
+      <kbd class="text-[10px] font-mono text-base-content/40 px-1.5 py-0.5 rounded border border-base-content/15">
+        ESC
+      </kbd>
+    </div>
+
+    <!-- Search Results List -->
+    <div
+      id="search-results"
+      class="overflow-y-auto p-2 divide-y divide-base-content/5 space-y-1 text-sm font-sans"
+    >
+      <div id="search-empty" class="py-8 text-center text-xs font-mono text-base-content/40">
+        {lang === 'pt' ? 'Digite algo para buscar artigos, comandos ou notas.' : 'Type something to search articles, notes or commands.'}
+      </div>
+    </div>
+
+    <!-- Modal Footer Hint -->
+    <div class="px-4 py-2 bg-base-200/50 border-t border-base-content/10 flex items-center justify-between text-[11px] font-mono text-base-content/50">
+      <span>{lang === 'pt' ? 'Navegação instantânea' : 'Instant search'}</span>
+      <div class="flex items-center gap-2">
+        <span>↑↓ navegar</span>
+        <span>↵ selecionar</span>
+        <span>esc fechar</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Embedded Data for Local Fallback Search -->
+<script is:inline define:vars={{ localIndex, lang }}>
+  window.__SEARCH_INDEX__ = localIndex;
+  window.__SEARCH_LANG__ = lang;
+</script>
+
+<script>
+  function setupSearch() {
+    const trigger = document.getElementById('search-trigger');
+    const dialog = document.getElementById('search-dialog');
+    const container = document.getElementById('search-container');
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const resultsContainer = document.getElementById('search-results');
+    const emptyState = document.getElementById('search-empty');
+
+    const searchData: Array<{
+      type: string;
+      title: string;
+      description: string;
+      url: string;
+      tags: string[];
+      lang: string;
+    }> = (window as any).__SEARCH_INDEX__ || [];
+
+    let pagefind: any = null;
+
+    // Try loading production Pagefind if available
+    async function loadPagefind() {
+      if (pagefind) return pagefind;
+      try {
+        const pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js');
+        await pf.init();
+        pagefind = pf;
+        return pf;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function openModal() {
+      dialog?.classList.remove('hidden');
+      setTimeout(() => input?.focus(), 50);
+      loadPagefind();
+    }
+
+    function closeModal() {
+      dialog?.classList.add('hidden');
+      if (input) input.value = '';
+      renderEmpty();
+    }
+
+    function renderEmpty() {
+      if (resultsContainer) {
+        resultsContainer.innerHTML = `
+          <div class="py-8 text-center text-xs font-mono text-base-content/40">
+            ${(window as any).__SEARCH_LANG__ === 'pt' ? 'Digite algo para buscar artigos, comandos ou notas.' : 'Type something to search articles, notes or commands.'}
+          </div>
+        `;
+      }
+    }
+
+    async function handleSearch(query: string) {
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        renderEmpty();
+        return;
+      }
+
+      // Check if pagefind is available
+      const pf = await loadPagefind();
+      if (pf) {
+        try {
+          const search = await pf.search(q);
+          const results = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+          
+          if (results.length === 0) {
+            renderNoResults();
+            return;
+          }
+
+          renderResults(results.map((r: any) => ({
+            type: r.meta?.title?.includes('·') ? r.meta.title.split('·')[1].trim() : 'Artigo',
+            title: r.meta?.title || 'Documento',
+            description: r.excerpt || '',
+            url: r.url,
+            isPagefind: true
+          })));
+          return;
+        } catch (e) {
+          // fallback to local index
+        }
+      }
+
+      // Fallback local search
+      const filtered = searchData.filter((item) => {
+        return (
+          item.title.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.tags.some((t) => t.toLowerCase().includes(q)) ||
+          item.type.toLowerCase().includes(q)
+        );
+      }).slice(0, 8);
+
+      if (filtered.length === 0) {
+        renderNoResults();
+        return;
+      }
+
+      renderResults(filtered);
+    }
+
+    function renderNoResults() {
+      if (resultsContainer) {
+        resultsContainer.innerHTML = `
+          <div class="py-8 text-center text-xs font-mono text-base-content/40">
+            ${(window as any).__SEARCH_LANG__ === 'pt' ? 'Nenhum resultado encontrado.' : 'No results found.'}
+          </div>
+        `;
+      }
+    }
+
+    function renderResults(items: any[]) {
+      if (!resultsContainer) return;
+
+      resultsContainer.innerHTML = items.map((item, index) => {
+        return `
+          <a
+            href="${item.url}"
+            class="search-item block p-3 rounded-lg hover:bg-base-200/80 transition-colors group ${index === 0 ? 'bg-base-200/40' : ''}"
+            data-index="${index}"
+          >
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-[11px] font-mono text-base-content/50 uppercase tracking-wider">
+                ${item.type}
+              </span>
+              <span class="text-[11px] font-mono text-base-content/30 group-hover:text-base-content/60">
+                ↵ abrir
+              </span>
+            </div>
+            <h4 class="text-sm font-semibold text-base-content group-hover:text-primary transition-colors">
+              ${item.title}
+            </h4>
+            <p class="text-xs text-base-content/70 mt-1 line-clamp-1 leading-relaxed">
+              ${item.description}
+            </p>
+          </a>
+        `;
+      }).join('');
+    }
+
+    // Event Listeners
+    trigger?.addEventListener('click', openModal);
+
+    dialog?.addEventListener('click', (e) => {
+      if (e.target === dialog) closeModal();
+    });
+
+    input?.addEventListener('input', (e) => {
+      handleSearch((e.target as HTMLInputElement).value);
+    });
+
+    // Keyboard Shortcuts (Cmd+K / Ctrl+K / Esc)
+    window.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (dialog?.classList.contains('hidden')) {
+          openModal();
+        } else {
+          closeModal();
+        }
+      }
+
+      if (e.key === 'Escape' && !dialog?.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  }
+
+  setupSearch();
+  document.addEventListener('astro:after-swap', setupSearch);
+</script>
