@@ -45,7 +45,10 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
       </div>
 
-      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mb-3">
+      <h1
+        class="text-2xl sm:text-3xl font-bold tracking-tight text-base-content mb-3"
+        transition:name={`note-title-${Astro.params.slug}`}
+      >
         {title}
       </h1>
 

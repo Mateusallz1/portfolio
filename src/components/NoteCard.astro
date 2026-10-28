@@ -33,7 +33,10 @@ const noteUrl = `/${lang}/${lang === 'pt' ? 'notas' : 'notes'}/${cleanSlug}`;
     <span class="text-xs font-mono text-base-content/50 shrink-0">
       [{category}]
     </span>
-    <span class="text-sm font-medium text-base-content group-hover:underline">
+    <span
+      class="text-sm font-medium text-base-content group-hover:underline"
+      transition:name={`note-title-${cleanSlug}`}
+    >
       {title}
     </span>
   </div>

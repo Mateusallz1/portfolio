@@ -35,7 +35,11 @@ const articleUrl = `/${lang}/blog/${cleanSlug}`;
   </div>
 
   <h3 class="text-base sm:text-lg font-semibold text-base-content mb-2 leading-snug">
-    <a href={articleUrl} class="hover:underline transition-colors">
+    <a
+      href={articleUrl}
+      class="hover:underline transition-colors"
+      transition:name={`article-title-${cleanSlug}`}
+    >
       {title}
     </a>
   </h3>

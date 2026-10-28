@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -25,6 +26,9 @@ const { title, description, lang } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     
+    <!-- Astro View Transitions (Client Router) -->
+    <ClientRouter />
+
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,10 +37,14 @@ const { title, description, lang } = Astro.props;
       rel="stylesheet"
     />
 
-    <!-- Theme persistence inline script to prevent theme flashing -->
+    <!-- Theme persistence inline script to prevent theme flashing during transitions -->
     <script is:inline>
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', savedTheme);
+      function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+      applySavedTheme();
+      document.addEventListener('astro:after-swap', applySavedTheme);
     </script>
   </head>
   <body class="bg-base-100 text-base-content font-sans antialiased min-h-screen flex flex-col selection:bg-base-content selection:text-base-100">
