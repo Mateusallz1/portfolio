@@ -26,6 +26,11 @@ const { title, description, lang } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     
+    <!-- RSS Feeds -->
+    <link rel="alternate" type="application/rss+xml" title="Mateus Alves · RSS Feed" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Mateus Alves · RSS Feed (PT)" href="/pt/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Mateus Alves · RSS Feed (EN)" href="/en/rss.xml" />
+
     <!-- Astro View Transitions (Client Router) -->
     <ClientRouter />
 
