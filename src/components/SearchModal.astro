@@ -135,8 +135,12 @@ const placeholderText = lang === 'pt'
     // Try loading production Pagefind if available
     async function loadPagefind() {
       if (pagefind) return pagefind;
+      // In local dev mode, use the instant local index
+      if (import.meta.env.DEV) return null;
       try {
-        const pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js');
+        const importPath = '/pagefind/pagefind.js';
+        const dynamicImport = new Function('path', 'return import(path)');
+        const pf = await dynamicImport(importPath);
         await pf.init();
         pagefind = pf;
         return pf;
