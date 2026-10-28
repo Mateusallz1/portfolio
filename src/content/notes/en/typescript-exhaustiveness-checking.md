@@ -8,7 +8,7 @@ tags: ["TypeScript", "TypeSafety", "Patterns"]
 
 When handling discriminated unions (e.g., payment status or user roles), use the `never` type to ensure exhaustiveness at compile-time:
 
-```typescript
+```typescript title="payments.ts" ins={16-18}
 type PaymentStatus = 'pending' | 'succeeded' | 'failed' | 'refunded';
 
 function handlePayment(status: PaymentStatus) {

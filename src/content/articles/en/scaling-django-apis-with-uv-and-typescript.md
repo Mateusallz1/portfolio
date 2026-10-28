@@ -20,7 +20,7 @@ Django's ORM is immensely powerful, but unchecked queries can quickly degrade AP
 
 ### The Problem
 
-```python
+```python title="views.py (inefficient)" del={2-3}
 # Inefficient: Executes 1 query for invoices + N queries for customers
 invoices = Invoice.objects.filter(status='pending')
 data = [{'id': inv.id, 'customer': inv.customer.name} for inv in invoices]
@@ -28,7 +28,7 @@ data = [{'id': inv.id, 'customer': inv.customer.name} for inv in invoices]
 
 ### The Solution: Targeted Prefetching
 
-```python
+```python title="views.py (optimized)" ins={2-4}
 # Optimized: Single JOIN query via select_related
 invoices = (
     Invoice.objects

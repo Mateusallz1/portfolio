@@ -32,7 +32,7 @@ O `uv` unifica essas etapas com performance sem precedentes. Ele pode inclusive 
 
 Para criar um novo projeto com Python 3.12:
 
-```bash
+```bash title="Terminal"
 # Baixar o interpretador e criar ambiente virtual em segundos
 uv venv --python 3.12
 
@@ -55,7 +55,7 @@ O maior ganho prático que mensurei foi nas esteiras de integração contínua (
 
 Em vez de esperarmos 1 a 2 minutos apenas instalando dependências de teste (`pytest`, `coverage`, `factory-boy`), o comando:
 
-```bash
+```bash title="CI Workflow"
 uv pip sync requirements.txt
 ```
 
@@ -63,7 +63,7 @@ completa em **menos de 3 segundos** no cache do runner.
 
 ### Exemplo de Dockerfile enxuto com uv
 
-```dockerfile
+```dockerfile title="Dockerfile" {6-7, 10-11}
 FROM python:3.12-slim-bookworm
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 

@@ -10,7 +10,7 @@ Quando você acessa relacionamentos `ManyToMany` ou reversos de `ForeignKey` em 
 
 ### Exemplo rápido de resolução
 
-```python
+```python title="queries.py" del={2-4} ins={6-8}
 # Ruim: 1 query para autores + N queries para livros
 autores = Autor.objects.all()
 for autor in autores:
