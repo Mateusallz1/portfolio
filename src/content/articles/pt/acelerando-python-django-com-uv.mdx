@@ -6,9 +6,13 @@ lang: "pt"
 tags: ["Python", "Django", "uv", "DevOps", "Tooling"]
 readingTime: "6 min"
 featured: true
+coverImage: "../../../assets/articles/uv-architecture.png"
+coverAlt: "Pipeline de Alta Performance com uv no Django"
 ---
 import Callout from '../../../components/mdx/Callout.astro';
 import BenchmarkChart from '../../../components/mdx/BenchmarkChart.astro';
+import Figure from '../../../components/mdx/Figure.astro';
+import uvArchImage from '../../../assets/articles/uv-architecture.png';
 
 Se você trabalha com Python profissionalmente, certamente já sentiu o atrito de esperar minutos para um `pip install` ou `poetry install` rodar, especialmente em pipelines de CI/CD ou dentro de containers Docker.
 
@@ -37,6 +41,13 @@ Antes de olhar os comandos, veja o benchmark mensurado em um projeto Django real
 />
 
 A diferença de **41.8 segundos para 1.4 segundos** transforma completamente o uso diário em containers locais e nas esteiras de automação.
+
+<Figure
+  src={uvArchImage}
+  alt="Diagrama arquitetural do fluxo de resolução de dependências e cache do uv"
+  caption="Fluxo arquitetural: resolução PubGrub paralela em Rust, cache global com hardlinks e zero overhead de ambiente."
+  aspectRatio="16/9"
+/>
 
 ---
 
