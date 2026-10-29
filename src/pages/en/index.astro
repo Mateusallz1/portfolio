@@ -66,11 +66,11 @@ const enNotes = allNotes
 
       <!-- Action Links -->
       <div class="flex flex-wrap items-center gap-6 pt-4 text-sm font-mono">
-        <a href="/en/resume" class="btn btn-sm btn-neutral font-medium px-4">
+        <a href="/en/resume" data-astro-prefetch="viewport" class="btn btn-sm btn-neutral font-medium px-4">
           Read Resume →
         </a>
 
-        <a href="/en/projects" class="text-base-content/70 hover:text-base-content hover:underline">
+        <a href="/en/projects" data-astro-prefetch="viewport" class="text-base-content/70 hover:text-base-content hover:underline">
           Case Studies →
         </a>
 
@@ -134,7 +134,11 @@ const enNotes = allNotes
         </p>
       </div>
 
-      <a href="/en/projects" class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline">
+      <a
+        href="/en/projects"
+        data-astro-prefetch="viewport"
+        class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+      >
         All projects →
       </a>
     </div>
@@ -159,7 +163,11 @@ const enNotes = allNotes
               Architectural deep dives on Django and modern tooling
             </p>
           </div>
-          <a href="/en/blog" class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline">
+          <a
+            href="/en/blog"
+            data-astro-prefetch="hover"
+            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+          >
             Blog →
           </a>
         </div>
@@ -181,7 +189,11 @@ const enNotes = allNotes
               Daily discoveries and concise reference snippets
             </p>
           </div>
-          <a href="/en/notes" class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline">
+          <a
+            href="/en/notes"
+            data-astro-prefetch="hover"
+            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+          >
             All notes →
           </a>
         </div>

@@ -44,4 +44,8 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
   },
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
 });
