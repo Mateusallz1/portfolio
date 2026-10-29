@@ -1,0 +1,135 @@
+---
+title: "Explorando as Entranhas do Antigravity: De Usuário de Chat a Engenheiro de Harness"
+description: "Um estudo de caso prático sobre como desbloquear o potencial máximo de agentes autônomos de código, superando atritos de MCP, orquestrando diretrizes Zero-Bloat e auditando software real."
+pubDate: 2026-10-29
+lang: "pt"
+tags: ["AI Agents", "Antigravity", "Harness", "MCP", "Web Development", "Arquitetura"]
+readingTime: "7 min"
+featured: true
+---
+import Callout from '../../../components/mdx/Callout.astro';
+
+> *Um estudo de caso prático sobre como desbloquear o potencial máximo de agentes autônomos de código, superando atritos de MCP, orquestrando diretrizes Zero-Bloat e auditando software real.*
+
+---
+
+## 1. Introdução: O que é o "Harness" e por que ele importa?
+
+A maioria dos desenvolvedores interage com assistentes de IA como simples geradores de texto: você digita um prompt, o modelo cospe código e você copia para o editor. No entanto, agentes modernos como o **Antigravity** operam sob um conceito muito mais poderoso: o **Harness** (a carcaça operacional do agente).
+
+O harness é o ambiente de execução que cerca o LLM. Ele fornece:
+
+* **Ferramentas de sistema:** execução de comandos no terminal, leitura/edição cirúrgica de arquivos e controle de tarefas em segundo plano (*background tasks*).
+* **Paralelismo & Orquestração:** capacidade de invocar subagentes independentes com contextos isolados.
+* **Protocolos de Extensibilidade:** integração com servidores MCP (*Model Context Protocol*), skills nativas e injeção de regras de governança (`AGENTS.md`).
+
+Este estudo documenta a jornada para entender e dominar esse ecossistema, transformando o agente de um mero "autocompletar" em um parceiro sênior de engenharia de software.
+
+```text
+┌────────────────────────────────────────────────────────┐
+│                 HARNESS DO ANTIGRAVITY                 │
+│                                                        │
+│             [ Modelo LLM: Gemini 3.8 / 4 ]             │
+│                         ↕                              │
+│  ┌──────────────────────┴───────────────────────────┐  │
+│  ▼                                                  ▼  │
+│ [Capacidades de Sistema]             [Controle & Governança]
+│  • run_command / Tasks                • AGENTS.md / Regras
+│  • read_file / edit_file              • Skills & Plugins
+│  • invoke_subagent                    • Servidores MCP
+│  • schedule / timers                  • Sandboxes
+│  └──────────────────────┬───────────────────────────┘  │
+└─────────────────────────┼──────────────────────────────┘
+                          ▼
+              [ Workspace / Código Real ]
+```
+
+---
+
+## 2. A Jornada de Aprendizado: As Dúvidas e a Evolução
+
+### Marco 1: A Descoberta das Ferramentas Ocultas (Web & Zero-Bloat)
+
+* **A dúvida:** *"O agente tem ferramentas nativas para desenvolvimento web além de simplesmente cuspir código? Onde está a diretriz que impede adicionar pacotes desnecessários?"*
+* **A descoberta:** O harness possui diretrizes integradas profundas como a diretriz de desenvolvimento web. Essa diretriz é um padrão de engenharia focado em:
+  1. **Filosofia Zero-Bloat:** priorizar Vanilla HTML5, CSS3 moderno e JS ESM puro antes de adicionar frameworks pesados ou bibliotecas npm desnecessárias.
+  2. **Tokens semânticos:** uso estrito de variáveis em `:root` com paridade perfeita para modo escuro (`prefers-color-scheme`).
+  3. **Workflow em 5 etapas:** escopo → fundação semântica → funcionalidade central → polimento/acessibilidade (WCAG) → distilação (eliminação de código morto).
+
+<Callout type="note" title="A Essência do Zero-Bloat">
+Evitar dependências desnecessárias não é apenas preciosismo: significa páginas ultraleves, ausência de vulnerabilidades em cadeia de suprimentos e compatibilidade instantânea com políticas estritas de segurança (CSP).
+</Callout>
+
+---
+
+### Marco 2: Persistência de Comportamento (Como levar a base para projetos reais?)
+
+* **A dúvida:** *"Como garantir que o agente aplique essa mentalidade em um projeto específico sem que eu precise ficar repetindo instruções a cada chat?"*
+* **A evolução:** Entender o ciclo de injeção de contexto. Ferramentas e skills não são mágicas se o agente não tiver incentivo para acioná-las. A solução é a arquitetura em camadas:
+  * **Global (`~/.gemini/config/AGENTS.md`):** regras transversais que afetam qualquer projeto (ex: Nota Técnica Decisória antes de alterar infraestrutura).
+  * **Projeto local (`<repo>/AGENTS.md`):** invariantes arquiteturais (portas locais, políticas de CSP restrita, comandos de teste obrigatórios).
+  * **Plugins e Skills com escopo:** encapsular ferramentas (como o Chrome DevTools MCP e skills de auditoria) em um pacote acionado sob demanda.
+
+---
+
+### Marco 3: Atritos Reais no Harness (Troubleshooting de Engenharia)
+
+No processo de configuração, surgiram duas fricções técnicas comuns que exigiram desmistificar o funcionamento interno do harness:
+
+1. **"Por que o agente pede permissão para ferramentas MCP mesmo no Modo Turbo?"**
+   * *O atrito:* No modo Turbo, o terminal executa comandos sem confirmação, mas ferramentas MCP continuavam exibindo prompts de aprovação.
+   * *A explicação técnica:* O "Modo Turbo" gerencia apenas as permissões das ferramentas nativas locais (`run_command`, scripts de shell). Servidores MCP (locais ou remotos) rodam como processos desacoplados que obedecem a uma política de segurança separada (`globalPermissionGrants`). Para que o MCP funcione sem interrupções manuais, é necessário declarar concessões explícitas com wildcard `mcp(*)` ou habilitar a autorização contínua na interface.
+2. **"Projetos duplicados na lista do workspace"**:
+   * *A resolução:* Diagnóstico da base de metadados interna (`projects.json`), identificando IDs duplicados que apontavam para caminhos idênticos no disco e limpando os registros redundantes.
+
+<Callout type="warning" title="Segurança em Primeiro Lugar">
+O isolamento de permissões entre o shell local e servidores MCP é uma barreira de segurança intencional. O harness protege o ambiente contra chamadas arbitrárias de servidores MCP externos.
+</Callout>
+
+---
+
+### Marco 4: A Prova de Fogo (Auditando o `doc-etractor-pydantic`)
+
+* **A dúvida:** *"Posso usar uma diretriz pensada para desenvolvimento para fazer uma varredura (auditoria) em um projeto pronto?"*
+* **O experimento prático:** Utilizamos os critérios da diretriz como régua de avaliação para a interface web e a extensão de navegador do projeto de extração de documentos (`doc-etractor-pydantic`).
+
+```text
+Código Existente (Web + Extensão)
+  │
+  ▼
+Filtro de Diretrizes Web
+  ├── Critério 1: Zero-Bloat (Zero dependências npm/CDN)
+  ├── Critério 2: Design Tokens & Dark Mode Nativo
+  ├── Critério 3: WCAG & Acessibilidade Nível AA
+  └── Critério 4: Higiene / Prevenção a Formula Injection
+  │
+  ▼
+Resultado: Score 98/100 + 248 Testes Automatizados 100% Verificados
+```
+
+* **O resultado:**
+  * **Aderência comprovada:** o projeto mantinha 0 dependências npm e respeitava uma CSP estrita sem `'unsafe-inline'`.
+  * **Refinamento cirúrgico:** a auditoria detectou gaps de acessibilidade nível AA segundo WCAG (falta de `aria-label` no input de arquivos e ausência de `role="toolbar"` nos controles de zoom).
+  * **Validação automatizada:** os 248 testes de regressão e ponta a ponta (Playwright) foram executados e aprovados com 100% de sucesso.
+
+---
+
+### Marco 5: Gestão do Contexto e Finitude da Atenção
+
+* **A dúvida:** *"Quando uma conversa fica muito extensa, qual é a melhor estratégia?"*
+* **O aprendizado:**
+  * **Meio do raciocínio:** utilizar o comando `/compact` para que o agente resuma o histórico em marcos estruturados (`<CONTEXT_SUMMARY>`), liberando janela de contexto sem perda de foco.
+  * **Fim de ciclo:** comitar alterações, registrar decisões no `AGENTS.md` e **abrir uma nova conversa limpa**. Uma conversa nova inicia com 100% de atenção e zero alucinação residual de tarefas anteriores.
+
+---
+
+## 3. Principais Lições e Takeaways para Desenvolvedores
+
+1. **A IA é tão boa quanto o seu Harness:** um modelo avançado com um harness fraco apenas responde perguntas; o mesmo modelo com um harness estruturado roda testes, audita acessibilidade e manipula ferramentas de sistema de forma autônoma.
+2. **Menos é Mais (Filosofia Zero-Bloat):** antes de instalar dezenas de pacotes npm ou frameworks pesados para criar interfaces utilitárias, a combinação de Vanilla HTML5 + CSS moderno + ES Modules nativos entrega desempenho instantâneo, compatibilidade com CSP e manutenção trivial.
+3. **Segurança de MCP exige clareza:** o desenvolvedor precisa entender onde termina a autorização do shell local e onde começa a política de segurança de servidores MCP externos.
+4. **Governança via Repositório:** a melhor forma de "treinar" o assistente não é ficar digitando prompts gigantes, mas documentar contratos, comandos e restrições diretamente nos arquivos de configuração do projeto (`AGENTS.md`).
+
+<Callout type="tip" title="Conclusão">
+Dominar o harness é a chave que separa quem usa IA como um brinquedo de busca de quem a utiliza como uma alavanca multiplicadora de engenharia de software de ponta.
+</Callout>
