@@ -8,6 +8,7 @@ readingTime: "5 min"
 featured: true
 ---
 import Callout from '../../../components/mdx/Callout.astro';
+import OrmVsSqlSimulator from '../../../components/islands/OrmVsSqlSimulator';
 
 Quando comecei a desenvolver com **Django**, uma das primeiras coisas que me chamou a atenção foi a consistência do ecossistema. Dificilmente eu encontrava erros de renderização de página ou quebras abruptas na interface; a sensação era a de estar operando um maquinário industrial projetado para nunca parar.
 
@@ -97,6 +98,12 @@ Esse contraste não significa que um é "melhor" que o outro, mas sim que eles f
 | **Ambiente de Execução** | 100% no servidor Python | Dividido entre Servidor (Build/SSR) e Cliente (Navegador) |
 | **Custo de Hospedagem** | Requer servidor dedicado/VPS rodando Python | Roda em Edge/CDN estático com custo praticamente zero |
 | **Performance do Usuário** | Depende do servidor e cache HTTP | HTML estático puro com **Zero JavaScript** por padrão |
+
+### Demonstração Prática de Ilha Interativa (Islands Architecture)
+
+Observe a arquitetura de ilhas em ação: o componente abaixo foi construído em **React**, mas o Astro gerou HTML puro na compilação. O código JavaScript do React **só é baixado e executado quando o componente entra no campo visual da sua tela** através da diretiva `client:visible`.
+
+<OrmVsSqlSimulator client:visible />
 
 ---
 
