@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  caption?: string;
+  aspectRatio?: '16/9' | '4/3' | 'auto';
+  bleed?: boolean;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  src,
+  alt,
+  caption,
+  aspectRatio = 'auto',
+  bleed = false,
+  loading = 'lazy',
+} = Astro.props;
+
+const isMetadata = typeof src === 'object';
+---
+
+<figure class:list={['my-8 not-prose', bleed && '-mx-4 sm:-mx-8 md:-mx-12']}>
+  <div class="overflow-hidden rounded-lg border border-base-content/15 bg-base-200/40 transition-colors">
+    {
+      isMetadata ? (
+        <Image
+          src={src as ImageMetadata}
+          alt={alt}
+          loading={loading}
+          class:list={[
+            'w-full h-auto object-cover transition-opacity duration-300',
+            aspectRatio === '16/9' && 'aspect-[16/9]',
+            aspectRatio === '4/3' && 'aspect-[4/3]',
+          ]}
+        />
+      ) : (
+        <img
+          src={src as string}
+          alt={alt}
+          loading={loading}
+          class:list={[
+            'w-full h-auto object-cover transition-opacity duration-300',
+            aspectRatio === '16/9' && 'aspect-[16/9]',
+            aspectRatio === '4/3' && 'aspect-[4/3]',
+          ]}
+        />
+      )
+    }
+  </div>
+
+  {
+    caption && (
+      <figcaption class="mt-2.5 text-center text-xs font-mono text-base-content/60 tracking-tight">
+        ▲ {caption}
+      </figcaption>
+    )
+  }
+</figure>
