@@ -1,0 +1,77 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  tags?: string[];
+  lang: 'pt' | 'en';
+}
+
+const {
+  title,
+  description,
+  image = '/og-image.png',
+  type = 'website',
+  publishDate,
+  tags = [],
+  lang,
+} = Astro.props;
+
+// Determine absolute canonical URL & absolute OpenGraph image URL
+const siteBase = Astro.site ?? new URL('https://mateusalves.dev');
+const canonicalURL = new URL(Astro.url.pathname, siteBase);
+const socialImageURL = new URL(image, siteBase);
+
+const pageTitle = title.includes(profile.name) ? title : `${title} · ${profile.name}`;
+const locale = lang === 'pt' ? 'pt_BR' : 'en_US';
+const alternateLocale = lang === 'pt' ? 'en_US' : 'pt_BR';
+---
+
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={profile.name} />
+<link rel="canonical" href={canonicalURL.href} />
+
+<!-- OpenGraph / Facebook / LinkedIn / WhatsApp -->
+<meta property="og:site_name" content={profile.name} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL.href} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL.href} />
+<meta property="og:image:secure_url" content={socialImageURL.href} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={pageTitle} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:locale" content={locale} />
+<meta property="og:locale:alternate" content={alternateLocale} />
+
+<!-- Article-Specific OpenGraph Tags -->
+{type === 'article' && (
+  <>
+    {publishDate && (
+      <meta property="article:published_time" content={publishDate.toISOString()} />
+    )}
+    <meta property="article:author" content={profile.name} />
+    <meta property="article:section" content="Technology" />
+    {tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+  </>
+)}
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.href} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={socialImageURL.href} />
+<meta name="twitter:image:alt" content={pageTitle} />
+<meta name="twitter:creator" content={`@${profile.githubUser}`} />
