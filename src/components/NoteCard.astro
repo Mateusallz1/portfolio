@@ -27,6 +27,7 @@ const noteUrl = `/${lang}/${lang === 'pt' ? 'notas' : 'notes'}/${cleanSlug}`;
 
 <a
   href={noteUrl}
+  data-astro-prefetch="hover"
   class="py-3 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-base-content/10 group transition-colors"
 >
   <div class="flex items-baseline gap-3">

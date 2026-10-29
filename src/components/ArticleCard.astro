@@ -37,6 +37,7 @@ const articleUrl = `/${lang}/blog/${cleanSlug}`;
   <h3 class="text-base sm:text-lg font-semibold text-base-content mb-2 leading-snug">
     <a
       href={articleUrl}
+      data-astro-prefetch="hover"
       class="hover:underline transition-colors"
       transition:name={`article-title-${cleanSlug}`}
     >
