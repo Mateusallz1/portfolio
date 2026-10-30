@@ -11,18 +11,17 @@ const lang = 'pt';
 // Fetch projects
 const allProjects = await getCollection('projects');
 const ptProjects = allProjects
-  .filter((p) => p.data.lang === lang)
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 2);
+  .filter((p) => p.data.lang === lang && p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
 
 // Fetch articles
 const allArticles = await getCollection('articles');
 const ptArticles = allArticles
-  .filter((a) => a.data.lang === lang)
+  .filter((a) => a.data.lang === lang && a.data.featured)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 2);
 
-// Fetch notes (TIL)
+// Fetch notes
 const allNotes = await getCollection('notes');
 const ptNotes = allNotes
   .filter((n) => n.data.lang === lang)
@@ -36,8 +35,8 @@ const ptNotes = allNotes
   lang={lang}
 >
   <!-- Hero Section (Editorial Minimalist) -->
-  <section class="pt-8 sm:pt-16 pb-16 sm:pb-24 border-b border-base-content/10">
-    <div class="max-w-3xl space-y-8">
+  <section class="pt-6 sm:pt-16 pb-12 sm:pb-24 border-b border-base-content/10">
+    <div class="max-w-3xl space-y-6 sm:space-y-8">
       <!-- Status line -->
       <div class="flex items-center gap-2 text-xs font-mono text-base-content/60">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -45,27 +44,27 @@ const ptNotes = allNotes
       </div>
 
       <!-- Main Headline (No gradients, pure typography) -->
-      <div class="space-y-3">
-        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-base-content">
+      <div class="space-y-2 sm:space-y-3">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-base-content break-words">
           {profile.name}
         </h1>
-        <p class="text-base sm:text-lg font-mono text-base-content/70">
+        <p class="text-sm sm:text-lg font-mono text-base-content/70 break-words">
           {profile.headline.pt}
         </p>
       </div>
 
       <!-- Bio (Generous breathing room & line height) -->
-      <div class="text-base sm:text-lg text-base-content/85 leading-relaxed sm:leading-loose space-y-4">
+      <div class="text-sm sm:text-lg text-base-content/85 leading-relaxed sm:leading-loose space-y-4">
         <p>
           {profile.bio.pt}
         </p>
-        <p class="text-sm sm:text-base text-base-content/70">
+        <p class="text-xs sm:text-base text-base-content/70">
           Baseado em Teresina - PI, com disponibilidade para contratos remotos no Brasil e no exterior.
         </p>
       </div>
 
       <!-- Action Links (Clean typography, no colored shadows) -->
-      <div class="flex flex-wrap items-center gap-6 pt-4 text-sm font-mono">
+      <div class="flex flex-wrap items-center gap-3 sm:gap-6 pt-2 sm:pt-4 text-xs sm:text-sm font-mono">
         <a
           href={profile.whatsappUrl}
           target="_blank"
@@ -96,18 +95,18 @@ const ptNotes = allNotes
   </section>
 
   <!-- Skills Matrix: Pure Text (No boxes, No badges) -->
-  <section class="py-16 sm:py-24 border-b border-base-content/10">
-    <h2 class="text-xs font-mono uppercase tracking-widest text-base-content/50 mb-10 font-semibold">
+  <section class="py-12 sm:py-24 border-b border-base-content/10">
+    <h2 class="text-xs font-mono uppercase tracking-widest text-base-content/50 mb-8 sm:mb-10 font-semibold">
       Stack Tecnológica & Foco
     </h2>
 
-    <div class="space-y-8 max-w-3xl">
+    <div class="space-y-6 sm:space-y-8 max-w-3xl">
       {profile.skills.map((skillGroup) => (
-        <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-2 sm:gap-6 items-baseline">
+        <div class="grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-1.5 sm:gap-6 items-baseline">
           <span class="font-mono text-xs text-base-content/50 uppercase tracking-wider">
             {skillGroup.category.pt}
           </span>
-          <p class="text-sm sm:text-base text-base-content/85 leading-relaxed">
+          <p class="text-sm sm:text-base text-base-content/85 leading-relaxed break-words">
             {skillGroup.items.map((skill, idx) => (
               <span>
                 <span class={skill.highlight ? "text-base-content font-medium" : "text-base-content/75"}>
@@ -125,8 +124,8 @@ const ptNotes = allNotes
   </section>
 
   <!-- Featured Projects -->
-  <section class="py-16 sm:py-24 border-b border-base-content/10">
-    <div class="flex items-baseline justify-between mb-10">
+  <section class="py-12 sm:py-24 border-b border-base-content/10">
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-8 sm:mb-10">
       <div>
         <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-base-content">
           Estudos de Caso Selecionados
@@ -139,13 +138,13 @@ const ptNotes = allNotes
       <a
         href="/pt/projetos"
         data-astro-prefetch="viewport"
-        class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+        class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline shrink-0"
       >
         Todos os projetos →
       </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
       {ptProjects.map((project) => (
         <ProjectCard project={project} lang={lang} />
       ))}
@@ -153,11 +152,11 @@ const ptNotes = allNotes
   </section>
 
   <!-- Writing & Digital Garden -->
-  <section class="py-16 sm:py-24">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+  <section class="py-12 sm:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16">
       <!-- Long-form Articles -->
       <div>
-        <div class="flex items-baseline justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-6 sm:mb-8">
           <div>
             <h2 class="text-lg sm:text-xl font-bold tracking-tight text-base-content">
               Artigos Aprofundados
@@ -169,7 +168,7 @@ const ptNotes = allNotes
           <a
             href="/pt/blog"
             data-astro-prefetch="hover"
-            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline shrink-0"
           >
             Blog →
           </a>
@@ -184,7 +183,7 @@ const ptNotes = allNotes
 
       <!-- Quick Notes / TIL -->
       <div>
-        <div class="flex items-baseline justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-6 sm:mb-8">
           <div>
             <h2 class="text-lg sm:text-xl font-bold tracking-tight text-base-content">
               Notas & TIL
@@ -196,7 +195,7 @@ const ptNotes = allNotes
           <a
             href="/pt/notas"
             data-astro-prefetch="hover"
-            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline"
+            class="text-xs font-mono text-base-content/60 hover:text-base-content hover:underline shrink-0"
           >
             Todas as notas →
           </a>

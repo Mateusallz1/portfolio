@@ -38,12 +38,12 @@ const navLinks = lang === 'pt'
 ---
 
 <header class="sticky top-0 z-50 w-full bg-base-100 border-b border-base-content/10 transition-colors">
-  <div class="max-w-4xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
+  <div class="max-w-4xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-2">
     <!-- Brand / Logo -->
-    <a href={lang === 'pt' ? '/pt' : '/en'} data-astro-prefetch="hover" class="flex items-center gap-2.5 group">
-      <span class="font-mono font-bold text-sm tracking-tight text-base-content">M/A</span>
-      <span class="text-base-content/30 font-mono text-xs">/</span>
-      <span class="text-xs text-base-content/70 font-mono">Mateus Alves</span>
+    <a href={lang === 'pt' ? '/pt' : '/en'} data-astro-prefetch="hover" class="flex items-center gap-2 group min-w-0">
+      <span class="font-mono font-bold text-sm tracking-tight text-base-content shrink-0">M/A</span>
+      <span class="text-base-content/30 font-mono text-xs shrink-0">/</span>
+      <span class="text-xs text-base-content/70 font-mono truncate max-w-[110px] sm:max-w-none">Mateus Alves</span>
     </a>
 
     <!-- Desktop Navigation -->
@@ -68,7 +68,7 @@ const navLinks = lang === 'pt'
     </nav>
 
     <!-- Actions (Search, Language, Theme, Mobile toggle) -->
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
       <!-- Search Trigger & Modal -->
       <SearchModal lang={lang} />
 
@@ -120,33 +120,36 @@ const navLinks = lang === 'pt'
 </header>
 
 <script>
-  function setupTheme() {
+  function setupThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
-    const sun = document.getElementById('theme-sun');
-    const moon = document.getElementById('theme-moon');
+    const sunIcon = document.getElementById('theme-sun');
+    const moonIcon = document.getElementById('theme-moon');
 
     function updateIcons(theme: string) {
       if (theme === 'light') {
-        sun?.classList.remove('hidden');
-        moon?.classList.add('hidden');
+        sunIcon?.classList.remove('hidden');
+        moonIcon?.classList.add('hidden');
       } else {
-        sun?.classList.add('hidden');
-        moon?.classList.remove('hidden');
+        sunIcon?.classList.add('hidden');
+        moonIcon?.classList.remove('hidden');
       }
     }
 
+    // Set initial icon based on actual current theme
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     updateIcons(currentTheme);
 
     toggle?.addEventListener('click', () => {
-      const active = document.documentElement.getAttribute('data-theme');
-      const next = active === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateIcons(next);
+      const activeTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', activeTheme);
+      localStorage.setItem('theme', activeTheme);
+      updateIcons(activeTheme);
     });
   }
 
-  setupTheme();
-  document.addEventListener('astro:after-swap', setupTheme);
+  // Run on first load
+  setupThemeToggle();
+
+  // Run on view transition navigation
+  document.addEventListener('astro:after-swap', setupThemeToggle);
 </script>

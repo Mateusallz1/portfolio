@@ -71,10 +71,10 @@ const {
       document.addEventListener('astro:after-swap', applySavedTheme);
     </script>
   </head>
-  <body class="bg-base-100 text-base-content font-sans antialiased min-h-screen flex flex-col selection:bg-base-content selection:text-base-100">
+  <body class="bg-base-100 text-base-content font-sans antialiased min-h-screen flex flex-col selection:bg-base-content selection:text-base-100 overflow-x-hidden">
     <Header lang={lang} />
 
-    <main data-pagefind-body class="flex-1 max-w-4xl w-full mx-auto px-6 sm:px-8 py-12 sm:py-20">
+    <main data-pagefind-body class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-8 py-8 sm:py-16 md:py-20 min-w-0">
       <slot />
     </main>
 

@@ -19,16 +19,16 @@ const { title, subtitle, items } = Astro.props;
 const maxValue = Math.max(...items.map((i) => i.value));
 ---
 
-<div class="my-8 p-5 border border-base-content/15 rounded-lg bg-base-200/20">
+<div class="my-8 p-4 sm:p-5 border border-base-content/15 rounded-lg bg-base-200/20 max-w-full overflow-hidden">
   <div class="mb-4">
     <h4 class="text-xs font-mono uppercase tracking-wider text-base-content/50 font-semibold">
       Benchmark Real
     </h4>
-    <h3 class="text-sm sm:text-base font-bold text-base-content mt-0.5">
+    <h3 class="text-sm sm:text-base font-bold text-base-content mt-0.5 break-words">
       {title}
     </h3>
     {subtitle && (
-      <p class="text-xs text-base-content/60 font-mono mt-0.5">
+      <p class="text-xs text-base-content/60 font-mono mt-0.5 break-words">
         {subtitle}
       </p>
     )}
@@ -40,12 +40,12 @@ const maxValue = Math.max(...items.map((i) => i.value));
       const isWinner = item.highlight;
       return (
         <div>
-          <div class="flex items-baseline justify-between text-xs font-mono mb-1.5">
-            <span class={isWinner ? "font-bold text-base-content" : "text-base-content/70"}>
+          <div class="flex flex-wrap items-baseline justify-between gap-1 text-xs font-mono mb-1.5">
+            <span class={isWinner ? "font-bold text-base-content break-words" : "text-base-content/70 break-words"}>
               {item.label}
-              {item.note && <span class="text-base-content/40 font-normal ml-2">({item.note})</span>}
+              {item.note && <span class="text-base-content/40 font-normal ml-1 sm:ml-2">({item.note})</span>}
             </span>
-            <span class={isWinner ? "font-bold text-emerald-500" : "text-base-content/60"}>
+            <span class={isWinner ? "font-bold text-emerald-500 shrink-0" : "text-base-content/60 shrink-0"}>
               {item.value}{item.unit || 's'}
             </span>
           </div>

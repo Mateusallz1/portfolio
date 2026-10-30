@@ -10,25 +10,27 @@ const enNotes = allNotes
   .filter((n) => n.data.lang === lang)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+// Unique categories
 const categories = Array.from(new Set(enNotes.map((n) => n.data.category)));
 ---
 
 <BaseLayout
-  title={`Engineering Notes & TIL · ${profile.name}`}
-  description="Technical notes, TIL snippets, and continuous software engineering study log."
+  title={`Notes & TIL (Today I Learned) · ${profile.name}`}
+  description="Hub for engineering notes, daily discoveries, cheatsheets, and concise study snippets."
   lang={lang}
 >
-  <div class="py-6 sm:py-10 border-b border-base-content/10">
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
       <span>Digital Garden & TIL</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
-      Engineering Notes & Snippets
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
+      Study Notes & Snippets
     </h1>
-    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
-      Bite-sized notes, terminal commands, bug post-mortems, and concepts learned while shipping code.
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
+      Quick notes, daily debugging fixes, cheatsheets, and concise software engineering takeaways.
     </p>
 
+    <!-- Category filter pills -->
     <div class="flex flex-wrap gap-2 pt-6">
       <span class="badge badge-sm badge-primary font-mono text-xs">
         All ({enNotes.length})
@@ -41,7 +43,7 @@ const categories = Array.from(new Set(enNotes.map((n) => n.data.category)));
     </div>
   </div>
 
-  <div class="py-8 flex flex-col gap-3">
+  <div class="py-8 flex flex-col gap-3 min-w-0">
     {enNotes.map((note) => (
       <NoteCard note={note} lang={lang} />
     ))}

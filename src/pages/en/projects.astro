@@ -12,23 +12,23 @@ const enProjects = allProjects
 ---
 
 <BaseLayout
-  title={`Projects & Case Studies · ${profile.name}`}
-  description="Production software engineering projects built with Python, Django, uv, and TypeScript using the STAR framework."
+  title={`Projects & Engineering Case Studies · ${profile.name}`}
+  description="Real-world systems built with Python, Django, uv, and TypeScript documented via the STAR method."
   lang={lang}
 >
-  <div class="py-6 sm:py-10 border-b border-base-content/10">
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
-      <span>Engineering Portfolio</span>
+      <span>Technical Portfolio</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
-      Case Studies & Projects
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
+      Projects & Case Studies
     </h1>
-    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
-      A collection of backend and fullstack systems engineered for durability, testability, and business impact.
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
+      Production applications engineered for resilience, clean maintainability, and measurable business impact.
     </p>
   </div>
 
-  <div class="py-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
     {enProjects.map((project) => (
       <ProjectCard project={project} lang={lang} />
     ))}

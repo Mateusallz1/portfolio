@@ -11,14 +11,14 @@ const lang = 'pt';
   lang={lang}
 >
   <!-- Page Header -->
-  <div class="py-6 sm:py-10 border-b border-base-content/10">
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
       <span>Soluções Técnicas Sob Medida</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
       Serviços e Consultoria Técnica
     </h1>
-    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
       Ajudo empresas, startups e equipes a transformar requisitos de negócio em software robusto, escalável e de fácil manutenção.
     </p>
   </div>
@@ -26,15 +26,15 @@ const lang = 'pt';
   <!-- Services Grid -->
   <div class="py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
     {profile.services.map((service) => (
-      <div class="glass-panel glow-hover rounded-xl p-6 flex flex-col justify-between border border-base-content/10">
+      <div class="glass-panel glow-hover rounded-xl p-5 sm:p-6 flex flex-col justify-between border border-base-content/10 min-w-0">
         <div>
           <span class="badge badge-sm badge-primary badge-soft font-mono mb-4">
             {service.badge}
           </span>
-          <h2 class="text-lg font-bold text-base-content mb-3">
+          <h2 class="text-lg font-bold text-base-content mb-3 break-words">
             {service.title}
           </h2>
-          <p class="text-xs text-base-content/75 leading-relaxed mb-6">
+          <p class="text-xs text-base-content/75 leading-relaxed mb-6 break-words">
             {service.description}
           </p>
 
@@ -45,8 +45,8 @@ const lang = 'pt';
             <ul class="space-y-1.5 text-xs text-base-content/85">
               {service.deliverables.map((item) => (
                 <li class="flex items-start gap-2">
-                  <span class="text-primary font-bold">✓</span>
-                  <span>{item}</span>
+                  <span class="text-primary font-bold shrink-0">✓</span>
+                  <span class="break-words">{item}</span>
                 </li>
               ))}
             </ul>
@@ -74,66 +74,71 @@ const lang = 'pt';
       Como Funciona o Processo de Trabalho
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="glass-panel rounded-lg p-5">
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
         <span class="font-mono text-xs text-primary font-bold block mb-1">01 / Diagnóstico</span>
-        <h3 class="text-sm font-bold text-base-content mb-2">Alinhamento Inicial</h3>
-        <p class="text-xs text-base-content/70 leading-relaxed">
+        <h3 class="text-sm font-bold text-base-content mb-2 break-words">Alinhamento Inicial</h3>
+        <p class="text-xs text-base-content/70 leading-relaxed break-words">
           Conversa rápida para entender seu desafio, regras de negócio, prazos e stack desejada.
         </p>
       </div>
 
-      <div class="glass-panel rounded-lg p-5">
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
         <span class="font-mono text-xs text-primary font-bold block mb-1">02 / Proposta</span>
-        <h3 class="text-sm font-bold text-base-content mb-2">Escopo & Arquitetura</h3>
-        <p class="text-xs text-base-content/70 leading-relaxed">
+        <h3 class="text-sm font-bold text-base-content mb-2 break-words">Escopo & Arquitetura</h3>
+        <p class="text-xs text-base-content/70 leading-relaxed break-words">
           Definição clara de entregáveis, cronograma em sprints e estimativa transparente de investimento.
         </p>
       </div>
 
-      <div class="glass-panel rounded-lg p-5">
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
         <span class="font-mono text-xs text-primary font-bold block mb-1">03 / Execução</span>
-        <h3 class="text-sm font-bold text-base-content mb-2">Desenvolvimento Ágil</h3>
-        <p class="text-xs text-base-content/70 leading-relaxed">
-          Código versionado, testes automatizados e demonstrações periódicas de progresso real.
+        <h3 class="text-sm font-bold text-base-content mb-2 break-words">Desenvolvimento Ágil</h3>
+        <p class="text-xs text-base-content/70 leading-relaxed break-words">
+          Sprints semanais com entregas funcionais em staging, testes contínuos e comunicação transparente.
         </p>
       </div>
 
-      <div class="glass-panel rounded-lg p-5">
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
         <span class="font-mono text-xs text-primary font-bold block mb-1">04 / Entrega</span>
-        <h3 class="text-sm font-bold text-base-content mb-2">Deploy & Suporte</h3>
-        <p class="text-xs text-base-content/70 leading-relaxed">
-          Configuração de ambiente, documentação completa e suporte para transição suave da equipe.
+        <h3 class="text-sm font-bold text-base-content mb-2 break-words">Deploy & Handoff</h3>
+        <p class="text-xs text-base-content/70 leading-relaxed break-words">
+          Deploy em produção com CI/CD, documentação técnica da API e período de garantia e suporte.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Big Direct CTA Banner -->
-  <section class="py-10">
-    <div class="glass-panel rounded-2xl p-8 sm:p-10 border border-primary/20 text-center relative overflow-hidden">
-      <div class="max-w-xl mx-auto space-y-4">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-base-content">
-          Tem um projeto ou demanda técnica em mente?
-        </h2>
-        <p class="text-sm text-base-content/75 leading-relaxed">
-          Podemos agendar uma conversa descompromissada para avaliar o melhor caminho técnico para sua necessidade.
+  <!-- Final FAQ / Quick Questions -->
+  <section class="py-10 border-t border-base-content/10">
+    <h2 class="text-xs font-mono uppercase tracking-wider text-base-content/50 mb-6 font-semibold">
+      Perguntas Frequentes (FAQ)
+    </h2>
+    <div class="space-y-4 max-w-2xl">
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
+        <h3 class="text-sm font-bold text-base-content mb-1 break-words">
+          Qual é o modelo de contratação?
+        </h3>
+        <p class="text-xs text-base-content/75 leading-relaxed break-words">
+          Atuo tanto por escopo fechado (projetos com início, meio e fim definidos) quanto por contrato de horas/retainer mensal para suporte, evolução arquitetural e consultoria técnica.
         </p>
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <a
-            href={profile.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn-primary font-medium gap-2 shadow-lg shadow-primary/25"
-          >
-            Chamar no WhatsApp
-          </a>
-          <a
-            href={`mailto:${profile.email}?subject=Contato%20sobre%20Projeto`}
-            class="btn btn-outline font-medium gap-2"
-          >
-            Enviar por Email
-          </a>
-        </div>
+      </div>
+
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
+        <h3 class="text-sm font-bold text-base-content mb-1 break-words">
+          Você emite nota fiscal?
+        </h3>
+        <p class="text-xs text-base-content/75 leading-relaxed break-words">
+          Sim, atuo como pessoa jurídica (PJ) formalizada com emissão de NF de serviços de tecnologia da informação para todo o território nacional.
+        </p>
+      </div>
+
+      <div class="glass-panel rounded-lg p-4 sm:p-5">
+        <h3 class="text-sm font-bold text-base-content mb-1 break-words">
+          Como acompanho o andamento do projeto?
+        </h3>
+        <p class="text-xs text-base-content/75 leading-relaxed break-words">
+          Comunicação direta via WhatsApp ou Slack, repositório no GitHub/GitLab com commits diários e ambiente de homologação acessível para você testar antes de ir para o ar.
+        </p>
       </div>
     </div>
   </section>

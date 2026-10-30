@@ -27,14 +27,14 @@ const cleanSlug = article.id.replace(/^(pt\/|en\/)/, '').replace(/\.(md|mdx)$/, 
 const articleUrl = `/${lang}/blog/${cleanSlug}`;
 ---
 
-<article class="border-t border-base-content/15 pt-6 pb-2 group">
-  <div class="flex items-center gap-3 text-xs font-mono text-base-content/50 mb-2">
+<article class="border-t border-base-content/15 pt-6 pb-2 group min-w-0">
+  <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-base-content/50 mb-2">
     <time datetime={pubDate.toISOString()}>{formattedDate}</time>
     <span>·</span>
     <span>{readingTime}</span>
   </div>
 
-  <h3 class="text-base sm:text-lg font-semibold text-base-content mb-2 leading-snug">
+  <h3 class="text-base sm:text-lg font-semibold text-base-content mb-2 leading-snug break-words">
     <a
       href={articleUrl}
       data-astro-prefetch="hover"
@@ -45,11 +45,11 @@ const articleUrl = `/${lang}/blog/${cleanSlug}`;
     </a>
   </h3>
 
-  <p class="text-sm text-base-content/75 leading-relaxed mb-3">
+  <p class="text-sm text-base-content/75 leading-relaxed mb-3 break-words">
     {description}
   </p>
 
-  <p class="text-xs font-mono text-base-content/40">
+  <p class="text-xs font-mono text-base-content/40 break-words">
     {tags.map((t) => `#${t}`).join('  ')}
   </p>
 </article>

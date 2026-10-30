@@ -23,8 +23,13 @@ const {
 const isMetadata = typeof src === 'object';
 ---
 
-<figure class:list={['my-8 not-prose', bleed && '-mx-4 sm:-mx-8 md:-mx-12']}>
-  <div class="overflow-hidden rounded-lg border border-base-content/15 bg-base-200/40 transition-colors">
+<figure class:list={['my-8 not-prose max-w-full', bleed && '-mx-4 sm:-mx-6 md:-mx-8']}>
+  <div
+    class:list={[
+      'overflow-hidden border border-base-content/15 bg-base-200/40 transition-colors max-w-full',
+      bleed ? 'rounded-none sm:rounded-lg border-x-0 sm:border-x' : 'rounded-lg',
+    ]}
+  >
     {
       isMetadata ? (
         <Image
@@ -32,7 +37,7 @@ const isMetadata = typeof src === 'object';
           alt={alt}
           loading={loading}
           class:list={[
-            'w-full h-auto object-cover transition-opacity duration-300',
+            'w-full h-auto max-w-full object-cover transition-opacity duration-300',
             aspectRatio === '16/9' && 'aspect-[16/9]',
             aspectRatio === '4/3' && 'aspect-[4/3]',
           ]}
@@ -43,7 +48,7 @@ const isMetadata = typeof src === 'object';
           alt={alt}
           loading={loading}
           class:list={[
-            'w-full h-auto object-cover transition-opacity duration-300',
+            'w-full h-auto max-w-full object-cover transition-opacity duration-300',
             aspectRatio === '16/9' && 'aspect-[16/9]',
             aspectRatio === '4/3' && 'aspect-[4/3]',
           ]}
@@ -54,7 +59,7 @@ const isMetadata = typeof src === 'object';
 
   {
     caption && (
-      <figcaption class="mt-2.5 text-center text-xs font-mono text-base-content/60 tracking-tight">
+      <figcaption class="mt-2.5 px-2 text-center text-xs font-mono text-base-content/60 tracking-tight break-words">
         ▲ {caption}
       </figcaption>
     )

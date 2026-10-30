@@ -55,7 +55,7 @@ export default function OrmVsSqlSimulator() {
       : 'text-emerald-500 border-emerald-500/30 bg-emerald-500/10';
 
   return (
-    <div className="my-8 rounded-lg border border-base-content/15 bg-base-200/40 p-5 sm:p-6 font-sans">
+    <div className="my-8 rounded-lg border border-base-content/15 bg-base-200/40 p-4 sm:p-6 font-sans max-w-full overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-base-content/10">
         <div>
           <span className="font-mono text-[11px] uppercase tracking-wider text-primary font-semibold">
@@ -72,9 +72,9 @@ export default function OrmVsSqlSimulator() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-5">
         {/* Controles */}
-        <div className="space-y-4 text-xs">
+        <div className="space-y-4 text-xs min-w-0">
           <div>
-            <div className="flex justify-between items-center mb-1.5">
+            <div className="flex flex-wrap justify-between items-center gap-1 mb-1.5">
               <label htmlFor="records-slider" className="font-medium text-base-content/80">
                 Volume de Registros:
               </label>
@@ -98,11 +98,11 @@ export default function OrmVsSqlSimulator() {
             <label className="font-medium text-base-content/80 block mb-1.5">
               Estratégia de Consulta:
             </label>
-            <div className="grid grid-cols-3 gap-1.5 font-mono text-[11px]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px]">
               <button
                 type="button"
                 onClick={() => setStrategy('naive')}
-                className={`px-2 py-1.5 rounded border transition-colors ${
+                className={`px-3 py-2 rounded border text-center transition-colors ${
                   strategy === 'naive'
                     ? 'border-red-500 bg-red-500/15 text-red-500 font-bold'
                     : 'border-base-content/15 hover:bg-base-200 text-base-content/70'
@@ -113,7 +113,7 @@ export default function OrmVsSqlSimulator() {
               <button
                 type="button"
                 onClick={() => setStrategy('prefetch')}
-                className={`px-2 py-1.5 rounded border transition-colors ${
+                className={`px-3 py-2 rounded border text-center transition-colors ${
                   strategy === 'prefetch'
                     ? 'border-primary bg-primary/15 text-primary font-bold'
                     : 'border-base-content/15 hover:bg-base-200 text-base-content/70'
@@ -124,7 +124,7 @@ export default function OrmVsSqlSimulator() {
               <button
                 type="button"
                 onClick={() => setStrategy('raw_sql')}
-                className={`px-2 py-1.5 rounded border transition-colors ${
+                className={`px-3 py-2 rounded border text-center transition-colors ${
                   strategy === 'raw_sql'
                     ? 'border-emerald-500 bg-emerald-500/15 text-emerald-500 font-bold'
                     : 'border-base-content/15 hover:bg-base-200 text-base-content/70'
@@ -135,13 +135,13 @@ export default function OrmVsSqlSimulator() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4 pt-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
             <div className="flex items-center gap-2">
-              <span className="text-base-content/80">Local do Banco:</span>
+              <span className="text-base-content/80 text-xs">Local do Banco:</span>
               <button
                 type="button"
                 onClick={() => setDbLocation(dbLocation === 'local' ? 'cloud' : 'local')}
-                className="font-mono text-[11px] px-2 py-0.5 rounded border border-base-content/20 hover:border-base-content/40 transition-colors"
+                className="font-mono text-[11px] px-2 py-1 rounded border border-base-content/20 hover:border-base-content/40 transition-colors"
               >
                 {dbLocation === 'local' ? '💻 Local (0.2ms)' : '☁️ Cloud RDS (2.8ms)'}
               </button>
@@ -160,22 +160,22 @@ export default function OrmVsSqlSimulator() {
         </div>
 
         {/* Painel de Resultados */}
-        <div className="flex flex-col justify-between rounded-md border border-base-content/10 bg-base-100 p-4 font-mono text-xs">
+        <div className="flex flex-col justify-between rounded-md border border-base-content/10 bg-base-100 p-4 font-mono text-xs max-w-full min-w-0">
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-base-content/60">Total de Queries disparadas:</span>
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="text-base-content/60 text-[11px] sm:text-xs">Total de Queries disparadas:</span>
               <span className={`font-bold ${queryCount > 100 ? 'text-red-500' : 'text-base-content'}`}>
                 {queryCount.toLocaleString('pt-BR')} queries
               </span>
             </div>
 
-            <div className="flex items-center justify-between">
-              <span className="text-base-content/60">Consumo de Memória (Python):</span>
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="text-base-content/60 text-[11px] sm:text-xs">Consumo de Memória (Python):</span>
               <span className="text-base-content font-medium">~{memoryUsage} MB</span>
             </div>
 
-            <div className="flex items-center justify-between">
-              <span className="text-base-content/60">Roundtrip de Rede acumulado:</span>
+            <div className="flex flex-wrap items-center justify-between gap-1">
+              <span className="text-base-content/60 text-[11px] sm:text-xs">Roundtrip de Rede acumulado:</span>
               <span className="text-base-content font-medium">
                 {strategy === 'naive'
                   ? `${(totalNetworkTime / 1000).toFixed(2)}s`
@@ -184,9 +184,9 @@ export default function OrmVsSqlSimulator() {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-base-content/10 mt-3 flex items-baseline justify-between">
+          <div className="pt-4 border-t border-base-content/10 mt-3 flex items-center justify-between gap-2">
             <span className="text-xs font-semibold text-base-content">Latência Estimada:</span>
-            <div className={`px-2.5 py-1 rounded border font-bold text-sm ${latencyBadgeColor}`}>
+            <div className={`px-2.5 py-1 rounded border font-bold text-sm shrink-0 ${latencyBadgeColor}`}>
               {totalLatency > 1000
                 ? `${(Number(formattedLatency) / 1000).toFixed(2)} s`
                 : `${formattedLatency} ms`}
