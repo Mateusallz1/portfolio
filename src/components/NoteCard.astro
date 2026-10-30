@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { note, lang } = Astro.props;
-const { title, pubDate, category, tags } = note.data;
+const { title, pubDate, category } = note.data;
 
 const formattedDate = new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : 'en-US', {
   month: 'short',

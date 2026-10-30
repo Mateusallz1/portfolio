@@ -116,10 +116,8 @@ const placeholderText = lang === 'pt'
   function setupSearch() {
     const trigger = document.getElementById('search-trigger');
     const dialog = document.getElementById('search-dialog');
-    const container = document.getElementById('search-container');
     const input = document.getElementById('search-input') as HTMLInputElement | null;
     const resultsContainer = document.getElementById('search-results');
-    const emptyState = document.getElementById('search-empty');
 
     const searchData: Array<{
       type: string;

@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
     "postbuild": "pagefind --site dist",
     "preview": "astro preview",
@@ -21,6 +22,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^8.1.2",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
@@ -30,6 +32,7 @@
     "daisyui": "^5.7.50",
     "pagefind": "^1.5.2",
     "sharp": "^0.35.5",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.8.2"
   }
 }

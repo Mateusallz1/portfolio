@@ -20,9 +20,7 @@ const articles = defineCollection({
           .max(250, 'A descrição não deve exceder 250 caracteres para evitar corte em redes sociais.'),
         pubDate: z.coerce.date(),
         updatedDate: z.coerce.date().optional(),
-        lang: z.enum(['pt', 'en'], {
-          errorMap: () => ({ message: 'O idioma deve ser estritamente "pt" ou "en".' }),
-        }),
+        lang: z.enum(['pt', 'en']),
         tags: z
           .array(z.string().min(1, 'Tag não pode ser vazia'))
           .min(1, 'Informe pelo menos uma tag técnica para catalogação.'),
