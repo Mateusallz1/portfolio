@@ -19,14 +19,14 @@ const categories = Array.from(new Set(ptNotes.map((n) => n.data.category)));
   description="Hub de estudos, snippets úteis, cheatsheets e anotações rápidas de aprendizado contínuo."
   lang={lang}
 >
-  <div class="py-6 sm:py-10 border-b border-base-content/10">
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
       <span>Digital Garden & TIL</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
       Notas de Estudo & Snippets
     </h1>
-    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
       Anotações rápidas, soluções de bugs do dia a dia, cheatsheets e conceitos que estou estudando. Menos formal que um artigo longo, mas útil e direto ao ponto.
     </p>
 
@@ -43,7 +43,7 @@ const categories = Array.from(new Set(ptNotes.map((n) => n.data.category)));
     </div>
   </div>
 
-  <div class="py-8 flex flex-col gap-3">
+  <div class="py-8 flex flex-col gap-3 min-w-0">
     {ptNotes.map((note) => (
       <NoteCard note={note} lang={lang} />
     ))}

@@ -20,14 +20,14 @@ const { project, lang } = Astro.props;
 const { title, description, role, techs, metrics, githubUrl, liveUrl } = project.data;
 ---
 
-<div class="border-t border-base-content/15 pt-6 flex flex-col justify-between group">
+<div class="border-t border-base-content/15 pt-6 flex flex-col justify-between group min-w-0">
   <div>
     <!-- Role and Links -->
-    <div class="flex items-center justify-between gap-4 mb-2">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
       <span class="text-xs font-mono text-base-content/60 uppercase tracking-wider">
         {role}
       </span>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 shrink-0">
         {githubUrl && (
           <a
             href={githubUrl}
@@ -52,11 +52,11 @@ const { title, description, role, techs, metrics, githubUrl, liveUrl } = project
     </div>
 
     <!-- Title & Description -->
-    <h3 class="text-lg sm:text-xl font-semibold tracking-tight text-base-content mb-3 leading-snug">
+    <h3 class="text-lg sm:text-xl font-semibold tracking-tight text-base-content mb-3 leading-snug break-words">
       {title}
     </h3>
     
-    <p class="text-sm text-base-content/80 leading-relaxed mb-5">
+    <p class="text-sm text-base-content/80 leading-relaxed mb-5 break-words">
       {description}
     </p>
 
@@ -70,7 +70,7 @@ const { title, description, role, techs, metrics, githubUrl, liveUrl } = project
           {metrics.map((metric) => (
             <li class="flex items-start gap-2">
               <span class="text-base-content/40 select-none">—</span>
-              <span>{metric}</span>
+              <span class="break-words">{metric}</span>
             </li>
           ))}
         </ul>
@@ -79,7 +79,7 @@ const { title, description, role, techs, metrics, githubUrl, liveUrl } = project
   </div>
 
   <!-- Tech tags -->
-  <p class="text-xs font-mono text-base-content/50 pt-2">
+  <p class="text-xs font-mono text-base-content/50 pt-2 break-words">
     {techs.join(' · ')}
   </p>
 </div>

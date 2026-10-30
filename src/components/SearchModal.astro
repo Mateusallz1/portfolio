@@ -47,7 +47,7 @@ const placeholderText = lang === 'pt'
   class="btn btn-ghost btn-xs font-mono text-[11px] border border-base-content/15 text-base-content/70 hover:text-base-content hover:border-base-content/40 px-2 flex items-center gap-1.5 transition-colors"
   title={lang === 'pt' ? 'Buscar no site (Ctrl + K)' : 'Search site (Ctrl + K)'}
 >
-  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
   </svg>
   <span class="hidden sm:inline">{lang === 'pt' ? 'Buscar' : 'Search'}</span>
@@ -57,17 +57,17 @@ const placeholderText = lang === 'pt'
 <!-- Search Modal Backdrop & Dialog -->
 <div
   id="search-dialog"
-  class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-20 flex justify-center items-start animate-fade"
+  class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm p-3 sm:p-6 md:p-20 flex justify-center items-start animate-fade"
   role="dialog"
   aria-modal="true"
   aria-label={lang === 'pt' ? 'Busca no site' : 'Site search'}
 >
   <div
-    class="w-full max-w-xl bg-base-100 border border-base-content/20 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+    class="w-full max-w-xl bg-base-100 border border-base-content/20 rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
     id="search-container"
   >
     <!-- Search Input Header -->
-    <div class="flex items-center gap-3 px-4 py-3.5 border-b border-base-content/10">
+    <div class="flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 border-b border-base-content/10">
       <svg class="w-4 h-4 text-base-content/50 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
@@ -79,7 +79,7 @@ const placeholderText = lang === 'pt'
         placeholder={placeholderText}
         class="w-full bg-transparent text-sm text-base-content placeholder:text-base-content/40 outline-none font-sans"
       />
-      <kbd class="text-[10px] font-mono text-base-content/40 px-1.5 py-0.5 rounded border border-base-content/15">
+      <kbd class="text-[10px] font-mono text-base-content/40 px-1.5 py-0.5 rounded border border-base-content/15 shrink-0">
         ESC
       </kbd>
     </div>
@@ -95,11 +95,11 @@ const placeholderText = lang === 'pt'
     </div>
 
     <!-- Modal Footer Hint -->
-    <div class="px-4 py-2 bg-base-200/50 border-t border-base-content/10 flex items-center justify-between text-[11px] font-mono text-base-content/50">
-      <span>{lang === 'pt' ? 'Navegação instantânea' : 'Instant search'}</span>
-      <div class="flex items-center gap-2">
-        <span>↑↓ navegar</span>
-        <span>↵ selecionar</span>
+    <div class="px-3 sm:px-4 py-2 bg-base-200/50 border-t border-base-content/10 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-base-content/50">
+      <span class="truncate">{lang === 'pt' ? 'Navegação rápida' : 'Instant search'}</span>
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <span class="hidden sm:inline">↑↓ navegar</span>
+        <span class="hidden sm:inline">↵ selecionar</span>
         <span>esc fechar</span>
       </div>
     </div>

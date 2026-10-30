@@ -16,19 +16,19 @@ const ptProjects = allProjects
   description="Casos reais de software desenvolvidos com Python, Django, uv e TypeScript documentados no padrão STAR."
   lang={lang}
 >
-  <div class="py-6 sm:py-10 border-b border-base-content/10">
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
       <span>Portfólio Técnico</span>
     </div>
-    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content">
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
       Projetos & Estudos de Caso
     </h1>
-    <p class="mt-2 text-base text-base-content/75 max-w-2xl leading-relaxed">
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
       Aplicações desenvolvidas com foco em arquitetura resiliente, código limpo e impacto mensurável de negócio.
     </p>
   </div>
 
-  <div class="py-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
     {ptProjects.map((project) => (
       <ProjectCard project={project} lang={lang} />
     ))}

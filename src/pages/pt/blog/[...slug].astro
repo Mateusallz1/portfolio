@@ -37,36 +37,36 @@ const formattedDate = new Intl.DateTimeFormat('pt-BR', {
   publishDate={pubDate}
   tags={tags}
 >
-  <article class="max-w-3xl mx-auto py-6">
+  <article class="max-w-3xl mx-auto py-4 sm:py-6 min-w-0 max-w-full">
     <!-- Back Link -->
     <a
       href="/pt/blog"
-      class="inline-flex items-center gap-1.5 text-xs font-mono text-base-content/60 hover:text-primary transition-colors mb-6"
+      class="inline-flex items-center gap-1.5 text-xs font-mono text-base-content/60 hover:text-primary transition-colors mb-4 sm:mb-6"
     >
       <span>←</span>
       Voltar para todos os artigos
     </a>
 
     <!-- Article Header -->
-    <header class="border-b border-base-content/10 pb-8 mb-8">
-      <div class="flex items-center gap-3 text-xs font-mono text-base-content/60 mb-3">
+    <header class="border-b border-base-content/10 pb-6 sm:pb-8 mb-6 sm:mb-8 min-w-0">
+      <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-base-content/60 mb-3">
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
         <span>·</span>
         <span>{readingTime} de leitura</span>
       </div>
 
       <h1
-        class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content mb-4 leading-tight"
+        class="text-2xl sm:text-4xl font-extrabold tracking-tight text-base-content mb-3 sm:mb-4 leading-tight break-words"
         transition:name={`article-title-${slug}`}
       >
         {title}
       </h1>
 
-      <p class="text-base text-base-content/80 leading-relaxed mb-6">
+      <p class="text-sm sm:text-base text-base-content/80 leading-relaxed mb-4 sm:mb-6 break-words">
         {description}
       </p>
 
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
         {tags.map((tag) => (
           <span class="badge badge-sm badge-ghost font-mono text-[11px]">
             #{tag}
@@ -75,18 +75,18 @@ const formattedDate = new Intl.DateTimeFormat('pt-BR', {
       </div>
 
       {coverImage && (
-        <figure class="mt-6 overflow-hidden rounded-lg border border-base-content/15 bg-base-200/40">
+        <figure class="mt-6 overflow-hidden rounded-lg border border-base-content/15 bg-base-200/40 max-w-full">
           <Image
             src={coverImage}
             alt={coverAlt ?? title}
             width={1200}
             height={630}
-            class="w-full h-auto aspect-[16/9] object-cover"
+            class="w-full h-auto max-h-[220px] xs:max-h-[280px] sm:max-h-[420px] aspect-[16/9] object-cover"
             loading="eager"
             fetchpriority="high"
           />
           {coverAlt && (
-            <figcaption class="py-2 px-3 text-center text-xs font-mono text-base-content/60 border-t border-base-content/10">
+            <figcaption class="py-2 px-3 text-center text-xs font-mono text-base-content/60 border-t border-base-content/10 break-words">
               — {coverAlt}
             </figcaption>
           )}
@@ -95,25 +95,26 @@ const formattedDate = new Intl.DateTimeFormat('pt-BR', {
     </header>
 
     <!-- Markdown Content with Editorial Prose Styles -->
-    <div class="prose dark:prose-invert max-w-none
+    <div class="prose dark:prose-invert max-w-none min-w-0 break-words
       prose-p:text-base prose-p:leading-[1.8] prose-p:text-base-content/85 prose-p:mb-6
-      prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-base-content
-      prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-5 prose-h2:pb-2 prose-h2:border-b prose-h2:border-base-content/10
+      prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-base-content prose-headings:break-words
+      prose-h2:text-xl sm:prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-5 prose-h2:pb-2 prose-h2:border-b prose-h2:border-base-content/10
       prose-h3:text-lg sm:prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-      prose-a:text-primary prose-a:underline-offset-4 hover:prose-a:underline
+      prose-a:text-primary prose-a:underline-offset-4 hover:prose-a:underline prose-a:break-words
       prose-code:before:content-none prose-code:after:content-none
-      prose-code:font-mono prose-code:text-[0.875em] prose-code:bg-base-200/80 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-      prose-pre:bg-transparent prose-pre:p-0 prose-pre:border-none prose-pre:my-6
+      prose-code:font-mono prose-code:text-[0.875em] prose-code:bg-base-200/80 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:break-words prose-code:[overflow-wrap:anywhere]
+      prose-pre:bg-transparent prose-pre:p-0 prose-pre:border-none prose-pre:my-6 prose-pre:max-w-full prose-pre:overflow-x-auto
+      prose-table:block prose-table:max-w-full prose-table:overflow-x-auto
       prose-blockquote:border-l-2 prose-blockquote:border-primary/60 prose-blockquote:italic prose-blockquote:text-base-content/80 prose-blockquote:bg-base-200/25 prose-blockquote:py-1.5 prose-blockquote:px-4 prose-blockquote:rounded-r prose-blockquote:my-6
       prose-ul:my-5 prose-li:my-1.5
-      prose-img:rounded-lg prose-img:border prose-img:border-base-content/15 prose-img:my-8">
+      prose-img:rounded-lg prose-img:border prose-img:border-base-content/15 prose-img:my-8 prose-img:max-w-full prose-img:h-auto">
       <Content />
     </div>
 
     <!-- Article Author Footer -->
-    <footer class="mt-12 pt-8 border-t border-base-content/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer class="mt-12 pt-8 border-t border-base-content/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-neutral text-neutral-content flex items-center justify-center font-mono font-bold text-base border border-base-content/20">
+        <div class="w-10 h-10 rounded-full bg-neutral text-neutral-content flex items-center justify-center font-mono font-bold text-base border border-base-content/20 shrink-0">
           M
         </div>
         <div>
@@ -126,7 +127,7 @@ const formattedDate = new Intl.DateTimeFormat('pt-BR', {
         href={profile.whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="btn btn-sm btn-outline gap-2 font-medium"
+        class="btn btn-sm btn-outline gap-2 font-medium w-full sm:w-auto"
       >
         Discutir artigo no WhatsApp
         <span>→</span>
