@@ -95,37 +95,92 @@ const navLinks = lang === 'pt'
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
         <!-- Moon icon -->
-        <svg id="theme-moon" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="theme-moon" class="w-3.5 h-3.5 fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
       </button>
 
-      <!-- Mobile Menu Dropdown -->
-      <div class="dropdown dropdown-end md:hidden">
-        <label tabindex="0" class="btn btn-ghost btn-square btn-xs border border-base-content/15" aria-label="Open menu">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </label>
-        <ul tabindex="0" class="dropdown menu menu-sm bg-base-200 border border-base-content/15 rounded-box z-50 mt-2 w-48 p-2 shadow-lg">
-          {navLinks.map((link) => (
-            <li>
-              <a href={link.href} data-astro-prefetch="tap" class="text-xs font-medium">{link.name}</a>
-            </li>
-          ))}
-        </ul>
+      <!-- Mobile Menu Toggle Button -->
+      <button
+        id="mobile-menu-trigger"
+        type="button"
+        class="btn btn-ghost btn-square btn-xs border border-base-content/15 md:hidden"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu-drawer"
+      >
+        <!-- Hamburger icon -->
+        <svg id="mobile-menu-hamburger" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <!-- Close (X) icon -->
+        <svg id="mobile-menu-close" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Drawer (Drops down directly below sticky header) -->
+  <div
+    id="mobile-menu-drawer"
+    class="fixed inset-x-0 top-16 bottom-0 z-40 hidden md:hidden bg-black/60 backdrop-blur-sm transition-all"
+    role="dialog"
+    aria-modal="true"
+    aria-label={lang === 'pt' ? 'Menu de navegação móvel' : 'Mobile navigation menu'}
+  >
+    <div
+      id="mobile-menu-panel"
+      class="w-full bg-base-100 border-b border-base-content/15 shadow-2xl p-5 flex flex-col gap-4 animate-in slide-in-from-top duration-200"
+    >
+      <nav class="flex flex-col space-y-1">
+        {navLinks.map((link) => {
+          const isActive = pathname === link.href || (link.href !== '/pt' && link.href !== '/en' && pathname.startsWith(link.href));
+          return (
+            <a
+              href={link.href}
+              data-astro-prefetch="tap"
+              class:list={[
+                'px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-between',
+                isActive
+                  ? 'bg-base-200 text-base-content font-bold border border-base-content/15'
+                  : 'text-base-content/75 hover:bg-base-200/60 hover:text-base-content',
+              ]}
+            >
+              <span>{link.name}</span>
+              {isActive ? (
+                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              ) : (
+                <span class="text-base-content/30 text-xs font-mono">→</span>
+              )}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Language Switcher in Drawer -->
+      <div class="pt-4 border-t border-base-content/10 flex items-center justify-between text-xs font-mono">
+        <span class="text-base-content/50">Idioma / Language:</span>
+        <a
+          href={switchLangUrl}
+          data-astro-prefetch="hover"
+          class="btn btn-ghost btn-xs font-mono border border-base-content/15"
+        >
+          {lang === 'pt' ? 'Mudar para Inglês (EN) ↗' : 'Switch to Portuguese (PT) ↗'}
+        </a>
       </div>
     </div>
   </div>
 </header>
 
 <script>
-  function setupThemeToggle() {
-    const toggle = document.getElementById('theme-toggle');
+  function setupHeaderScripts() {
+    // 1. Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
     const sunIcon = document.getElementById('theme-sun');
     const moonIcon = document.getElementById('theme-moon');
 
-    function updateIcons(theme: string) {
+    function updateThemeIcons(theme: string) {
       if (theme === 'light') {
         sunIcon?.classList.remove('hidden');
         moonIcon?.classList.add('hidden');
@@ -135,21 +190,75 @@ const navLinks = lang === 'pt'
       }
     }
 
-    // Set initial icon based on actual current theme
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    updateIcons(currentTheme);
+    updateThemeIcons(currentTheme);
 
-    toggle?.addEventListener('click', () => {
+    themeToggle?.addEventListener('click', () => {
       const activeTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', activeTheme);
       localStorage.setItem('theme', activeTheme);
-      updateIcons(activeTheme);
+      updateThemeIcons(activeTheme);
+    });
+
+    // 2. Mobile Menu Drawer
+    const menuTrigger = document.getElementById('mobile-menu-trigger');
+    const drawer = document.getElementById('mobile-menu-drawer');
+    const hamburgerIcon = document.getElementById('mobile-menu-hamburger');
+    const closeIcon = document.getElementById('mobile-menu-close');
+
+    if (!menuTrigger || !drawer) return;
+
+    function openMenu() {
+      drawer?.classList.remove('hidden');
+      hamburgerIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      menuTrigger?.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeMenu() {
+      drawer?.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      menuTrigger?.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    menuTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !drawer.classList.contains('hidden');
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Tap outside (on backdrop) to close
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) {
+        closeMenu();
+      }
+    });
+
+    // Close when tapping any link
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close on ESC
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !drawer.classList.contains('hidden')) {
+        closeMenu();
+      }
     });
   }
 
-  // Run on first load
-  setupThemeToggle();
+  // Initial load
+  setupHeaderScripts();
 
-  // Run on view transition navigation
-  document.addEventListener('astro:after-swap', setupThemeToggle);
+  // On View Transition navigation
+  document.addEventListener('astro:after-swap', setupHeaderScripts);
 </script>
