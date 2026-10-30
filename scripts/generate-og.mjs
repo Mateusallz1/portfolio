@@ -26,7 +26,7 @@ const svg = `
     <rect width="44" height="44" rx="10" fill="#181a20" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" />
     <text x="22" y="28" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">M/A</text>
     
-    <text x="64" y="28" font-family="monospace" font-size="16" fill="rgba(255, 255, 255, 0.5)">mateusalves.dev</text>
+    <text x="64" y="28" font-family="monospace" font-size="16" fill="rgba(255, 255, 255, 0.5)">gonzatools.com.br</text>
   </g>
 
   <!-- Status indicator -->

@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: `${profile.name} · Artigos Técnicos (PT)`,
     description: profile.bio.pt,
-    site: context.site?.toString() || 'https://mateusalves.dev',
+    site: context.site?.toString() || 'https://gonzatools.com.br',
     items: ptArticles.map((article) => {
       const slug = article.id.replace(/^(pt\/)/, '').replace(/\.(md|mdx)$/, '');
       return {

@@ -8,7 +8,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mateusalves.dev',
+  site: 'https://gonzatools.com.br',
   integrations: [
     expressiveCode({
       themes: ['github-dark', 'github-light'],

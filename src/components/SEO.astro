@@ -22,7 +22,7 @@ const {
 } = Astro.props;
 
 // Determine absolute canonical URL & absolute OpenGraph image URL
-const siteBase = Astro.site ?? new URL('https://mateusalves.dev');
+const siteBase = Astro.site ?? new URL('https://gonzatools.com.br');
 const canonicalURL = new URL(Astro.url.pathname, siteBase);
 const socialImageURL = new URL(image, siteBase);
 
