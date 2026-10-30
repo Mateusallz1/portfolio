@@ -43,7 +43,7 @@ export default defineConfig({
     defaultLocale: 'pt',
     locales: ['pt', 'en'],
     routing: {
-      prefixDefaultLocale: false,
+      prefixDefaultLocale: true,
     },
   },
   prefetch: {
