@@ -1,56 +1,170 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BeachCountdown from '../../components/BeachCountdown.astro';
+import '../../styles/global.css';
 
-const lang = 'pt';
+const title = 'Partiu Parnaíba · Contagem Regressiva';
+const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI. Tá perto de escutar Ser Tão...';
 ---
 
-<BaseLayout
-  title="Partiu Parnaíba · Contagem Regressiva"
-  description="Contagem regressiva oficial para a viagem a Parnaíba - PI. Tá perto de escutar Ser Tão..."
-  lang={lang}
->
-  <div class="py-4 sm:py-6 min-w-0 max-w-full">
+<!doctype html>
+<html lang="pt" class="h-full bg-slate-950 text-slate-100 overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="h-full min-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-950 via-slate-900 to-amber-950/40 select-none">
     
-    <!-- Link sutil de retorno -->
-    <div class="mb-4">
+    <!-- Efeitos Visuais de Luz Costeira / Sol Dourado Fullscreen -->
+    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-amber-400/20 via-cyan-400/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/3 -left-32 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-32 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- 1. Topo: Navegação Discreta + Relógio Teresina + Som -->
+    <header class="w-full max-w-6xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 flex items-center justify-between gap-3 relative z-20">
+      
+      <!-- Voltar ao Portfólio -->
       <a
         href="/pt"
-        class="inline-flex items-center gap-1.5 text-xs text-base-content/60 hover:text-primary transition-colors font-mono"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-mono text-slate-300 hover:text-white transition-all backdrop-blur-md active:scale-95"
       >
         <span>←</span>
-        <span>Voltar ao início</span>
+        <span>Portfólio</span>
       </a>
-    </div>
 
-    <!-- Título de Contexto -->
-    <div class="text-center max-w-xl mx-auto mb-6">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-mono mb-2">
-        <span>🏖️ Especial Férias</span>
-      </span>
-      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-base-content">
-        Operação Pé na Areia
-      </h1>
-      <p class="mt-1 text-xs sm:text-sm text-base-content/70">
-        Acompanhe em tempo real os segundos que faltam para o litoral piauiense.
-      </p>
-    </div>
+      <!-- Status Bar: Teresina & Som -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Relógio Oficial de Teresina -->
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-slate-400 font-medium hidden sm:inline">Teresina:</span>
+          <span id="clock" class="font-mono font-bold tabular-nums text-cyan-300">--:--:--</span>
+        </div>
 
-    <!-- Componente do Contador -->
-    <BeachCountdown />
-
-    <!-- Ações de Compartilhamento -->
-    <div class="max-w-lg mx-auto mt-6 p-4 rounded-2xl bg-base-200/50 border border-base-content/10 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="text-left text-xs">
-        <span class="font-bold text-base-content block">Vai viajar junto?</span>
-        <span class="text-base-content/60">Compartilhe o contador com a turma!</span>
+        <!-- Botão Som do Mar -->
+        <button
+          id="audio-toggle"
+          type="button"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-xs font-bold text-cyan-200 transition-all cursor-pointer active:scale-95 whitespace-nowrap ring-2 ring-cyan-500/40 backdrop-blur-md"
+        >
+          <span id="audio-icon">🔊</span>
+          <span id="audio-label" class="hidden sm:inline">Som: Ligado</span>
+        </button>
       </div>
+    </header>
+
+    <!-- 2. Centro: Contagem Imersiva Tela Cheia -->
+    <main class="w-full max-w-5xl mx-auto px-4 sm:px-8 py-4 my-auto flex flex-col items-center justify-center text-center relative z-20">
       
-      <div class="flex items-center gap-2 w-full sm:w-auto">
+      <!-- Pre-heading -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs sm:text-sm font-black tracking-widest uppercase mb-2 backdrop-blur-md">
+        <span class="palm-sway text-base">🌴</span>
+        <span>É DE MANHÃÃÃ</span>
+      </div>
+
+      <!-- Título Gigante -->
+      <h1 class="text-4xl sm:text-7xl md:text-8xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-amber-200 drop-shadow-sm leading-none mt-1">
+        PARNAÍBA
+      </h1>
+
+      <p class="text-sm sm:text-lg text-slate-300 font-medium mt-2 max-w-xl">
+        Tá perto de escutar Ser Tão...
+      </p>
+
+      <!-- Badge de Data -->
+      <div class="mt-2 mb-6 sm:mb-8">
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-semibold tracking-wide">
+          <span>🗓️</span> 27 de Novembro • 08:00
+        </span>
+      </div>
+
+      <!-- Os 4 Cards Gigantes da Contagem -->
+      <div class="w-full max-w-4xl grid grid-cols-4 gap-2 sm:gap-5 mb-6">
+        
+        <!-- DIAS -->
+        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-amber-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
+          <span class="text-xs sm:text-base text-amber-400 mb-1 select-none">☀️</span>
+          <div id="days" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-amber-400 font-mono tabular-nums leading-none tracking-tight">
+            00
+          </div>
+          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+            Dias
+          </span>
+        </div>
+
+        <!-- HORAS -->
+        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-orange-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
+          <span class="text-xs sm:text-base text-orange-400 mb-1 select-none">🥥</span>
+          <div id="hours" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-orange-400 font-mono tabular-nums leading-none tracking-tight">
+            00
+          </div>
+          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+            Horas
+          </span>
+        </div>
+
+        <!-- MINUTOS -->
+        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-cyan-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
+          <span class="text-xs sm:text-base text-cyan-400 mb-1 select-none">🏄‍♂️</span>
+          <div id="minutes" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-cyan-400 font-mono tabular-nums leading-none tracking-tight">
+            00
+          </div>
+          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+            Min
+          </span>
+        </div>
+
+        <!-- SEGUNDOS -->
+        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-teal-400/40 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
+          <span class="text-xs sm:text-base text-teal-400 mb-1 select-none">🌊</span>
+          <div id="seconds" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-teal-300 font-mono tabular-nums leading-none tracking-tight">
+            00
+          </div>
+          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+            Seg
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Barra de Progresso Costeira Fullscreen -->
+      <div class="w-full max-w-xl mx-auto px-4 py-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+        <div class="flex items-center justify-between text-[11px] sm:text-xs font-semibold text-slate-400 mb-1.5">
+          <span>Início de Novembro</span>
+          <span id="pct-badge" class="font-mono text-cyan-400 font-bold">0%</span>
+          <span>Partida (27/11) 🧳</span>
+        </div>
+        <div class="w-full h-2 sm:h-2.5 rounded-full bg-black/40 overflow-hidden border border-white/10">
+          <div id="progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-400 rounded-full transition-all duration-700" style="width: 0%"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- 3. Rodapé: Ondas em Tela Cheia + Compartilhamento Rápido -->
+    <footer class="w-full relative z-20">
+      
+      <!-- Barra Flutuante de Compartilhamento -->
+      <div class="flex items-center justify-center gap-3 mb-2 px-4">
         <button
           id="copy-link-btn"
           type="button"
-          class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-base-100 hover:bg-base-200 border border-base-content/20 text-xs font-semibold text-base-content transition-all cursor-pointer shadow-xs active:scale-95"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer backdrop-blur-md shadow-lg active:scale-95"
         >
           <span id="copy-icon">📋</span>
           <span id="copy-text">Copiar Link</span>
@@ -61,42 +175,230 @@ const lang = 'pt';
           href="https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20https://gonzatools.com.br/pt/partiu-parnaiba"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-95"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer backdrop-blur-md shadow-lg active:scale-95"
         >
           <span>💬</span>
-          <span>WhatsApp</span>
+          <span>Mandar no WhatsApp</span>
         </a>
       </div>
-    </div>
 
-  </div>
-</BaseLayout>
+      <!-- Ondas Marítimas SVG em Largura Total (100vw) -->
+      <div class="relative w-full h-16 sm:h-24 overflow-hidden pointer-events-none select-none">
+        
+        <!-- Onda de Fundo -->
+        <div class="absolute bottom-0 left-0 w-[200%] h-16 sm:h-20 wave-anim-2 opacity-40 text-cyan-800">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+            <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
+          </svg>
+        </div>
 
-<script>
-  function setupShareButton() {
-    const btn = document.getElementById('copy-link-btn');
-    const copyText = document.getElementById('copy-text');
-    const copyIcon = document.getElementById('copy-icon');
-    const whatsappBtn = document.getElementById('whatsapp-share-btn') as HTMLAnchorElement | null;
+        <!-- Onda Frontal com Espuma -->
+        <div class="absolute bottom-0 left-0 w-[200%] h-12 sm:h-16 wave-anim-1 opacity-80 text-cyan-500">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+            <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
+          </svg>
+        </div>
 
-    if (whatsappBtn && typeof window !== 'undefined') {
-      whatsappBtn.href = `https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20${encodeURIComponent(window.location.href)}`;
-    }
+        <!-- Faixa de Areia Dourada -->
+        <div class="absolute bottom-0 left-0 w-full h-2 sm:h-3 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300 border-t border-amber-300/50 shadow-lg"></div>
+      </div>
 
-    btn?.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(window.location.href);
-        if (copyText) copyText.textContent = 'Copiado!';
-        if (copyIcon) copyIcon.textContent = '✅';
-        setTimeout(() => {
-          if (copyText) copyText.textContent = 'Copiar Link';
-          if (copyIcon) copyIcon.textContent = '📋';
-        }, 2000);
-      } catch (_) {
-        // Fallback
+    </footer>
+
+    <style is:global>
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
       }
-    });
-  }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      @keyframes wave-smooth-1 {
+        0% { transform: translateX(0); }
+        50% { transform: translateX(-25%); }
+        100% { transform: translateX(0); }
+      }
+      @keyframes wave-smooth-2 {
+        0% { transform: translateX(-25%); }
+        50% { transform: translateX(0); }
+        100% { transform: translateX(-25%); }
+      }
+      @keyframes palm-sway-anim {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(4deg); }
+      }
+      .wave-anim-1 {
+        animation: wave-smooth-1 8s ease-in-out infinite;
+      }
+      .wave-anim-2 {
+        animation: wave-smooth-2 12s ease-in-out infinite;
+      }
+      .palm-sway {
+        animation: palm-sway-anim 4.5s ease-in-out infinite;
+        transform-origin: bottom center;
+      }
+      .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
 
-  document.addEventListener('astro:page-load', setupShareButton);
-</script>
+    <!-- Script de Contagem e Áudio da Praia -->
+    <script>
+      const target = new Date("2026-11-27T08:00:00-03:00");
+      const monthStart = new Date("2026-11-01T00:00:00-03:00");
+
+      const elClock = document.getElementById("clock");
+      const elDays = document.getElementById("days");
+      const elHours = document.getElementById("hours");
+      const elMinutes = document.getElementById("minutes");
+      const elSeconds = document.getElementById("seconds");
+      const elPctBadge = document.getElementById("pct-badge");
+      const elProgressFill = document.getElementById("progress-fill");
+
+      function getTeresinaTime() {
+        return new Intl.DateTimeFormat('pt-BR', {
+          timeZone: 'America/Fortaleza',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(new Date());
+      }
+
+      function update() {
+        const now = new Date();
+        if (elClock) elClock.textContent = getTeresinaTime();
+
+        const diff = target.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          if (elDays) elDays.textContent = "00";
+          if (elHours) elHours.textContent = "00";
+          if (elMinutes) elMinutes.textContent = "00";
+          if (elSeconds) elSeconds.textContent = "00";
+          if (elPctBadge) elPctBadge.textContent = "100%";
+          if (elProgressFill) elProgressFill.style.width = "100%";
+          return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        const pad = (n: number) => String(n).padStart(2, '0');
+        if (elDays) elDays.textContent = pad(days);
+        if (elHours) elHours.textContent = pad(hours);
+        if (elMinutes) elMinutes.textContent = pad(minutes);
+        if (elSeconds) elSeconds.textContent = pad(seconds);
+
+        const totalSpan = target.getTime() - monthStart.getTime();
+        const elapsed = now.getTime() - monthStart.getTime();
+        const pct = Math.min(100, Math.max(0, Math.round((elapsed / totalSpan) * 100)));
+        if (elPctBadge) elPctBadge.textContent = `${pct}%`;
+        if (elProgressFill) elProgressFill.style.width = `${pct}%`;
+      }
+
+      update();
+      setInterval(update, 1000);
+
+      // Sintetizador de Ondas Procedurais
+      let audioCtx: AudioContext | null = null;
+      let isAudioPlaying = false;
+      const btnAudio = document.getElementById("audio-toggle");
+      const iconAudio = document.getElementById("audio-icon");
+      const labelAudio = document.getElementById("audio-label");
+
+      function startSound() {
+        if (isAudioPlaying) return;
+        try {
+          const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          if (!audioCtx) audioCtx = new AudioCtxClass();
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+
+          const bufferLen = audioCtx.sampleRate * 4;
+          const buffer = audioCtx.createBuffer(1, bufferLen, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferLen; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+
+          const noise = audioCtx.createBufferSource();
+          noise.buffer = buffer;
+          noise.loop = true;
+
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+          const lfo = audioCtx.createOscillator();
+          lfo.frequency.setValueAtTime(0.14, audioCtx.currentTime);
+          const lfoGain = audioCtx.createGain();
+          lfoGain.gain.setValueAtTime(220, audioCtx.currentTime);
+          lfo.connect(filter.frequency);
+
+          const gain = audioCtx.createGain();
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          noise.start();
+          lfo.start();
+
+          isAudioPlaying = true;
+          if (iconAudio) iconAudio.textContent = "🔊";
+          if (labelAudio) labelAudio.textContent = "Som: Ligado";
+          btnAudio?.classList.add("ring-2", "ring-cyan-500/50", "bg-cyan-500/30");
+        } catch (_) {}
+      }
+
+      function stopSound() {
+        if (audioCtx) {
+          audioCtx.close();
+          audioCtx = null;
+        }
+        isAudioPlaying = false;
+        if (iconAudio) iconAudio.textContent = "🔇";
+        if (labelAudio) labelAudio.textContent = "Som: Mudo";
+        btnAudio?.classList.remove("ring-2", "ring-cyan-500/50", "bg-cyan-500/30");
+      }
+
+      btnAudio?.addEventListener("click", () => {
+        if (isAudioPlaying) stopSound();
+        else startSound();
+      });
+
+      // Inicia áudio automaticamente (ou no 1º clique caso a política de autoplay do browser bloqueie)
+      startSound();
+      document.addEventListener("click", () => {
+        if (!isAudioPlaying) startSound();
+      }, { once: true });
+
+      // Botões de Compartilhamento
+      const copyBtn = document.getElementById("copy-link-btn");
+      const copyText = document.getElementById("copy-text");
+      const copyIcon = document.getElementById("copy-icon");
+      const whatsappBtn = document.getElementById("whatsapp-share-btn") as HTMLAnchorElement | null;
+
+      if (whatsappBtn && typeof window !== 'undefined') {
+        whatsappBtn.href = `https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20${encodeURIComponent(window.location.href)}`;
+      }
+
+      copyBtn?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          if (copyText) copyText.textContent = "Copiado!";
+          if (copyIcon) copyIcon.textContent = "✅";
+          setTimeout(() => {
+            if (copyText) copyText.textContent = "Copiar Link";
+            if (copyIcon) copyIcon.textContent = "📋";
+          }, 2000);
+        } catch (_) {}
+      });
+    </script>
+  </body>
+</html>
