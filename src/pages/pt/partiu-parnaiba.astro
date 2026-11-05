@@ -1,16 +1,31 @@
 ---
 // Página Partiu Parnaíba - Idêntica ao Concept
+import '../../styles/global.css';
 ---
 
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR" class="h-full" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>Partiu Parnaíba - Contagem Regressiva</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
     @keyframes wave-smooth-1 {
       0% { transform: translateX(0); }
       50% { transform: translateX(-25%); }
@@ -40,7 +55,7 @@
     }
   </style>
 </head>
-<body class="bg-[#0b0d13] text-slate-100 antialiased p-2 sm:p-4 flex items-center justify-center min-h-[100dvh] m-0">
+<body class="bg-[#0b0d13] text-slate-100 antialiased p-2 sm:p-4 flex items-center justify-center min-h-[100dvh] m-0 select-none">
   
   <div class="w-full max-w-sm sm:max-w-md mx-auto rounded-3xl border border-amber-300/40 dark:border-cyan-500/30 bg-gradient-to-b from-sky-400/10 via-amber-400/5 to-cyan-500/15 shadow-xl relative overflow-hidden backdrop-blur-md">
     
@@ -58,7 +73,7 @@
           <span id="clock" class="font-mono font-bold tabular-nums text-cyan-700 dark:text-cyan-300">--:--:--</span>
         </div>
 
-        <button id="audio-toggle" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-[11px] sm:text-xs font-bold text-cyan-800 dark:text-cyan-200 transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ring-2 ring-cyan-500/40">
+        <button id="audio-toggle" type="button" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-[11px] sm:text-xs font-bold text-cyan-800 dark:text-cyan-200 transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ring-2 ring-cyan-500/40">
           <span id="audio-icon">🔊</span>
           <span id="audio-label">Som Ligado</span>
         </button>
@@ -207,7 +222,7 @@
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
 
-      const pad = (n) => String(n).padStart(2, '0');
+      const pad = (n: number) => String(n).padStart(2, '0');
       if (elDays) elDays.textContent = pad(days);
       if (elHours) elHours.textContent = pad(hours);
       if (elMinutes) elMinutes.textContent = pad(minutes);
@@ -224,7 +239,7 @@
     setInterval(updateTimer, 1000);
 
     // Audio Waves Synthesizer
-    let audioCtx = null;
+    let audioCtx: AudioContext | null = null;
     let isPlaying = false;
     const btnAudio = document.getElementById("audio-toggle");
     const iconAudio = document.getElementById("audio-icon");
@@ -233,8 +248,8 @@
     function startSound() {
       if (isPlaying) return;
       try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!audioCtx) audioCtx = new AudioContext();
+        const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        if (!audioCtx) audioCtx = new AudioContextClass();
         if (audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
