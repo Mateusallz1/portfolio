@@ -1,13 +1,13 @@
 ---
-// Página Partiu Parnaíba - Layout Completo de Tela Inteira
+// Página Partiu Parnaíba - Tela Cheia Travada Sem Scroll
 import '../../styles/global.css';
 ---
 
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full" data-theme="dark">
+<html lang="pt-BR" class="h-full w-full overflow-hidden" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Partiu Parnaíba - Contagem Regressiva</title>
 
@@ -20,7 +20,14 @@ import '../../styles/global.css';
   >
 
   <style>
-    body {
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
+      width: 100%;
+      overflow: hidden !important;
+      overscroll-behavior: none;
+      touch-action: manipulation;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
     .font-mono {
@@ -55,14 +62,16 @@ import '../../styles/global.css';
     }
   </style>
 </head>
-<body class="h-full min-h-[100dvh] w-full flex flex-col justify-between relative overflow-x-hidden bg-gradient-to-b from-sky-400/15 via-amber-400/10 to-cyan-500/20 text-slate-800 dark:text-slate-100 select-none m-0">
+<body class="h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-400/15 via-amber-400/10 to-cyan-500/20 text-slate-800 dark:text-slate-100 select-none m-0 p-0 box-border">
   
-  <!-- Background Glows Naturais -->
-  <div class="absolute -top-16 -right-16 w-72 h-72 sm:w-96 sm:h-96 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
-  <div class="absolute -bottom-16 -left-16 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none"></div>
+  <!-- Background Glows Isolados (Garante 0% de expansão de tela) -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-16 -right-16 w-72 h-72 sm:w-96 sm:h-96 bg-amber-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-16 -left-16 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
+  </div>
 
-  <!-- 1. Topo: Relógio Teresina + Som Ligado em toda a largura -->
-  <header class="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 flex items-center justify-between gap-3 relative z-20">
+  <!-- 1. Topo: Relógio Teresina + Som Ligado -->
+  <header class="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-3 sm:pt-5 pb-1 flex items-center justify-between gap-3 relative z-20 shrink-0">
     <!-- Relógio Oficial de Teresina -->
     <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-slate-200/40 dark:border-white/10 shadow-xs text-xs sm:text-sm backdrop-blur-md">
       <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -77,104 +86,104 @@ import '../../styles/global.css';
     </button>
   </header>
 
-  <!-- 2. Centro: Contagem ocupando toda a disposição da tela -->
-  <main class="w-full max-w-5xl mx-auto px-4 sm:px-8 my-auto py-4 sm:py-8 flex flex-col items-center justify-center text-center relative z-20">
+  <!-- 2. Centro: Contagem Perfeitamente Ajustada sem Scroll -->
+  <main class="w-full max-w-4xl mx-auto px-4 sm:px-8 my-auto py-2 sm:py-4 flex flex-col items-center justify-center text-center relative z-20 shrink min-h-0">
     
     <!-- Cabeçalho -->
-    <div class="mb-4 sm:mb-6">
-      <div class="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-black tracking-wider uppercase text-amber-700 dark:text-amber-400 mb-1">
+    <div class="mb-3 sm:mb-5">
+      <div class="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-black tracking-wider uppercase text-amber-700 dark:text-amber-400 mb-0.5">
         <span class="palm-anim inline-block text-base sm:text-lg">🌴</span>
         <span>É DE MANHÃÃÃ</span>
       </div>
       <div class="flex flex-wrap items-baseline justify-center gap-2 sm:gap-3">
-        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
           Parnaíba
         </h1>
-        <span class="text-xs sm:text-sm font-semibold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-lg border border-cyan-500/25 whitespace-nowrap shadow-xs">
+        <span class="text-xs sm:text-sm font-semibold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg border border-cyan-500/25 whitespace-nowrap shadow-xs">
           27 Nov • 08:00
         </span>
       </div>
-      <p class="text-xs sm:text-base text-slate-600 dark:text-slate-300 mt-1 max-w-md mx-auto leading-snug">
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-0.5 max-w-md mx-auto leading-snug">
         Tá perto de escutar Ser Tão...
       </p>
     </div>
 
-    <!-- 4 Cards da Contagem (Expandidos para preencher a largura) -->
-    <div class="w-full max-w-4xl grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 mb-5 sm:mb-8">
+    <!-- 4 Cards da Contagem -->
+    <div class="w-full max-w-3xl grid grid-cols-4 gap-2 sm:gap-3.5 md:gap-5 mb-3 sm:mb-5">
       
       <!-- Dias -->
-      <div class="p-2.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-amber-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm hover:scale-102 transition-transform">
-        <span class="text-xs sm:text-base text-amber-600/80 dark:text-amber-400/80 select-none mb-0.5">☀️</span>
-        <div id="days" class="text-2xl sm:text-5xl md:text-6xl font-black text-amber-600 dark:text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-amber-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+        <span class="text-xs sm:text-sm text-amber-600/80 dark:text-amber-400/80 select-none mb-0.5">☀️</span>
+        <div id="days" class="text-2xl sm:text-4xl md:text-5xl font-black text-amber-600 dark:text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase text-slate-600 dark:text-slate-400 block mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
           Dias
         </span>
       </div>
 
       <!-- Horas -->
-      <div class="p-2.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-orange-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm hover:scale-102 transition-transform">
-        <span class="text-xs sm:text-base text-orange-600/80 dark:text-orange-400/80 select-none mb-0.5">🥥</span>
-        <div id="hours" class="text-2xl sm:text-5xl md:text-6xl font-black text-orange-600 dark:text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-orange-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+        <span class="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 select-none mb-0.5">🥥</span>
+        <div id="hours" class="text-2xl sm:text-4xl md:text-5xl font-black text-orange-600 dark:text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase text-slate-600 dark:text-slate-400 block mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
           Horas
         </span>
       </div>
 
       <!-- Min -->
-      <div class="p-2.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-cyan-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm hover:scale-102 transition-transform">
-        <span class="text-xs sm:text-base text-cyan-600/80 dark:text-cyan-400/80 select-none mb-0.5">🏄‍♂️</span>
-        <div id="minutes" class="text-2xl sm:text-5xl md:text-6xl font-black text-cyan-600 dark:text-cyan-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-cyan-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+        <span class="text-xs sm:text-sm text-cyan-600/80 dark:text-cyan-400/80 select-none mb-0.5">🏄‍♂️</span>
+        <div id="minutes" class="text-2xl sm:text-4xl md:text-5xl font-black text-cyan-600 dark:text-cyan-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase text-slate-600 dark:text-slate-400 block mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
           Min
         </span>
       </div>
 
       <!-- Seg -->
-      <div class="p-2.5 sm:p-5 md:p-6 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-teal-400/50 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm hover:scale-102 transition-transform">
-        <span class="text-xs sm:text-base text-teal-600/80 dark:text-teal-400/80 select-none mb-0.5">🌊</span>
-        <div id="seconds" class="text-2xl sm:text-5xl md:text-6xl font-black text-teal-600 dark:text-teal-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-teal-400/50 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+        <span class="text-xs sm:text-sm text-teal-600/80 dark:text-teal-400/80 select-none mb-0.5">🌊</span>
+        <div id="seconds" class="text-2xl sm:text-4xl md:text-5xl font-black text-teal-600 dark:text-teal-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase text-slate-600 dark:text-slate-400 block mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
           Seg
         </span>
       </div>
 
     </div>
 
-    <!-- Barra de Progresso do Mês Expandida -->
-    <div class="w-full max-w-2xl p-3 sm:p-3.5 rounded-2xl bg-white/60 dark:bg-black/30 border border-slate-200/40 dark:border-white/10 backdrop-blur-sm shadow-xs">
-      <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+    <!-- Barra de Progresso do Mês -->
+    <div class="w-full max-w-xl p-2.5 sm:p-3 rounded-2xl bg-white/60 dark:bg-black/30 border border-slate-200/40 dark:border-white/10 backdrop-blur-sm shadow-xs">
+      <div class="flex items-center justify-between text-[10px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
         <span>Início de Novembro</span>
         <span id="pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
         <span>Partida (27/11) 🧳</span>
       </div>
-      <div class="w-full h-2 sm:h-2.5 rounded-full bg-slate-200 dark:bg-black/40 overflow-hidden border border-slate-200/40 dark:border-white/10">
+      <div class="w-full h-1.5 sm:h-2 rounded-full bg-slate-200 dark:bg-black/40 overflow-hidden border border-slate-200/40 dark:border-white/10">
         <div id="progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-500 rounded-full transition-all duration-700" style="width: 0%"></div>
       </div>
     </div>
 
   </main>
 
-  <!-- 3. Rodapé: Ondas em Tela Cheia de Ponta a Ponta (100vw) com Areia Dourada -->
-  <footer class="relative w-full h-14 sm:h-20 overflow-hidden pointer-events-none select-none z-10">
-    <div class="absolute bottom-0 left-0 w-[200%] h-12 sm:h-16 wave-2 opacity-35 text-cyan-600 dark:text-cyan-800">
+  <!-- 3. Rodapé: Ondas em Tela Cheia (100vw) com Areia Dourada -->
+  <footer class="relative w-full h-12 sm:h-16 md:h-18 overflow-hidden pointer-events-none select-none z-10 shrink-0">
+    <div class="absolute bottom-0 left-0 w-[200%] h-10 sm:h-14 wave-2 opacity-35 text-cyan-600 dark:text-cyan-800">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
         <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-[200%] h-9 sm:h-12 wave-1 opacity-75 text-cyan-400 dark:text-cyan-600">
+    <div class="absolute bottom-0 left-0 w-[200%] h-8 sm:h-11 wave-1 opacity-75 text-cyan-400 dark:text-cyan-600">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
         <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-full h-2 sm:h-2.5 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 border-t border-amber-300/50 shadow-md"></div>
+    <div class="absolute bottom-0 left-0 w-full h-1.5 sm:h-2 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 border-t border-amber-300/50 shadow-md"></div>
   </footer>
 
   <script>
