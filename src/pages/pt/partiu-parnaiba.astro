@@ -6,7 +6,7 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
 ---
 
 <!doctype html>
-<html lang="pt" class="h-full bg-slate-950 text-slate-100 overflow-x-hidden">
+<html lang="pt" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -23,24 +23,23 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="h-full min-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-950 via-slate-900 to-amber-950/40 select-none">
+  <body class="h-full min-h-[100dvh] w-full flex flex-col justify-between relative overflow-x-hidden bg-gradient-to-b from-sky-400/15 via-amber-400/10 to-cyan-500/20 text-slate-800 dark:text-slate-100 select-none">
     
-    <!-- Efeitos Visuais de Luz Costeira / Sol Dourado Fullscreen -->
-    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-amber-400/20 via-cyan-400/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute top-1/3 -left-32 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute top-1/2 -right-32 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Background Glows Naturais -->
+    <div class="absolute -top-16 -right-16 w-60 h-60 sm:w-80 sm:h-80 bg-amber-400/25 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-16 -left-16 w-60 h-60 sm:w-80 sm:h-80 bg-cyan-400/25 rounded-full blur-3xl pointer-events-none"></div>
 
-    <!-- 1. Topo: Navegação Discreta + Relógio Teresina + Som -->
-    <header class="w-full max-w-6xl mx-auto px-4 sm:px-8 pt-4 sm:pt-6 flex items-center justify-between gap-3 relative z-20">
+    <!-- 1. Topo: Navegação Discreta + Relógio Teresina + Som Ligado -->
+    <header class="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 flex items-center justify-between gap-2 relative z-20">
       
       <!-- Voltar ao Portfólio -->
       <a
         href="/pt"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-xs font-mono text-slate-300 hover:text-white transition-all backdrop-blur-md active:scale-95"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/70 dark:bg-stone-900/60 hover:bg-white dark:hover:bg-stone-800 border border-slate-300/40 dark:border-white/10 text-xs font-mono text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all backdrop-blur-md shadow-xs active:scale-95 shrink-0"
       >
         <span>←</span>
         <span>Portfólio</span>
@@ -50,121 +49,115 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
       <div class="flex items-center gap-2">
         
         <!-- Relógio Oficial de Teresina -->
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-slate-400 font-medium hidden sm:inline">Teresina:</span>
-          <span id="clock" class="font-mono font-bold tabular-nums text-cyan-300">--:--:--</span>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-slate-300/40 dark:border-white/10 shadow-xs text-xs backdrop-blur-md shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-slate-500 dark:text-slate-400 font-medium">Teresina:</span>
+          <span id="clock" class="font-mono font-bold tabular-nums text-cyan-600 dark:text-cyan-300">--:--:--</span>
         </div>
 
-        <!-- Botão Som do Mar -->
+        <!-- Botão Som Ligado por Padrão -->
         <button
           id="audio-toggle"
           type="button"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-xs font-bold text-cyan-200 transition-all cursor-pointer active:scale-95 whitespace-nowrap ring-2 ring-cyan-500/40 backdrop-blur-md"
+          class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-800 dark:text-cyan-200 transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ring-2 ring-cyan-500/40 backdrop-blur-md"
         >
           <span id="audio-icon">🔊</span>
-          <span id="audio-label" class="hidden sm:inline">Som: Ligado</span>
+          <span id="audio-label" class="hidden sm:inline">Som Ligado</span>
         </button>
       </div>
     </header>
 
-    <!-- 2. Centro: Contagem Imersiva Tela Cheia -->
-    <main class="w-full max-w-5xl mx-auto px-4 sm:px-8 py-4 my-auto flex flex-col items-center justify-center text-center relative z-20">
+    <!-- 2. Centro: Contagem com a identidade visual exata definida -->
+    <main class="w-full max-w-xl mx-auto px-4 sm:px-6 my-auto py-4 flex flex-col justify-center relative z-20">
       
-      <!-- Pre-heading -->
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs sm:text-sm font-black tracking-widest uppercase mb-2 backdrop-blur-md">
-        <span class="palm-sway text-base">🌴</span>
-        <span>É DE MANHÃÃÃ</span>
+      <!-- Cabeçalho de Destino -->
+      <div class="mb-4 text-center sm:text-left">
+        <div class="flex items-center justify-center sm:justify-start gap-1.5 text-xs sm:text-sm font-black tracking-wider uppercase text-amber-700 dark:text-amber-400 mb-1">
+          <span class="palm-anim inline-block text-base">🌴</span>
+          <span>É DE MANHÃÃÃ</span>
+        </div>
+
+        <div class="flex flex-wrap items-baseline justify-center sm:justify-between gap-2">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Parnaíba
+          </h1>
+          <span class="text-xs sm:text-sm font-semibold text-cyan-700 dark:text-cyan-300 bg-cyan-500/15 px-3 py-1 rounded-lg border border-cyan-500/30 whitespace-nowrap shadow-xs">
+            27 Nov • 08:00
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 leading-snug">
+          Tá perto de escutar Ser Tão...
+        </p>
       </div>
 
-      <!-- Título Gigante -->
-      <h1 class="text-4xl sm:text-7xl md:text-8xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-amber-200 drop-shadow-sm leading-none mt-1">
-        PARNAÍBA
-      </h1>
-
-      <p class="text-sm sm:text-lg text-slate-300 font-medium mt-2 max-w-xl">
-        Tá perto de escutar Ser Tão...
-      </p>
-
-      <!-- Badge de Data -->
-      <div class="mt-2 mb-6 sm:mb-8">
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs sm:text-sm font-semibold tracking-wide">
-          <span>🗓️</span> 27 de Novembro • 08:00
-        </span>
-      </div>
-
-      <!-- Os 4 Cards Gigantes da Contagem -->
-      <div class="w-full max-w-4xl grid grid-cols-4 gap-2 sm:gap-5 mb-6">
+      <!-- 4 Cards da Contagem (Mesmíssimo estilo e proporção) -->
+      <div class="grid grid-cols-4 gap-2 sm:gap-3.5 mb-5">
         
-        <!-- DIAS -->
-        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-amber-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
-          <span class="text-xs sm:text-base text-amber-400 mb-1 select-none">☀️</span>
-          <div id="days" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-amber-400 font-mono tabular-nums leading-none tracking-tight">
+        <!-- Dias -->
+        <div class="px-1 py-3 sm:p-4 rounded-2xl bg-white/75 dark:bg-stone-900/60 border border-amber-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+          <span class="text-xs sm:text-sm text-amber-600/80 dark:text-amber-400/80 select-none">☀️</span>
+          <div id="days" class="text-2xl sm:text-4xl md:text-5xl font-black text-amber-600 dark:text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
             00
           </div>
-          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+          <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-500 dark:text-slate-400 block mt-1">
             Dias
           </span>
         </div>
 
-        <!-- HORAS -->
-        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-orange-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
-          <span class="text-xs sm:text-base text-orange-400 mb-1 select-none">🥥</span>
-          <div id="hours" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-orange-400 font-mono tabular-nums leading-none tracking-tight">
+        <!-- Horas -->
+        <div class="px-1 py-3 sm:p-4 rounded-2xl bg-white/75 dark:bg-stone-900/60 border border-orange-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+          <span class="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 select-none">🥥</span>
+          <div id="hours" class="text-2xl sm:text-4xl md:text-5xl font-black text-orange-600 dark:text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
             00
           </div>
-          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+          <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-500 dark:text-slate-400 block mt-1">
             Horas
           </span>
         </div>
 
-        <!-- MINUTOS -->
-        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-cyan-400/30 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
-          <span class="text-xs sm:text-base text-cyan-400 mb-1 select-none">🏄‍♂️</span>
-          <div id="minutes" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-cyan-400 font-mono tabular-nums leading-none tracking-tight">
+        <!-- Min -->
+        <div class="px-1 py-3 sm:p-4 rounded-2xl bg-white/75 dark:bg-stone-900/60 border border-cyan-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+          <span class="text-xs sm:text-sm text-cyan-600/80 dark:text-cyan-400/80 select-none">🏄‍♂️</span>
+          <div id="minutes" class="text-2xl sm:text-4xl md:text-5xl font-black text-cyan-600 dark:text-cyan-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
             00
           </div>
-          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+          <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-500 dark:text-slate-400 block mt-1">
             Min
           </span>
         </div>
 
-        <!-- SEGUNDOS -->
-        <div class="p-3 sm:p-6 md:p-8 rounded-3xl bg-white/10 dark:bg-black/40 border border-teal-400/40 backdrop-blur-xl shadow-2xl flex flex-col items-center justify-center min-w-0 overflow-hidden hover:scale-102 transition-transform">
-          <span class="text-xs sm:text-base text-teal-400 mb-1 select-none">🌊</span>
-          <div id="seconds" class="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-teal-300 font-mono tabular-nums leading-none tracking-tight">
+        <!-- Seg -->
+        <div class="px-1 py-3 sm:p-4 rounded-2xl bg-white/75 dark:bg-stone-900/60 border border-teal-400/50 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
+          <span class="text-xs sm:text-sm text-teal-600/80 dark:text-teal-400/80 select-none">🌊</span>
+          <div id="seconds" class="text-2xl sm:text-4xl md:text-5xl font-black text-teal-600 dark:text-teal-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
             00
           </div>
-          <span class="text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-slate-300 mt-2 block">
+          <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-500 dark:text-slate-400 block mt-1">
             Seg
           </span>
         </div>
 
       </div>
 
-      <!-- Barra de Progresso Costeira Fullscreen -->
-      <div class="w-full max-w-xl mx-auto px-4 py-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-        <div class="flex items-center justify-between text-[11px] sm:text-xs font-semibold text-slate-400 mb-1.5">
+      <!-- Barra de Progresso do Mês -->
+      <div class="p-3 sm:p-3.5 rounded-2xl bg-white/60 dark:bg-black/30 border border-slate-300/40 dark:border-white/10 backdrop-blur-sm shadow-xs mb-3">
+        <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
           <span>Início de Novembro</span>
-          <span id="pct-badge" class="font-mono text-cyan-400 font-bold">0%</span>
+          <span id="pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
           <span>Partida (27/11) 🧳</span>
         </div>
-        <div class="w-full h-2 sm:h-2.5 rounded-full bg-black/40 overflow-hidden border border-white/10">
-          <div id="progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-400 rounded-full transition-all duration-700" style="width: 0%"></div>
+        <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-black/40 overflow-hidden border border-slate-300/30 dark:border-white/10">
+          <div id="progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-500 rounded-full transition-all duration-700" style="width: 0%"></div>
         </div>
       </div>
 
-    </main>
-
-    <!-- 3. Rodapé: Ondas em Tela Cheia + Compartilhamento Rápido -->
-    <footer class="w-full relative z-20">
-      
-      <!-- Barra Flutuante de Compartilhamento -->
-      <div class="flex items-center justify-center gap-3 mb-2 px-4">
+      <!-- Botões de Compartilhar -->
+      <div class="flex items-center justify-center gap-2 mt-1">
         <button
           id="copy-link-btn"
           type="button"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold text-white transition-all cursor-pointer backdrop-blur-md shadow-lg active:scale-95"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-stone-900/60 hover:bg-white dark:hover:bg-stone-800 border border-slate-300/40 dark:border-white/10 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-all cursor-pointer backdrop-blur-sm shadow-xs active:scale-95"
         >
           <span id="copy-icon">📋</span>
           <span id="copy-text">Copiar Link</span>
@@ -175,34 +168,34 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
           href="https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20https://gonzatools.com.br/pt/partiu-parnaiba"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-bold transition-all cursor-pointer backdrop-blur-md shadow-lg active:scale-95"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-95"
         >
           <span>💬</span>
-          <span>Mandar no WhatsApp</span>
+          <span>WhatsApp</span>
         </a>
       </div>
 
-      <!-- Ondas Marítimas SVG em Largura Total (100vw) -->
-      <div class="relative w-full h-16 sm:h-24 overflow-hidden pointer-events-none select-none">
-        
-        <!-- Onda de Fundo -->
-        <div class="absolute bottom-0 left-0 w-[200%] h-16 sm:h-20 wave-anim-2 opacity-40 text-cyan-800">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
-            <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
-          </svg>
-        </div>
+    </main>
 
-        <!-- Onda Frontal com Espuma -->
-        <div class="absolute bottom-0 left-0 w-[200%] h-12 sm:h-16 wave-anim-1 opacity-80 text-cyan-500">
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
-            <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
-          </svg>
-        </div>
-
-        <!-- Faixa de Areia Dourada -->
-        <div class="absolute bottom-0 left-0 w-full h-2 sm:h-3 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-300 border-t border-amber-300/50 shadow-lg"></div>
+    <!-- 3. Rodapé: Ondas em Tela Cheia de Ponta a Ponta com Faixa de Areia -->
+    <footer class="relative w-full h-14 sm:h-20 overflow-hidden pointer-events-none select-none z-10">
+      
+      <!-- Onda de Fundo -->
+      <div class="absolute bottom-0 left-0 w-[200%] h-12 sm:h-16 wave-2 opacity-35 text-cyan-600 dark:text-cyan-800">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+          <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
+        </svg>
       </div>
 
+      <!-- Onda Frontal com Espuma -->
+      <div class="absolute bottom-0 left-0 w-[200%] h-9 sm:h-12 wave-1 opacity-75 text-cyan-400 dark:text-cyan-600">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+          <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
+        </svg>
+      </div>
+
+      <!-- Faixa de Areia Dourada -->
+      <div class="absolute bottom-0 left-0 w-full h-2 sm:h-2.5 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 border-t border-amber-300/50 shadow-md"></div>
     </footer>
 
     <style is:global>
@@ -222,18 +215,18 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
         50% { transform: translateX(0); }
         100% { transform: translateX(-25%); }
       }
-      @keyframes palm-sway-anim {
-        0%, 100% { transform: rotate(-3deg); }
-        50% { transform: rotate(4deg); }
+      @keyframes palm-wind {
+        0%, 100% { transform: rotate(-2deg); }
+        50% { transform: rotate(3deg); }
       }
-      .wave-anim-1 {
-        animation: wave-smooth-1 8s ease-in-out infinite;
+      .wave-1 {
+        animation: wave-smooth-1 9s ease-in-out infinite;
       }
-      .wave-anim-2 {
-        animation: wave-smooth-2 12s ease-in-out infinite;
+      .wave-2 {
+        animation: wave-smooth-2 13s ease-in-out infinite;
       }
-      .palm-sway {
-        animation: palm-sway-anim 4.5s ease-in-out infinite;
+      .palm-anim {
+        animation: palm-wind 4.5s ease-in-out infinite;
         transform-origin: bottom center;
       }
       .tabular-nums {
@@ -351,7 +344,7 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
 
           isAudioPlaying = true;
           if (iconAudio) iconAudio.textContent = "🔊";
-          if (labelAudio) labelAudio.textContent = "Som: Ligado";
+          if (labelAudio) labelAudio.textContent = "Som Ligado";
           btnAudio?.classList.add("ring-2", "ring-cyan-500/50", "bg-cyan-500/30");
         } catch (_) {}
       }
@@ -363,7 +356,7 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
         }
         isAudioPlaying = false;
         if (iconAudio) iconAudio.textContent = "🔇";
-        if (labelAudio) labelAudio.textContent = "Som: Mudo";
+        if (labelAudio) labelAudio.textContent = "Som Mudo";
         btnAudio?.classList.remove("ring-2", "ring-cyan-500/50", "bg-cyan-500/30");
       }
 
@@ -372,13 +365,12 @@ const description = 'Contagem regressiva oficial para a viagem a Parnaíba - PI.
         else startSound();
       });
 
-      // Inicia áudio automaticamente (ou no 1º clique caso a política de autoplay do browser bloqueie)
       startSound();
       document.addEventListener("click", () => {
         if (!isAudioPlaying) startSound();
       }, { once: true });
 
-      // Botões de Compartilhamento
+      // Compartilhamento
       const copyBtn = document.getElementById("copy-link-btn");
       const copyText = document.getElementById("copy-text");
       const copyIcon = document.getElementById("copy-icon");
