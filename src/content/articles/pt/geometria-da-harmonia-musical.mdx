@@ -9,6 +9,8 @@ featured: true
 ---
 import Callout from '../../../components/mdx/Callout.astro';
 
+import ScaleFormulaInteractive from '../../../components/islands/ScaleFormulaInteractive';
+
 Para muitos, o estudo da teoria musical parece uma colcha de retalhos de regras arbitrárias e decoreba de cifras. No entanto, por trás de toda convenção ocidental existe uma engrenagem matemática e física precisa.
 
 Quando enxergamos o instrumento através da sua **geometria espacial** e tratamos as escalas como **algoritmos lineares**, a necessidade de memorização cega desaparece: tudo passa a ser deduzido a partir de princípios fundamentais.
@@ -71,15 +73,9 @@ Os acidentes sustenido (**♯**, avança 1 casa / aumenta meio tom) e bemol (**�
 
 ### A Fórmula Aplicada a Todas as 7 Notas Naturais
 
-| Tônica | Passos Intervalares (T - T - S - T - T - T - S) | Notas Geradas | Acidentes |
-| :---: | :--- | :--- | :---: |
-| **C** | `C (+T) D (+T) E (+S) F (+T) G (+T) A (+T) B (+S) C` | **C – D – E – F – G – A – B** | Nenhum |
-| **G** | `G (+T) A (+T) B (+S) C (+T) D (+T) E (+T) F♯ (+S) G` | **G – A – B – C – D – E – F♯** | 1♯ (F♯) |
-| **D** | `D (+T) E (+T) F♯ (+S) G (+T) A (+T) B (+T) C♯ (+S) D` | **D – E – F♯ – G – A – B – C♯** | 2♯ (F♯, C♯) |
-| **A** | `A (+T) B (+T) C♯ (+S) D (+T) E (+T) F♯ (+T) G♯ (+S) A` | **A – B – C♯ – D – E – F♯ – G♯** | 3♯ (F♯, C♯, G♯) |
-| **E** | `E (+T) F♯ (+T) G♯ (+S) A (+T) B (+T) C♯ (+T) D♯ (+S) E` | **E – F♯ – G♯ – A – B – C♯ – D♯** | 4♯ (F♯, C♯, G♯, D♯) |
-| **B** | `B (+T) C♯ (+T) D♯ (+S) E (+T) F♯ (+T) G♯ (+T) A♯ (+S) B` | **B – C♯ – D♯ – E – F♯ – G♯ – A♯** | 5♯ (F♯, C♯, G♯, D♯, A♯) |
-| **F** | `F (+T) G (+T) A (+S) B♭ (+T) C (+T) D (+T) E (+S) F` | **F – G – A – B♭ – C – D – E** | 1♭ (B♭) |
+Utilize o simulador interativo abaixo para deduzir a fórmula em cada uma das 7 notas naturais, inspecionar a geração dos acidentes e ouvir a sonoridade de cada grau em tempo real:
+
+<ScaleFormulaInteractive client:visible />
 
 ### O Efeito Dominó dos Sustenidos (Ciclo de Quintas)
 
