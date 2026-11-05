@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BeachCountdown from '../../components/BeachCountdown.astro';
+
+const lang = 'pt';
+---
+
+<BaseLayout
+  title="Partiu Parnaíba · Contagem Regressiva"
+  description="Contagem regressiva oficial para a viagem a Parnaíba - PI. Tá perto de escutar Ser Tão..."
+  lang={lang}
+>
+  <div class="py-4 sm:py-6 min-w-0 max-w-full">
+    
+    <!-- Link sutil de retorno -->
+    <div class="mb-4">
+      <a
+        href="/pt"
+        class="inline-flex items-center gap-1.5 text-xs text-base-content/60 hover:text-primary transition-colors font-mono"
+      >
+        <span>←</span>
+        <span>Voltar ao início</span>
+      </a>
+    </div>
+
+    <!-- Título de Contexto -->
+    <div class="text-center max-w-xl mx-auto mb-6">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-xs font-mono mb-2">
+        <span>🏖️ Especial Férias</span>
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-base-content">
+        Operação Pé na Areia
+      </h1>
+      <p class="mt-1 text-xs sm:text-sm text-base-content/70">
+        Acompanhe em tempo real os segundos que faltam para o litoral piauiense.
+      </p>
+    </div>
+
+    <!-- Componente do Contador -->
+    <BeachCountdown />
+
+    <!-- Ações de Compartilhamento -->
+    <div class="max-w-lg mx-auto mt-6 p-4 rounded-2xl bg-base-200/50 border border-base-content/10 text-center flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="text-left text-xs">
+        <span class="font-bold text-base-content block">Vai viajar junto?</span>
+        <span class="text-base-content/60">Compartilhe o contador com a turma!</span>
+      </div>
+      
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <button
+          id="copy-link-btn"
+          type="button"
+          class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-base-100 hover:bg-base-200 border border-base-content/20 text-xs font-semibold text-base-content transition-all cursor-pointer shadow-xs active:scale-95"
+        >
+          <span id="copy-icon">📋</span>
+          <span id="copy-text">Copiar Link</span>
+        </button>
+
+        <a
+          id="whatsapp-share-btn"
+          href="https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20https://gonzatools.com.br/pt/partiu-parnaiba"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-all cursor-pointer shadow-xs active:scale-95"
+        >
+          <span>💬</span>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<script>
+  function setupShareButton() {
+    const btn = document.getElementById('copy-link-btn');
+    const copyText = document.getElementById('copy-text');
+    const copyIcon = document.getElementById('copy-icon');
+    const whatsappBtn = document.getElementById('whatsapp-share-btn') as HTMLAnchorElement | null;
+
+    if (whatsappBtn && typeof window !== 'undefined') {
+      whatsappBtn.href = `https://api.whatsapp.com/send?text=Partiu%20Parna%C3%ADba!%20Veja%20a%20contagem%20regressiva%20em%20tempo%20real:%20${encodeURIComponent(window.location.href)}`;
+    }
+
+    btn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        if (copyText) copyText.textContent = 'Copiado!';
+        if (copyIcon) copyIcon.textContent = '✅';
+        setTimeout(() => {
+          if (copyText) copyText.textContent = 'Copiar Link';
+          if (copyIcon) copyIcon.textContent = '📋';
+        }, 2000);
+      } catch (_) {
+        // Fallback
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupShareButton);
+</script>

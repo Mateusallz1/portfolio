@@ -1,0 +1,311 @@
+---
+// Componente de Contagem Regressiva - Partiu Parnaíba
+---
+
+<div class="w-full max-w-lg mx-auto rounded-3xl border border-amber-300/40 dark:border-cyan-500/30 bg-gradient-to-b from-sky-400/10 via-amber-400/5 to-cyan-500/15 shadow-2xl relative overflow-hidden backdrop-blur-md my-4">
+  
+  <!-- Efeitos de iluminação costeira de fundo -->
+  <div class="absolute -top-12 -right-12 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="p-4 sm:p-7 pb-2 relative">
+    
+    <!-- Barra Superior: Relógio Teresina & Botão Som -->
+    <div class="flex items-center justify-between gap-2 mb-4">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-base-100/80 dark:bg-black/50 border border-base-content/15 shadow-xs text-xs shrink-0">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-base-content/70 font-medium">Teresina:</span>
+        <span id="parnaiba-clock" class="font-mono font-bold tabular-nums text-cyan-600 dark:text-cyan-300">--:--:--</span>
+      </div>
+
+      <button id="parnaiba-audio-toggle" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-bold text-cyan-800 dark:text-cyan-200 transition-all cursor-pointer active:scale-95 shrink-0 whitespace-nowrap ring-2 ring-cyan-500/40">
+        <span id="parnaiba-audio-icon">🔊</span>
+        <span id="parnaiba-audio-label">Som Ligado</span>
+      </button>
+    </div>
+
+    <!-- Cabeçalho -->
+    <div class="mb-5">
+      <div class="flex items-center gap-1.5 text-xs font-black tracking-wider uppercase text-amber-600 dark:text-amber-400">
+        <span class="palm-sway inline-block text-sm">🌴</span>
+        <span>É DE MANHÃÃÃ</span>
+      </div>
+      <div class="flex flex-wrap items-baseline justify-between gap-2 mt-0.5">
+        <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-base-content">
+          Parnaíba
+        </h2>
+        <span class="text-xs font-semibold text-cyan-700 dark:text-cyan-300 bg-cyan-500/15 px-2.5 py-1 rounded-md border border-cyan-500/25 whitespace-nowrap">
+          27 Nov • 08:00
+        </span>
+      </div>
+      <p class="text-xs sm:text-sm text-base-content/70 mt-1 leading-snug">
+        Tá perto de escutar Ser Tão...
+      </p>
+    </div>
+
+    <!-- Grid de 4 Cards: Dias, Horas, Min, Seg -->
+    <div class="grid grid-cols-4 gap-2 sm:gap-3 mb-5">
+      
+      <!-- Dias -->
+      <div class="px-1 py-2.5 sm:p-3.5 rounded-2xl bg-base-100/70 dark:bg-stone-900/60 border border-amber-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden">
+        <span class="text-xs text-amber-500 select-none">☀️</span>
+        <div id="parnaiba-days" class="text-xl sm:text-3xl md:text-4xl font-black text-amber-600 dark:text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+          00
+        </div>
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-base-content/65 block mt-0.5">
+          Dias
+        </span>
+      </div>
+
+      <!-- Horas -->
+      <div class="px-1 py-2.5 sm:p-3.5 rounded-2xl bg-base-100/70 dark:bg-stone-900/60 border border-orange-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden">
+        <span class="text-xs text-orange-500 select-none">🥥</span>
+        <div id="parnaiba-hours" class="text-xl sm:text-3xl md:text-4xl font-black text-orange-600 dark:text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+          00
+        </div>
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-base-content/65 block mt-0.5">
+          Horas
+        </span>
+      </div>
+
+      <!-- Min -->
+      <div class="px-1 py-2.5 sm:p-3.5 rounded-2xl bg-base-100/70 dark:bg-stone-900/60 border border-cyan-400/40 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden">
+        <span class="text-xs text-cyan-500 select-none">🏄‍♂️</span>
+        <div id="parnaiba-minutes" class="text-xl sm:text-3xl md:text-4xl font-black text-cyan-600 dark:text-cyan-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+          00
+        </div>
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-base-content/65 block mt-0.5">
+          Min
+        </span>
+      </div>
+
+      <!-- Seg -->
+      <div class="px-1 py-2.5 sm:p-3.5 rounded-2xl bg-base-100/70 dark:bg-stone-900/60 border border-teal-400/50 text-center shadow-xs flex flex-col items-center justify-center min-w-0 overflow-hidden">
+        <span class="text-xs text-teal-500 select-none">🌊</span>
+        <div id="parnaiba-seconds" class="text-xl sm:text-3xl md:text-4xl font-black text-teal-600 dark:text-teal-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+          00
+        </div>
+        <span class="text-[10px] sm:text-xs font-bold uppercase text-base-content/65 block mt-0.5">
+          Seg
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Barra de Progresso do Mês -->
+    <div class="p-3 sm:p-3.5 rounded-2xl bg-base-100/50 dark:bg-black/30 border border-base-content/10 mb-2">
+      <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-base-content/70 mb-1.5">
+        <span>Início de Novembro</span>
+        <span id="parnaiba-pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
+        <span>Partida (27/11) 🧳</span>
+      </div>
+      <div class="w-full h-2 rounded-full bg-base-200 overflow-hidden border border-base-content/10">
+        <div id="parnaiba-progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-500 rounded-full transition-all duration-700" style="width: 0%"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Ondas Marítimas Animadas na Base -->
+  <div class="relative w-full h-12 overflow-hidden pointer-events-none select-none">
+    <div class="absolute bottom-0 left-0 w-[200%] h-10 wave-anim-2 opacity-35 text-cyan-600 dark:text-cyan-800">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+        <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
+      </svg>
+    </div>
+    <div class="absolute bottom-0 left-0 w-[200%] h-8 wave-anim-1 opacity-75 text-cyan-400 dark:text-cyan-600">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
+        <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
+      </svg>
+    </div>
+    <div class="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 border-t border-amber-300/50"></div>
+  </div>
+
+</div>
+
+<style>
+  @keyframes wave-smooth-1 {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-25%); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes wave-smooth-2 {
+    0% { transform: translateX(-25%); }
+    50% { transform: translateX(0); }
+    100% { transform: translateX(-25%); }
+  }
+  @keyframes palm-sway-anim {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(3deg); }
+  }
+  .wave-anim-1 {
+    animation: wave-smooth-1 9s ease-in-out infinite;
+  }
+  .wave-anim-2 {
+    animation: wave-smooth-2 13s ease-in-out infinite;
+  }
+  .palm-sway {
+    animation: palm-sway-anim 4.5s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  let timerInterval: ReturnType<typeof setInterval> | null = null;
+  let audioCtx: AudioContext | null = null;
+  let isAudioPlaying = false;
+
+  function initParnaibaWidget() {
+    // Alvo: 27 de Novembro de 2026 às 08:00 (Fuso de Teresina / America/Fortaleza UTC-3)
+    const target = new Date("2026-11-27T08:00:00-03:00");
+    const monthStart = new Date("2026-11-01T00:00:00-03:00");
+
+    const elClock = document.getElementById("parnaiba-clock");
+    const elDays = document.getElementById("parnaiba-days");
+    const elHours = document.getElementById("parnaiba-hours");
+    const elMinutes = document.getElementById("parnaiba-minutes");
+    const elSeconds = document.getElementById("parnaiba-seconds");
+    const elPctBadge = document.getElementById("parnaiba-pct-badge");
+    const elProgressFill = document.getElementById("parnaiba-progress-fill");
+
+    const btnAudio = document.getElementById("parnaiba-audio-toggle");
+    const iconAudio = document.getElementById("parnaiba-audio-icon");
+    const labelAudio = document.getElementById("parnaiba-audio-label");
+
+    if (!elClock || !elDays) return;
+
+    function getTeresinaTime() {
+      return new Intl.DateTimeFormat('pt-BR', {
+        timeZone: 'America/Fortaleza',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).format(new Date());
+    }
+
+    function update() {
+      const now = new Date();
+      if (elClock) elClock.textContent = getTeresinaTime();
+
+      const diff = target.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        if (elDays) elDays.textContent = "00";
+        if (elHours) elHours.textContent = "00";
+        if (elMinutes) elMinutes.textContent = "00";
+        if (elSeconds) elSeconds.textContent = "00";
+        if (elPctBadge) elPctBadge.textContent = "100%";
+        if (elProgressFill) elProgressFill.style.width = "100%";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      const pad = (n: number) => String(n).padStart(2, '0');
+      if (elDays) elDays.textContent = pad(days);
+      if (elHours) elHours.textContent = pad(hours);
+      if (elMinutes) elMinutes.textContent = pad(minutes);
+      if (elSeconds) elSeconds.textContent = pad(seconds);
+
+      const totalSpan = target.getTime() - monthStart.getTime();
+      const elapsed = now.getTime() - monthStart.getTime();
+      const pct = Math.min(100, Math.max(0, Math.round((elapsed / totalSpan) * 100)));
+      if (elPctBadge) elPctBadge.textContent = `${pct}%`;
+      if (elProgressFill) elProgressFill.style.width = `${pct}%`;
+    }
+
+    if (timerInterval) clearInterval(timerInterval);
+    update();
+    timerInterval = setInterval(update, 1000);
+
+    // Gerador Procedural de Ondas Marítimas (Web Audio API)
+    function startSound() {
+      if (isAudioPlaying) return;
+      try {
+        const AudioCtxClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        if (!audioCtx) audioCtx = new AudioCtxClass();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const bufferLen = audioCtx.sampleRate * 4;
+        const buffer = audioCtx.createBuffer(1, bufferLen, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferLen; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+        const lfo = audioCtx.createOscillator();
+        lfo.frequency.setValueAtTime(0.14, audioCtx.currentTime);
+        const lfoGain = audioCtx.createGain();
+        lfoGain.gain.setValueAtTime(220, audioCtx.currentTime);
+        lfo.connect(filter.frequency);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start();
+        lfo.start();
+
+        isAudioPlaying = true;
+        if (iconAudio) iconAudio.textContent = "🔊";
+        if (labelAudio) labelAudio.textContent = "Som Ligado";
+        btnAudio?.classList.add("ring-2", "ring-cyan-500/50", "bg-cyan-500/20");
+      } catch (_) {}
+    }
+
+    function stopSound() {
+      if (audioCtx) {
+        audioCtx.close();
+        audioCtx = null;
+      }
+      isAudioPlaying = false;
+      if (iconAudio) iconAudio.textContent = "🔇";
+      if (labelAudio) labelAudio.textContent = "Som Mudo";
+      btnAudio?.classList.remove("ring-2", "ring-cyan-500/50", "bg-cyan-500/20");
+    }
+
+    btnAudio?.addEventListener("click", () => {
+      if (isAudioPlaying) stopSound();
+      else startSound();
+    });
+
+    // Auto-inicia o som ao carregar ou no primeiro clique
+    startSound();
+    const handleFirstInteraction = () => {
+      if (!isAudioPlaying) startSound();
+    };
+    document.addEventListener("click", handleFirstInteraction, { once: true });
+  }
+
+  // Compatibilidade com Astro ClientRouter / ViewTransitions
+  document.addEventListener("astro:page-load", initParnaibaWidget);
+  document.addEventListener("astro:before-swap", () => {
+    if (timerInterval) clearInterval(timerInterval);
+    if (audioCtx) {
+      audioCtx.close();
+      audioCtx = null;
+      isAudioPlaying = false;
+    }
+  });
+</script>
