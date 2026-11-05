@@ -160,8 +160,10 @@ import '../../styles/global.css';
     <!-- Barra de Progresso do Mês -->
     <div class="w-full max-w-xl p-2.5 sm:p-3 rounded-2xl bg-white/60 dark:bg-black/30 border border-slate-200/40 dark:border-white/10 backdrop-blur-sm shadow-xs">
       <div class="flex items-center justify-between text-[10px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-        <span>Início de Novembro</span>
-        <span id="pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
+        <span class="flex items-center gap-1">
+          <span>Progresso:</span>
+          <span id="pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
+        </span>
         <span>Partida (27/11) 🧳</span>
       </div>
       <div class="w-full h-1.5 sm:h-2 rounded-full bg-slate-200 dark:bg-black/40 overflow-hidden border border-slate-200/40 dark:border-white/10">
