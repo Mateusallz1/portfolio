@@ -3,7 +3,7 @@ title: "Distributed Task & REST API Platform"
 description: "High-concurrency backend engine built with Django, PostgreSQL, and uv for processing asynchronous real-time events."
 lang: "en"
 role: "Backend Software Engineer"
-order: 1
+order: 2
 featured: true
 techs: ["Python", "Django REST Framework", "uv", "PostgreSQL", "Redis", "TypeScript"]
 metrics: [

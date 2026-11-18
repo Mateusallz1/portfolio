@@ -3,7 +3,7 @@ title: "Plataforma de Gestão e Automação de Processos Corporativos"
 description: "Sistema web sob medida para centralização de fluxos de trabalho, faturamento e integração contínua de dados entre departamentos."
 lang: "pt"
 role: "Lead Backend & Fullstack Engineer"
-order: 1
+order: 2
 featured: true
 techs: ["Python", "Django", "uv", "TypeScript", "PostgreSQL", "Docker"]
 metrics: [
