@@ -12,7 +12,6 @@ metrics: [
   "Immutable transactional Audit Trail logging all document requests, downloads, and events"
 ]
 githubUrl: "https://github.com/Mateusallz1/Documentei"
-liveUrl: "https://slic.consultcontabil.com"
 ---
 
 ### Situation

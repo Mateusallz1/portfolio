@@ -12,7 +12,6 @@ metrics: [
   "Trilha de auditoria imutável (Audit Trail) com registro transacional de requisições e downloads"
 ]
 githubUrl: "https://github.com/Mateusallz1/Documentei"
-liveUrl: "https://slic.consultcontabil.com"
 ---
 
 ### Situação (Situation)
