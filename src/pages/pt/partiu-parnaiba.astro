@@ -145,13 +145,13 @@ import '../../styles/global.css';
     <button
       id="audio-toggle"
       type="button"
-      class="btn btn-sm min-h-[44px] px-4 rounded-full border border-cyan-300/40 bg-slate-950/65 hover:bg-cyan-950/80 active:scale-95 text-cyan-200 font-semibold shadow-xl shadow-black/40 flex items-center gap-2 backdrop-blur-xl transition-colors cursor-pointer"
-      aria-label="Ativar ou desativar som ambiente do mar"
+      class="btn btn-sm min-h-[44px] px-3.5 sm:px-4 rounded-full border border-cyan-400/40 bg-slate-950/65 hover:bg-cyan-950/80 active:scale-95 text-cyan-200 font-semibold shadow-xl shadow-black/40 flex items-center gap-2 backdrop-blur-xl transition-all cursor-pointer ring-1 ring-cyan-400/30"
+      aria-label="Ativar som do mar de Parnaíba"
     >
       <svg id="audio-icon-svg" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        <path id="audio-icon-path" stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
       </svg>
-      <span id="audio-label" class="text-xs font-bold text-cyan-100">Som Ligado</span>
+      <span id="audio-label" class="text-xs font-bold text-cyan-100">Ouvir o Mar 🌊</span>
     </button>
   </header>
 
@@ -383,11 +383,16 @@ import '../../styles/global.css';
     updateTimer();
     setInterval(updateTimer, 1000);
 
-    // Sintetizador de Ondas do Mar (Web Audio API)
+    // Sintetizador de Ondas do Mar (Web Audio API com Fade-In e Autoplay Respeitoso)
     let audioCtx: AudioContext | null = null;
+    let masterGain: GainNode | null = null;
     let isPlaying = false;
     const btnAudio = document.getElementById("audio-toggle");
     const labelAudio = document.getElementById("audio-label");
+    const iconAudioPath = document.getElementById("audio-icon-path");
+
+    const iconWavePlaying = "M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z";
+    const iconWaveMuted = "M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z";
 
     function startSound() {
       if (isPlaying) return;
@@ -419,32 +424,46 @@ import '../../styles/global.css';
         lfoGain.gain.setValueAtTime(220, audioCtx.currentTime);
         lfo.connect(filter.frequency);
 
-        const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
+        masterGain = audioCtx.createGain();
+        // Fade in oceânico suave de 1 segundo
+        masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        masterGain.gain.exponentialRampToValueAtTime(0.14, audioCtx.currentTime + 1.2);
 
         noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(audioCtx.destination);
+        filter.connect(masterGain);
+        masterGain.connect(audioCtx.destination);
 
         noise.start();
         lfo.start();
 
         isPlaying = true;
         if (labelAudio) labelAudio.textContent = "Som Ligado";
-        btnAudio?.classList.add("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
-        btnAudio?.classList.remove("bg-slate-950/65");
+        if (iconAudioPath) iconAudioPath.setAttribute("d", iconWavePlaying);
+        btnAudio?.classList.add("ring-2", "ring-cyan-400/70", "bg-cyan-950/90", "border-cyan-300");
+        btnAudio?.classList.remove("bg-slate-950/65", "ring-1", "ring-cyan-400/30");
       } catch (_) {}
     }
 
     function stopSound() {
-      if (audioCtx) {
-        audioCtx.close();
-        audioCtx = null;
+      if (!isPlaying || !audioCtx) return;
+      if (masterGain) {
+        try {
+          masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+          masterGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        } catch (_) {}
       }
+      setTimeout(() => {
+        if (audioCtx && !isPlaying) {
+          audioCtx.close();
+          audioCtx = null;
+        }
+      }, 450);
+
       isPlaying = false;
-      if (labelAudio) labelAudio.textContent = "Som Mudo";
-      btnAudio?.classList.remove("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
-      btnAudio?.classList.add("bg-slate-950/65");
+      if (labelAudio) labelAudio.textContent = "Ouvir o Mar 🌊";
+      if (iconAudioPath) iconAudioPath.setAttribute("d", iconWaveMuted);
+      btnAudio?.classList.remove("ring-2", "ring-cyan-400/70", "bg-cyan-950/90", "border-cyan-300");
+      btnAudio?.classList.add("bg-slate-950/65", "ring-1", "ring-cyan-400/30");
     }
 
     btnAudio?.addEventListener("click", () => {
@@ -452,9 +471,11 @@ import '../../styles/global.css';
       else startSound();
     });
 
-    window.addEventListener("DOMContentLoaded", startSound);
-    document.addEventListener("click", () => {
-      if (!isPlaying) startSound();
+    // Se o usuário tocar ou clicar na tela pela primeira vez, também ativa o som de forma fluida
+    document.addEventListener("click", (e) => {
+      if (!isPlaying && e.target !== btnAudio && !btnAudio?.contains(e.target as Node)) {
+        startSound();
+      }
     }, { once: true });
   </script>
 </body>
