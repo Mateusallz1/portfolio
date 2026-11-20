@@ -376,9 +376,10 @@ import '../../styles/global.css';
     updateTimer();
     setInterval(updateTimer, 1000);
 
-    // Sintetizador de Ondas do Mar (Web Audio API com Fade-In e Autoplay Respeitoso)
+    // Sintetizador de Ondas do Mar (Web Audio API + iOS Audio Session Unlock)
     let audioCtx: AudioContext | null = null;
     let masterGain: GainNode | null = null;
+    let silentAudioElement: HTMLAudioElement | null = null;
     let isPlaying = false;
     const btnAudio = document.getElementById("audio-toggle");
     const labelAudio = document.getElementById("audio-label");
@@ -387,15 +388,28 @@ import '../../styles/global.css';
     const iconWavePlaying = "M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z";
     const iconWaveMuted = "M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z";
 
+    // Destrava a sessão de áudio do iOS Safari promovendo de 'Ambient' para 'Playback'
+    function unlockIOSAudio() {
+      if (!silentAudioElement) {
+        // Micro-buffer WAV silencioso em base64 (força o iOS a ativar a rota de reprodução de mídia)
+        silentAudioElement = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA");
+        silentAudioElement.loop = true;
+      }
+      silentAudioElement.play().catch(() => {});
+    }
+
     function startSound() {
       if (isPlaying) return;
       try {
+        unlockIOSAudio();
+
         const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         if (!audioCtx) audioCtx = new AudioContextClass();
         if (audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
 
+        // Buffer de ruído oceânico
         const bufferLen = audioCtx.sampleRate * 4;
         const buffer = audioCtx.createBuffer(1, bufferLen, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
@@ -407,20 +421,23 @@ import '../../styles/global.css';
         noise.buffer = buffer;
         noise.loop = true;
 
+        // Filtro passa-baixa otimizado para speakers de smartphones (frequências audíveis em celulares)
         const filter = audioCtx.createBiquadFilter();
         filter.type = "lowpass";
-        filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+        filter.frequency.setValueAtTime(460, audioCtx.currentTime);
+        filter.Q.setValueAtTime(2.2, audioCtx.currentTime); // Ressonância natural de onda marinha
 
+        // LFO mais expressivo simulando o vai-e-vem da maré
         const lfo = audioCtx.createOscillator();
         lfo.frequency.setValueAtTime(0.14, audioCtx.currentTime);
         const lfoGain = audioCtx.createGain();
-        lfoGain.gain.setValueAtTime(220, audioCtx.currentTime);
+        lfoGain.gain.setValueAtTime(360, audioCtx.currentTime); // modulação dinâmica de ~100Hz a ~820Hz
         lfo.connect(filter.frequency);
 
+        // Ganho master encorpado e potente (aumentado de 0.14 para 0.45 para excelente volume no celular)
         masterGain = audioCtx.createGain();
-        // Fade in oceânico suave de 1 segundo
         masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        masterGain.gain.exponentialRampToValueAtTime(0.14, audioCtx.currentTime + 1.2);
+        masterGain.gain.exponentialRampToValueAtTime(0.45, audioCtx.currentTime + 1.2);
 
         noise.connect(filter);
         filter.connect(masterGain);
@@ -439,6 +456,9 @@ import '../../styles/global.css';
 
     function stopSound() {
       if (!isPlaying || !audioCtx) return;
+      if (silentAudioElement) {
+        silentAudioElement.pause();
+      }
       if (masterGain) {
         try {
           masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
@@ -464,8 +484,20 @@ import '../../styles/global.css';
       else startSound();
     });
 
-    // Se o usuário tocar ou clicar na tela pela primeira vez, também ativa o som de forma fluida
+    // Suporte explícito a toques rápidos em iOS
+    btnAudio?.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      if (isPlaying) stopSound();
+      else startSound();
+    }, { passive: false });
+
+    // Primeiro toque em qualquer parte da tela também ativa o som
     document.addEventListener("click", (e) => {
+      if (!isPlaying && e.target !== btnAudio && !btnAudio?.contains(e.target as Node)) {
+        startSound();
+      }
+    }, { once: true });
+    document.addEventListener("touchend", (e) => {
       if (!isPlaying && e.target !== btnAudio && !btnAudio?.contains(e.target as Node)) {
         startSound();
       }
