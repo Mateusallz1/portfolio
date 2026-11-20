@@ -1,13 +1,14 @@
 ---
-// Página Partiu Parnaíba - Tela Cheia Travada Sem Scroll
+// Página Partiu Parnaíba - Design Mobile-First Imersivo com Glassmorphism & Céu Dinâmico
 import '../../styles/global.css';
 ---
 
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full w-full overflow-hidden" data-theme="dark">
+<html lang="pt-BR" class="h-full w-full overflow-hidden">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#071526">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Partiu Parnaíba - Contagem Regressiva</title>
 
@@ -20,19 +21,6 @@ import '../../styles/global.css';
   >
 
   <style>
-    html, body {
-      height: 100%;
-      height: 100dvh;
-      max-height: 100dvh;
-      width: 100%;
-      overflow: hidden !important;
-      overscroll-behavior: none;
-      touch-action: manipulation;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    }
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
     @keyframes wave-smooth-1 {
       0% { transform: translateX(0); }
       50% { transform: translateX(-25%); }
@@ -44,148 +32,194 @@ import '../../styles/global.css';
       100% { transform: translateX(-25%); }
     }
     @keyframes palm-wind {
-      0%, 100% { transform: rotate(-2deg); }
-      50% { transform: rotate(3deg); }
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(4deg); }
     }
-    .wave-1 {
-      animation: wave-smooth-1 9s ease-in-out infinite;
+    @keyframes sun-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1; }
     }
-    .wave-2 {
-      animation: wave-smooth-2 13s ease-in-out infinite;
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-3px); }
     }
-    .palm-anim {
-      animation: palm-wind 4.5s ease-in-out infinite;
+
+    .anim-wave-1 {
+      animation: wave-smooth-1 10s ease-in-out infinite;
+    }
+    .anim-wave-2 {
+      animation: wave-smooth-2 15s ease-in-out infinite;
+    }
+    .anim-palm {
+      animation: palm-wind 4s ease-in-out infinite;
       transform-origin: bottom center;
     }
-    .tabular-nums {
-      font-variant-numeric: tabular-nums;
+    .anim-sun {
+      animation: sun-pulse 6s ease-in-out infinite;
+    }
+    .anim-float {
+      animation: float-gentle 5s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-wave-1, .anim-wave-2, .anim-palm, .anim-sun, .anim-float {
+        animation: none !important;
+      }
     }
   </style>
 </head>
-<body class="h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-400/15 via-amber-400/10 to-cyan-500/20 text-slate-800 dark:text-slate-100 select-none m-0 p-0 box-border">
+<body id="dynamic-sky" class="h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-sky-950 to-cyan-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none">
   
-  <!-- Background Glows Isolados (Garante 0% de expansão de tela) -->
+  <!-- Iluminação e Atmosfera Costeira Dinâmica -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-    <div class="absolute -top-16 -right-16 w-72 h-72 sm:w-96 sm:h-96 bg-amber-400/20 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-16 -left-16 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-400/20 rounded-full blur-3xl"></div>
+    <!-- Sol / Lua Dinâmico -->
+    <div id="sky-orb" class="absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-amber-400/25 blur-3xl transition-colors duration-1000"></div>
+    <!-- Brisa de água no horizonte -->
+    <div class="absolute top-1/4 -left-20 w-72 h-72 rounded-full bg-cyan-500/15 blur-3xl"></div>
+    <div class="absolute top-1/2 -right-20 w-72 h-72 rounded-full bg-amber-500/15 blur-3xl"></div>
   </div>
 
-  <!-- 1. Topo: Relógio Teresina + Som Ligado -->
-  <header class="w-full max-w-5xl mx-auto px-4 sm:px-8 pt-3 sm:pt-5 pb-1 flex items-center justify-between gap-3 relative z-20 shrink-0">
-    <!-- Relógio Oficial de Teresina -->
-    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-black/50 border border-slate-200/40 dark:border-white/10 shadow-xs text-xs sm:text-sm backdrop-blur-md">
-      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-      <span class="text-slate-600 dark:text-slate-400 font-medium">Teresina:</span>
-      <span id="clock" class="font-mono font-bold tabular-nums text-cyan-700 dark:text-cyan-300">--:--:--</span>
+  <!-- 1. TOPO: Safe Area + Relógio de Teresina + Botão Som Touch-Friendly (Mínimo 44px) -->
+  <header class="w-full max-w-md mx-auto px-4 pt-[max(1rem,env(safe-area-inset-top,1rem))] pb-2 flex items-center justify-between gap-3 relative z-20 shrink-0">
+    <!-- Relógio Teresina com Glassmorphism -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium text-slate-200 bg-slate-900/65 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/30">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/50"></span>
+      <span class="text-slate-300 font-semibold">Teresina:</span>
+      <span id="clock" class="font-mono font-bold tabular-nums text-cyan-300 tracking-wide text-xs sm:text-sm">--:--:--</span>
     </div>
 
-    <!-- Botão Som do Mar Ligado -->
-    <button id="audio-toggle" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs sm:text-sm font-bold text-cyan-800 dark:text-cyan-200 transition-all cursor-pointer active:scale-95 whitespace-nowrap ring-2 ring-cyan-500/40 backdrop-blur-md">
-      <span id="audio-icon">🔊</span>
-      <span id="audio-label">Som Ligado</span>
+    <!-- Botão Som do Mar (Touch target WCAG >= 44px) -->
+    <button
+      id="audio-toggle"
+      type="button"
+      class="btn btn-sm min-h-[44px] px-4 rounded-full border border-cyan-400/40 bg-cyan-950/75 hover:bg-cyan-900/85 active:scale-95 text-cyan-200 font-semibold shadow-lg shadow-cyan-950/40 flex items-center gap-2 backdrop-blur-md transition-colors cursor-pointer"
+      aria-label="Ativar ou desativar som ambiente do mar"
+    >
+      <svg id="audio-icon-svg" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+      </svg>
+      <span id="audio-label" class="text-xs font-bold text-cyan-100">Som Ligado</span>
     </button>
   </header>
 
-  <!-- 2. Centro: Contagem Perfeitamente Ajustada sem Scroll -->
-  <main class="w-full max-w-4xl mx-auto px-4 sm:px-8 my-auto py-2 sm:py-4 flex flex-col items-center justify-center text-center relative z-20 shrink min-h-0">
+  <!-- 2. CENTRO: Hero Mobile com espaçamento generoso e equilibrado -->
+  <main class="w-full max-w-md mx-auto px-4 my-auto py-4 flex flex-col items-center justify-center text-center relative z-20 shrink min-h-0">
     
-    <!-- Cabeçalho -->
-    <div class="mb-3 sm:mb-5">
-      <div class="flex items-center justify-center gap-1.5 text-xs sm:text-sm font-black tracking-wider uppercase text-amber-700 dark:text-amber-400 mb-0.5">
-        <span class="palm-anim inline-block text-base sm:text-lg">🌴</span>
-        <span>É DE MANHÃÃÃ</span>
+    <!-- Cabeçalho & Frase de Impacto -->
+    <div class="mb-4 sm:mb-6">
+      <!-- Tag de status tropical flutuante -->
+      <div id="sky-greeting" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-[11px] sm:text-xs font-black tracking-widest uppercase text-amber-300 mb-2 anim-float">
+        <span class="anim-palm text-sm inline-block">🌴</span>
+        <span id="greeting-text">É DE MANHÃÃÃ</span>
       </div>
-      <div class="flex flex-wrap items-baseline justify-center gap-2 sm:gap-3">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+
+      <!-- Título Principal com Gradiente Luminoso -->
+      <div class="flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-white via-amber-100 to-amber-300 bg-clip-text text-transparent drop-shadow-md leading-tight">
           Parnaíba
         </h1>
-        <span class="text-xs sm:text-sm font-semibold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-lg border border-cyan-500/25 whitespace-nowrap shadow-xs">
+        <span class="badge badge-sm badge-info font-bold px-2.5 py-2.5 rounded-lg border-cyan-400/40 bg-cyan-500/20 text-cyan-200 shadow-xs">
           27 Nov • 08:00
         </span>
       </div>
-      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-0.5 max-w-md mx-auto leading-snug">
-        Tá perto de escutar Ser Tão...
+
+      <p class="text-xs sm:text-sm text-slate-200 font-medium mt-1.5 leading-snug drop-shadow-xs max-w-xs mx-auto text-pretty">
+        Tá perto de escutar <span class="text-amber-300 font-bold">Ser Tão</span>...
       </p>
     </div>
 
-    <!-- 4 Cards da Contagem -->
-    <div class="w-full max-w-3xl grid grid-cols-4 gap-2 sm:gap-3.5 md:gap-5 mb-3 sm:mb-5">
+    <!-- 4 Cards da Contagem Regressiva Glassmorphism -->
+    <div class="w-full grid grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
       
       <!-- Dias -->
-      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-amber-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
-        <span class="text-xs sm:text-sm text-amber-600/80 dark:text-amber-400/80 select-none mb-0.5">☀️</span>
-        <div id="days" class="text-2xl sm:text-4xl md:text-5xl font-black text-amber-600 dark:text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-amber-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+        <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">☀️</span>
+        <div id="days" class="text-2xl sm:text-3xl md:text-4xl font-black text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-200/90 mt-1">
           Dias
         </span>
       </div>
 
       <!-- Horas -->
-      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-orange-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
-        <span class="text-xs sm:text-sm text-orange-600/80 dark:text-orange-400/80 select-none mb-0.5">🥥</span>
-        <div id="hours" class="text-2xl sm:text-4xl md:text-5xl font-black text-orange-600 dark:text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-orange-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+        <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🥥</span>
+        <div id="hours" class="text-2xl sm:text-3xl md:text-4xl font-black text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-orange-200/90 mt-1">
           Horas
         </span>
       </div>
 
-      <!-- Min -->
-      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-cyan-400/40 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
-        <span class="text-xs sm:text-sm text-cyan-600/80 dark:text-cyan-400/80 select-none mb-0.5">🏄‍♂️</span>
-        <div id="minutes" class="text-2xl sm:text-4xl md:text-5xl font-black text-cyan-600 dark:text-cyan-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <!-- Minutos -->
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-cyan-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+        <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🏄‍♂️</span>
+        <div id="minutes" class="text-2xl sm:text-3xl md:text-4xl font-black text-cyan-300 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-cyan-200/90 mt-1">
           Min
         </span>
       </div>
 
-      <!-- Seg -->
-      <div class="p-2 sm:p-4 md:p-5 rounded-2xl sm:rounded-3xl bg-white/75 dark:bg-stone-900/60 border border-teal-400/50 text-center shadow-md flex flex-col items-center justify-center min-w-0 overflow-hidden backdrop-blur-sm">
-        <span class="text-xs sm:text-sm text-teal-600/80 dark:text-teal-400/80 select-none mb-0.5">🌊</span>
-        <div id="seconds" class="text-2xl sm:text-4xl md:text-5xl font-black text-teal-600 dark:text-teal-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+      <!-- Segundos -->
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-teal-400/45 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+        <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🌊</span>
+        <div id="seconds" class="text-2xl sm:text-3xl md:text-4xl font-black text-teal-300 font-mono tabular-nums tracking-tight my-0.5 leading-none">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase text-slate-600 dark:text-slate-400 block mt-0.5 sm:mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-teal-200/90 mt-1">
           Seg
         </span>
       </div>
 
     </div>
 
-    <!-- Barra de Progresso do Mês -->
-    <div class="w-full max-w-xl p-2.5 sm:p-3 rounded-2xl bg-white/60 dark:bg-black/30 border border-slate-200/40 dark:border-white/10 backdrop-blur-sm shadow-xs">
-      <div class="flex items-center justify-between text-[10px] sm:text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-        <span class="flex items-center gap-1">
-          <span>Progresso:</span>
-          <span id="pct-badge" class="font-mono text-cyan-600 dark:text-cyan-400 font-bold">0%</span>
+    <!-- Barra de Progresso Glassmorphism -->
+    <div class="w-full p-3.5 rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/35">
+      <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-slate-300 mb-2">
+        <span class="flex items-center gap-1.5">
+          <span>Rumo à Praia:</span>
+          <span id="pct-badge" class="font-mono text-cyan-300 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-full border border-cyan-400/30">0%</span>
         </span>
-        <span>Partida (27/11) 🧳</span>
+        <span class="text-amber-200 font-semibold flex items-center gap-1">
+          <span>Partida (27/11)</span>
+          <span aria-hidden="true">🧳</span>
+        </span>
       </div>
-      <div class="w-full h-1.5 sm:h-2 rounded-full bg-slate-200 dark:bg-black/40 overflow-hidden border border-slate-200/40 dark:border-white/10">
-        <div id="progress-fill" class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-500 rounded-full transition-all duration-700" style="width: 0%"></div>
+      
+      <!-- Barra com gradiente marinho dourado -->
+      <div class="w-full h-2.5 rounded-full bg-slate-950/70 p-0.5 border border-white/10 overflow-hidden">
+        <div
+          id="progress-fill"
+          class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-400 rounded-full transition-[width] duration-700 shadow-sm shadow-cyan-400/40"
+          style="width: 0%"
+        ></div>
       </div>
     </div>
 
   </main>
 
-  <!-- 3. Rodapé: Ondas em Tela Cheia (100vw) com Areia Dourada -->
-  <footer class="relative w-full h-12 sm:h-16 md:h-18 overflow-hidden pointer-events-none select-none z-10 shrink-0">
-    <div class="absolute bottom-0 left-0 w-[200%] h-10 sm:h-14 wave-2 opacity-35 text-cyan-600 dark:text-cyan-800">
+  <!-- 3. RODAPÉ: Ondas em Camadas + Areia Dourada + Respeito ao Safe Area -->
+  <footer class="relative w-full h-16 sm:h-20 overflow-hidden pointer-events-none z-10 shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom,0.75rem))]">
+    <!-- Onda Traseira Lenta -->
+    <div class="absolute bottom-0 left-0 w-[200%] h-14 anim-wave-2 opacity-40 text-cyan-800">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
-        <path d="M0,0 C200,80 400,-20 600,40 C800,100 1000,20 1200,50 L1200,120 L0,120 Z"></path>
+        <path d="M0,10 C200,70 400,-10 600,45 C800,95 1000,15 1200,55 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-[200%] h-8 sm:h-11 wave-1 opacity-75 text-cyan-400 dark:text-cyan-600">
+    
+    <!-- Onda Dianteira Translúcida -->
+    <div class="absolute bottom-0 left-0 w-[200%] h-11 anim-wave-1 opacity-70 text-cyan-500">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
-        <path d="M0,30 C250,90 450,10 700,60 C950,110 1100,30 1200,70 L1200,120 L0,120 Z"></path>
+        <path d="M0,35 C240,85 460,15 700,65 C940,105 1100,25 1200,65 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
-    <div class="absolute bottom-0 left-0 w-full h-1.5 sm:h-2 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 border-t border-amber-300/50 shadow-md"></div>
+    
+    <!-- Linha de Espuma e Areia Dourada -->
+    <div class="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 border-t border-amber-200/70 shadow-md"></div>
   </footer>
 
   <script>
@@ -199,22 +233,56 @@ import '../../styles/global.css';
     const elSeconds = document.getElementById("seconds");
     const elPctBadge = document.getElementById("pct-badge");
     const elProgressFill = document.getElementById("progress-fill");
+    const elSky = document.getElementById("dynamic-sky");
+    const elSkyOrb = document.getElementById("sky-orb");
+    const elGreetingText = document.getElementById("greeting-text");
 
-    function getTeresinaTime() {
-      return new Intl.DateTimeFormat('pt-BR', {
+    // Sincronização do Céu com o Horário de Teresina/Parnaíba
+    function updateAtmosphere(hoursNow: number) {
+      if (!elSky || !elSkyOrb || !elGreetingText) return;
+
+      if (hoursNow >= 5 && hoursNow < 12) {
+        // Manhã Radiante: 05:00 - 11:59
+        elGreetingText.textContent = "É DE MANHÃÃÃ";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-900 via-cyan-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-amber-400/30 blur-3xl transition-colors duration-1000";
+      } else if (hoursNow >= 12 && hoursNow < 18) {
+        // Tarde / Pôr do Sol da Pedra do Sal: 12:00 - 17:59
+        elGreetingText.textContent = "TARDE PRAIANA";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-amber-950 via-rose-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-orange-500/35 blur-3xl transition-colors duration-1000";
+      } else {
+        // Noite Estrelada no Delta: 18:00 - 04:59
+        elGreetingText.textContent = "NOITE NO DELTA";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-cyan-300/20 blur-3xl transition-colors duration-1000";
+      }
+    }
+
+    function getTeresinaParts() {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('pt-BR', {
         timeZone: 'America/Fortaleza',
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
         hour12: false
-      }).format(new Date());
+      });
+      return {
+        formatted: formatter.format(now),
+        hours: parseInt(new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Fortaleza', hour: 'numeric', hour12: false }).format(now), 10)
+      };
     }
 
     function updateTimer() {
-      const now = new Date();
-      if (elClock) elClock.textContent = getTeresinaTime();
+      const teresina = getTeresinaParts();
+      if (elClock) elClock.textContent = teresina.formatted;
+      updateAtmosphere(teresina.hours);
 
+      const now = new Date();
       const diff = target.getTime() - now.getTime();
+
+      const pad = (n: number) => String(n).padStart(2, '0');
 
       if (diff <= 0) {
         if (elDays) elDays.textContent = "00";
@@ -232,7 +300,6 @@ import '../../styles/global.css';
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
 
-      const pad = (n: number) => String(n).padStart(2, '0');
       if (elDays) elDays.textContent = pad(days);
       if (elHours) elHours.textContent = pad(hours);
       if (elMinutes) elMinutes.textContent = pad(minutes);
@@ -248,11 +315,10 @@ import '../../styles/global.css';
     updateTimer();
     setInterval(updateTimer, 1000);
 
-    // Audio Waves Synthesizer
+    // Sintetizador de Ondas do Mar (Web Audio API)
     let audioCtx: AudioContext | null = null;
     let isPlaying = false;
     const btnAudio = document.getElementById("audio-toggle");
-    const iconAudio = document.getElementById("audio-icon");
     const labelAudio = document.getElementById("audio-label");
 
     function startSound() {
@@ -286,7 +352,7 @@ import '../../styles/global.css';
         lfo.connect(filter.frequency);
 
         const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.14, audioCtx.currentTime);
 
         noise.connect(filter);
         filter.connect(gain);
@@ -296,9 +362,9 @@ import '../../styles/global.css';
         lfo.start();
 
         isPlaying = true;
-        if (iconAudio) iconAudio.textContent = "🔊";
         if (labelAudio) labelAudio.textContent = "Som Ligado";
-        btnAudio?.classList.add("ring-2", "ring-cyan-500/50", "bg-cyan-500/20");
+        btnAudio?.classList.add("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
+        btnAudio?.classList.remove("bg-cyan-950/75");
       } catch (_) {}
     }
 
@@ -308,9 +374,9 @@ import '../../styles/global.css';
         audioCtx = null;
       }
       isPlaying = false;
-      if (iconAudio) iconAudio.textContent = "🔇";
       if (labelAudio) labelAudio.textContent = "Som Mudo";
-      btnAudio?.classList.remove("ring-2", "ring-cyan-500/50", "bg-cyan-500/20");
+      btnAudio?.classList.remove("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
+      btnAudio?.classList.add("bg-cyan-950/75");
     }
 
     btnAudio?.addEventListener("click", () => {

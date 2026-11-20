@@ -8,6 +8,9 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: {
+    enabled: false,
+  },
   site: 'https://gonzatools.com.br',
   integrations: [
     expressiveCode({
