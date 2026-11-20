@@ -1,5 +1,5 @@
 ---
-// Página Partiu Parnaíba - Design Mobile-First Imersivo com Glassmorphism & Céu Dinâmico
+// Página Partiu Parnaíba - Experiência Costeira Visual Imersiva (Céu, Sol, Mar e Dunas)
 import '../../styles/global.css';
 ---
 
@@ -8,7 +8,7 @@ import '../../styles/global.css';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#071526">
+  <meta name="theme-color" content="#0a2540">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Partiu Parnaíba - Contagem Regressiva</title>
 
@@ -21,6 +21,7 @@ import '../../styles/global.css';
   >
 
   <style>
+    /* Animações costeiras fluidas */
     @keyframes wave-smooth-1 {
       0% { transform: translateX(0); }
       50% { transform: translateX(-25%); }
@@ -33,57 +34,109 @@ import '../../styles/global.css';
     }
     @keyframes palm-wind {
       0%, 100% { transform: rotate(-3deg); }
-      50% { transform: rotate(4deg); }
+      50% { transform: rotate(5deg); }
     }
-    @keyframes sun-pulse {
-      0%, 100% { transform: scale(1); opacity: 0.85; }
-      50% { transform: scale(1.08); opacity: 1; }
+    @keyframes sun-glow-pulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.45)); }
+      50% { transform: scale(1.06); filter: drop-shadow(0 0 55px rgba(251, 191, 36, 0.7)); }
     }
-    @keyframes float-gentle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-3px); }
+    @keyframes cloud-drift-left {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-18px); }
+      100% { transform: translateX(0); }
+    }
+    @keyframes cloud-drift-right {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(22px); }
+      100% { transform: translateX(0); }
+    }
+    @keyframes bird-soar {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
     }
 
     .anim-wave-1 {
-      animation: wave-smooth-1 10s ease-in-out infinite;
+      animation: wave-smooth-1 9s ease-in-out infinite;
     }
     .anim-wave-2 {
-      animation: wave-smooth-2 15s ease-in-out infinite;
+      animation: wave-smooth-2 14s ease-in-out infinite;
     }
     .anim-palm {
       animation: palm-wind 4s ease-in-out infinite;
       transform-origin: bottom center;
     }
-    .anim-sun {
-      animation: sun-pulse 6s ease-in-out infinite;
+    .anim-sun-pulse {
+      animation: sun-glow-pulse 6s ease-in-out infinite;
     }
-    .anim-float {
-      animation: float-gentle 5s ease-in-out infinite;
+    .anim-cloud-1 {
+      animation: cloud-drift-left 16s ease-in-out infinite;
+    }
+    .anim-cloud-2 {
+      animation: cloud-drift-right 20s ease-in-out infinite;
+    }
+    .anim-bird {
+      animation: bird-soar 5s ease-in-out infinite;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .anim-wave-1, .anim-wave-2, .anim-palm, .anim-sun, .anim-float {
+      .anim-wave-1, .anim-wave-2, .anim-palm, .anim-sun-pulse, .anim-cloud-1, .anim-cloud-2, .anim-bird {
         animation: none !important;
       }
     }
   </style>
 </head>
-<body id="dynamic-sky" class="h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-sky-950 to-cyan-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none">
+<body id="dynamic-sky" class="h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#091e3a] via-[#0b3c5d] via-[#1d5c6f] to-[#042838] text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000">
   
-  <!-- Iluminação e Atmosfera Costeira Dinâmica -->
+  <!-- ==========================================
+       CENÁRIO COSTEIRO VISÍVEL: CÉU, SOL & NUVENS
+       ========================================== -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-    <!-- Sol / Lua Dinâmico -->
-    <div id="sky-orb" class="absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-amber-400/25 blur-3xl transition-colors duration-1000"></div>
-    <!-- Brisa de água no horizonte -->
-    <div class="absolute top-1/4 -left-20 w-72 h-72 rounded-full bg-cyan-500/15 blur-3xl"></div>
-    <div class="absolute top-1/2 -right-20 w-72 h-72 rounded-full bg-amber-500/15 blur-3xl"></div>
+    
+    <!-- Sol Costeiro Brilhante com Disco e Halo Radiante -->
+    <div id="sun-container" class="absolute -top-10 sm:-top-8 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none anim-sun-pulse">
+      <!-- Halo de difusão de calor do Sol -->
+      <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-amber-400/30 blur-2xl"></div>
+      <!-- Disco Solar Nítido Dourado -->
+      <div id="sun-disk" class="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-yellow-200 via-amber-300 to-amber-500 shadow-[0_0_60px_rgba(251,191,36,0.6)] opacity-95"></div>
+      <!-- Anel de Luz Suave -->
+      <div class="absolute w-48 h-48 sm:w-56 sm:h-56 rounded-full border border-amber-300/40 opacity-70"></div>
+    </div>
+
+    <!-- Nuvens Tropicais Litorâneas -->
+    <!-- Nuvem 1 (Esquerda) -->
+    <div class="absolute top-16 -left-6 opacity-40 anim-cloud-1">
+      <svg width="140" height="45" viewBox="0 0 140 45" fill="white">
+        <path d="M20,35 Q10,35 10,25 Q10,15 25,15 Q35,5 55,10 Q70,0 90,10 Q110,5 120,18 Q135,20 130,35 Z" opacity="0.6"/>
+      </svg>
+    </div>
+    <!-- Nuvem 2 (Direita) -->
+    <div class="absolute top-28 -right-8 opacity-35 anim-cloud-2">
+      <svg width="170" height="50" viewBox="0 0 170 50" fill="white">
+        <path d="M25,40 Q10,40 10,28 Q10,16 28,16 Q40,4 65,10 Q85,-2 110,8 Q130,2 145,18 Q165,22 155,40 Z" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Gaivotas Planando no Céu da Praia -->
+    <div class="absolute top-20 left-10 opacity-75 anim-bird text-amber-100">
+      <svg width="28" height="14" viewBox="0 0 50 25" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path d="M2,18 Q14,4 25,13 Q36,4 48,18" />
+      </svg>
+    </div>
+    <div class="absolute top-28 right-12 opacity-60 anim-bird text-amber-100" style="animation-delay: -2s;">
+      <svg width="22" height="11" viewBox="0 0 50 25" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <path d="M2,18 Q14,4 25,13 Q36,4 48,18" />
+      </svg>
+    </div>
+
+    <!-- Brilho Dourado refletindo no horizonte -->
+    <div class="absolute top-1/2 left-0 right-0 h-40 bg-gradient-to-t from-cyan-500/15 via-amber-400/10 to-transparent"></div>
   </div>
 
-  <!-- 1. TOPO: Safe Area + Relógio de Teresina + Botão Som Touch-Friendly (Mínimo 44px) -->
+  <!-- 1. TOPO: Relógio Oficial de Teresina + Botão Som Touch-Friendly (Mínimo 44px) -->
   <header class="w-full max-w-md mx-auto px-4 pt-[max(1rem,env(safe-area-inset-top,1rem))] pb-2 flex items-center justify-between gap-3 relative z-20 shrink-0">
-    <!-- Relógio Teresina com Glassmorphism -->
-    <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium text-slate-200 bg-slate-900/65 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/30">
-      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/50"></span>
+    <!-- Relógio Teresina com Vidro Translúcido -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium text-slate-100 bg-slate-950/60 backdrop-blur-xl border border-white/20 shadow-xl shadow-black/40">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/60"></span>
       <span class="text-slate-300 font-semibold">Teresina:</span>
       <span id="clock" class="font-mono font-bold tabular-nums text-cyan-300 tracking-wide text-xs sm:text-sm">--:--:--</span>
     </div>
@@ -92,7 +145,7 @@ import '../../styles/global.css';
     <button
       id="audio-toggle"
       type="button"
-      class="btn btn-sm min-h-[44px] px-4 rounded-full border border-cyan-400/40 bg-cyan-950/75 hover:bg-cyan-900/85 active:scale-95 text-cyan-200 font-semibold shadow-lg shadow-cyan-950/40 flex items-center gap-2 backdrop-blur-md transition-colors cursor-pointer"
+      class="btn btn-sm min-h-[44px] px-4 rounded-full border border-cyan-300/40 bg-slate-950/65 hover:bg-cyan-950/80 active:scale-95 text-cyan-200 font-semibold shadow-xl shadow-black/40 flex items-center gap-2 backdrop-blur-xl transition-colors cursor-pointer"
       aria-label="Ativar ou desativar som ambiente do mar"
     >
       <svg id="audio-icon-svg" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -102,75 +155,75 @@ import '../../styles/global.css';
     </button>
   </header>
 
-  <!-- 2. CENTRO: Hero Mobile com espaçamento generoso e equilibrado -->
-  <main class="w-full max-w-md mx-auto px-4 my-auto py-4 flex flex-col items-center justify-center text-center relative z-20 shrink min-h-0">
+  <!-- 2. CENTRO: Conteúdo Principal com Visual Litorâneo Vibrante -->
+  <main class="w-full max-w-md mx-auto px-4 my-auto py-3 flex flex-col items-center justify-center text-center relative z-20 shrink min-h-0">
     
     <!-- Cabeçalho & Frase de Impacto -->
     <div class="mb-4 sm:mb-6">
-      <!-- Tag de status tropical flutuante -->
-      <div id="sky-greeting" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-[11px] sm:text-xs font-black tracking-widest uppercase text-amber-300 mb-2 anim-float">
-        <span class="anim-palm text-sm inline-block">🌴</span>
+      <!-- Tag tropical flutuante com coqueiro -->
+      <div id="sky-greeting" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/60 backdrop-blur-md border border-amber-300/40 text-[11px] sm:text-xs font-black tracking-widest uppercase text-amber-300 mb-2.5 shadow-lg">
+        <span class="anim-palm text-base inline-block">🌴</span>
         <span id="greeting-text">É DE MANHÃÃÃ</span>
       </div>
 
-      <!-- Título Principal com Gradiente Luminoso -->
+      <!-- Título Principal Solar e Luminoso -->
       <div class="flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-white via-amber-100 to-amber-300 bg-clip-text text-transparent drop-shadow-md leading-tight">
+        <h1 class="text-4xl sm:text-5xl font-black tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] leading-tight">
           Parnaíba
         </h1>
-        <span class="badge badge-sm badge-info font-bold px-2.5 py-2.5 rounded-lg border-cyan-400/40 bg-cyan-500/20 text-cyan-200 shadow-xs">
+        <span class="badge badge-sm font-bold px-3 py-2.5 rounded-lg border border-cyan-300/50 bg-cyan-900/60 text-cyan-200 shadow-md backdrop-blur-md">
           27 Nov • 08:00
         </span>
       </div>
 
-      <p class="text-xs sm:text-sm text-slate-200 font-medium mt-1.5 leading-snug drop-shadow-xs max-w-xs mx-auto text-pretty">
-        Tá perto de escutar <span class="text-amber-300 font-bold">Ser Tão</span>...
+      <p class="text-xs sm:text-sm text-slate-100 font-medium mt-1.5 leading-snug drop-shadow-md max-w-xs mx-auto text-pretty">
+        Tá perto de escutar <span class="text-amber-300 font-bold underline decoration-amber-400/60 underline-offset-2">Ser Tão</span>...
       </p>
     </div>
 
-    <!-- 4 Cards da Contagem Regressiva Glassmorphism -->
+    <!-- 4 Cards da Contagem Regressiva Glassmorphism Marinho -->
     <div class="w-full grid grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
       
       <!-- Dias -->
-      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-amber-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-950/65 backdrop-blur-xl border border-amber-400/50 shadow-2xl shadow-black/60 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
         <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">☀️</span>
-        <div id="days" class="text-2xl sm:text-3xl md:text-4xl font-black text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+        <div id="days" class="text-2xl sm:text-3xl md:text-4xl font-black text-amber-400 font-mono tabular-nums tracking-tight my-0.5 leading-none drop-shadow-sm">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-200/90 mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-200 mt-1">
           Dias
         </span>
       </div>
 
       <!-- Horas -->
-      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-orange-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-950/65 backdrop-blur-xl border border-orange-400/50 shadow-2xl shadow-black/60 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
         <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🥥</span>
-        <div id="hours" class="text-2xl sm:text-3xl md:text-4xl font-black text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+        <div id="hours" class="text-2xl sm:text-3xl md:text-4xl font-black text-orange-400 font-mono tabular-nums tracking-tight my-0.5 leading-none drop-shadow-sm">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-orange-200/90 mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-orange-200 mt-1">
           Horas
         </span>
       </div>
 
       <!-- Minutos -->
-      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-cyan-400/40 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-950/65 backdrop-blur-xl border border-cyan-400/50 shadow-2xl shadow-black/60 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
         <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🏄‍♂️</span>
-        <div id="minutes" class="text-2xl sm:text-3xl md:text-4xl font-black text-cyan-300 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+        <div id="minutes" class="text-2xl sm:text-3xl md:text-4xl font-black text-cyan-300 font-mono tabular-nums tracking-tight my-0.5 leading-none drop-shadow-sm">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-cyan-200/90 mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-cyan-200 mt-1">
           Min
         </span>
       </div>
 
       <!-- Segundos -->
-      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-900/70 backdrop-blur-xl border border-teal-400/45 shadow-xl shadow-black/50 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
+      <div class="p-2.5 sm:p-3.5 rounded-2xl bg-slate-950/65 backdrop-blur-xl border border-teal-400/50 shadow-2xl shadow-black/60 flex flex-col items-center justify-center min-w-0 transition-transform active:scale-95">
         <span class="text-lg sm:text-xl mb-1 filter drop-shadow-sm" aria-hidden="true">🌊</span>
-        <div id="seconds" class="text-2xl sm:text-3xl md:text-4xl font-black text-teal-300 font-mono tabular-nums tracking-tight my-0.5 leading-none">
+        <div id="seconds" class="text-2xl sm:text-3xl md:text-4xl font-black text-teal-300 font-mono tabular-nums tracking-tight my-0.5 leading-none drop-shadow-sm">
           00
         </div>
-        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-teal-200/90 mt-1">
+        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-teal-200 mt-1">
           Seg
         </span>
       </div>
@@ -178,23 +231,23 @@ import '../../styles/global.css';
     </div>
 
     <!-- Barra de Progresso Glassmorphism -->
-    <div class="w-full p-3.5 rounded-2xl bg-slate-900/65 backdrop-blur-xl border border-white/15 shadow-lg shadow-black/35">
-      <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-slate-300 mb-2">
+    <div class="w-full p-3.5 rounded-2xl bg-slate-950/65 backdrop-blur-xl border border-white/20 shadow-xl shadow-black/50">
+      <div class="flex items-center justify-between text-[11px] sm:text-xs font-medium text-slate-200 mb-2">
         <span class="flex items-center gap-1.5">
           <span>Rumo à Praia:</span>
-          <span id="pct-badge" class="font-mono text-cyan-300 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-full border border-cyan-400/30">0%</span>
+          <span id="pct-badge" class="font-mono text-cyan-300 font-bold bg-cyan-500/25 px-2.5 py-0.5 rounded-full border border-cyan-400/40">0%</span>
         </span>
-        <span class="text-amber-200 font-semibold flex items-center gap-1">
+        <span class="text-amber-300 font-semibold flex items-center gap-1">
           <span>Partida (27/11)</span>
           <span aria-hidden="true">🧳</span>
         </span>
       </div>
       
-      <!-- Barra com gradiente marinho dourado -->
-      <div class="w-full h-2.5 rounded-full bg-slate-950/70 p-0.5 border border-white/10 overflow-hidden">
+      <!-- Barra com gradiente marinho dourado e trilha nítida -->
+      <div class="w-full h-3 rounded-full bg-slate-900/90 p-0.5 border border-white/15 overflow-hidden">
         <div
           id="progress-fill"
-          class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-400 rounded-full transition-[width] duration-700 shadow-sm shadow-cyan-400/40"
+          class="h-full bg-gradient-to-r from-amber-400 via-teal-400 to-cyan-400 rounded-full transition-[width] duration-700 shadow-sm shadow-cyan-400/50"
           style="width: 0%"
         ></div>
       </div>
@@ -202,24 +255,39 @@ import '../../styles/global.css';
 
   </main>
 
-  <!-- 3. RODAPÉ: Ondas em Camadas + Areia Dourada + Respeito ao Safe Area -->
-  <footer class="relative w-full h-16 sm:h-20 overflow-hidden pointer-events-none z-10 shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom,0.75rem))]">
-    <!-- Onda Traseira Lenta -->
-    <div class="absolute bottom-0 left-0 w-[200%] h-14 anim-wave-2 opacity-40 text-cyan-800">
+  <!-- 3. RODAPÉ COSTEIRO: Dunas Douradas + Ondas do Mar em Camadas + Areia da Praia -->
+  <footer class="relative w-full h-20 sm:h-24 overflow-hidden pointer-events-none z-10 shrink-0 pb-[max(0.75rem,env(safe-area-inset-bottom,0.75rem))]">
+    
+    <!-- Silhueta Suave de Dunas Distantes no Horizonte do Mar -->
+    <div class="absolute bottom-6 left-0 right-0 h-10 opacity-30 text-amber-200">
+      <svg viewBox="0 0 1200 60" preserveAspectRatio="none" class="w-full h-full fill-current">
+        <path d="M0,45 Q300,15 600,35 Q900,10 1200,40 L1200,60 L0,60 Z"></path>
+      </svg>
+    </div>
+
+    <!-- Onda 2: Onda Traseira Lenta (Azul Profundo do Mar) -->
+    <div class="absolute bottom-0 left-0 w-[200%] h-16 anim-wave-2 opacity-50 text-[#0e7490]">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
-        <path d="M0,10 C200,70 400,-10 600,45 C800,95 1000,15 1200,55 L1200,120 L0,120 Z"></path>
+        <path d="M0,15 C200,75 400,-5 600,50 C800,100 1000,20 1200,60 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
     
-    <!-- Onda Dianteira Translúcida -->
-    <div class="absolute bottom-0 left-0 w-[200%] h-11 anim-wave-1 opacity-70 text-cyan-500">
+    <!-- Onda 1: Onda Dianteira Turquesa com Crista Espumosa -->
+    <div class="absolute bottom-0 left-0 w-[200%] h-12 anim-wave-1 opacity-80 text-[#06b6d4]">
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-full fill-current">
         <path d="M0,35 C240,85 460,15 700,65 C940,105 1100,25 1200,65 L1200,120 L0,120 Z"></path>
       </svg>
     </div>
     
-    <!-- Linha de Espuma e Areia Dourada -->
-    <div class="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 border-t border-amber-200/70 shadow-md"></div>
+    <!-- Espuma Branca da Onda Quebrando na Areia -->
+    <div class="absolute bottom-2 left-0 w-[200%] h-3 anim-wave-1 opacity-70 text-white">
+      <svg viewBox="0 0 1200 30" preserveAspectRatio="none" class="w-full h-full fill-current">
+        <path d="M0,10 Q300,2 600,12 Q900,3 1200,10 L1200,30 L0,30 Z"></path>
+      </svg>
+    </div>
+    
+    <!-- Praia: Faixa de Areia Dourada do Piauí -->
+    <div class="absolute bottom-0 left-0 w-full h-2.5 bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 border-t border-amber-200/90 shadow-lg"></div>
   </footer>
 
   <script>
@@ -234,28 +302,28 @@ import '../../styles/global.css';
     const elPctBadge = document.getElementById("pct-badge");
     const elProgressFill = document.getElementById("progress-fill");
     const elSky = document.getElementById("dynamic-sky");
-    const elSkyOrb = document.getElementById("sky-orb");
+    const elSunDisk = document.getElementById("sun-disk");
     const elGreetingText = document.getElementById("greeting-text");
 
-    // Sincronização do Céu com o Horário de Teresina/Parnaíba
+    // Sincronização da Atmosfera Costeira com o Horário de Teresina/Parnaíba
     function updateAtmosphere(hoursNow: number) {
-      if (!elSky || !elSkyOrb || !elGreetingText) return;
+      if (!elSky || !elSunDisk || !elGreetingText) return;
 
       if (hoursNow >= 5 && hoursNow < 12) {
-        // Manhã Radiante: 05:00 - 11:59
+        // Manhã Praiana Radiante (05:00 - 11:59): Céu azul costeiro, sol dourado quente
         elGreetingText.textContent = "É DE MANHÃÃÃ";
-        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-sky-900 via-cyan-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
-        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-amber-400/30 blur-3xl transition-colors duration-1000";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#092244] via-[#0c4a6e] via-[#155e75] to-[#042f2e] text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSunDisk.className = "absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-yellow-200 via-amber-300 to-amber-500 shadow-[0_0_70px_rgba(251,191,36,0.7)] opacity-95";
       } else if (hoursNow >= 12 && hoursNow < 18) {
-        // Tarde / Pôr do Sol da Pedra do Sal: 12:00 - 17:59
+        // Tarde / Pôr do Sol da Pedra do Sal (12:00 - 17:59): Céu âmbar, laranja e púrpura
         elGreetingText.textContent = "TARDE PRAIANA";
-        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-amber-950 via-rose-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
-        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-orange-500/35 blur-3xl transition-colors duration-1000";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#451a03] via-[#7c2d12] via-[#831843] to-[#1e1b4b] text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSunDisk.className = "absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-amber-300 via-orange-400 to-rose-500 shadow-[0_0_80px_rgba(249,115,22,0.8)] opacity-95";
       } else {
-        // Noite Estrelada no Delta: 18:00 - 04:59
+        // Noite Estrelada no Delta (18:00 - 04:59): Azul marinho profundo com Lua prateada
         elGreetingText.textContent = "NOITE NO DELTA";
-        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-slate-950 via-indigo-950 to-slate-950 text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
-        elSkyOrb.className = "absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 sm:w-96 sm:h-96 rounded-full anim-sun bg-cyan-300/20 blur-3xl transition-colors duration-1000";
+        elSky.className = "h-full h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-b from-[#030712] via-[#0f172a] via-[#1e1b4b] to-[#022c22] text-slate-100 m-0 p-0 box-border touch-manipulation font-sans select-none transition-colors duration-1000";
+        elSunDisk.className = "absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-b from-slate-100 via-cyan-100 to-cyan-300 shadow-[0_0_50px_rgba(103,232,249,0.5)] opacity-90";
       }
     }
 
@@ -364,7 +432,7 @@ import '../../styles/global.css';
         isPlaying = true;
         if (labelAudio) labelAudio.textContent = "Som Ligado";
         btnAudio?.classList.add("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
-        btnAudio?.classList.remove("bg-cyan-950/75");
+        btnAudio?.classList.remove("bg-slate-950/65");
       } catch (_) {}
     }
 
@@ -376,7 +444,7 @@ import '../../styles/global.css';
       isPlaying = false;
       if (labelAudio) labelAudio.textContent = "Som Mudo";
       btnAudio?.classList.remove("ring-2", "ring-cyan-400/60", "bg-cyan-900/90");
-      btnAudio?.classList.add("bg-cyan-950/75");
+      btnAudio?.classList.add("bg-slate-950/65");
     }
 
     btnAudio?.addEventListener("click", () => {
