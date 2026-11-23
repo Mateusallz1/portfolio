@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MusicLessonCard from '../../../components/MusicLessonCard.astro';
+import { profile } from '../../../data/profile';
+import { ORDERED_MUSIC_TRACKS } from '../../../data/musicTracks';
+import { getCollection } from 'astro:content';
+
+const lang = 'pt';
+const lessons = await getCollection(
+  'music',
+  (entry) => entry.data.lang === lang && !entry.data.draft
+);
+
+const lessonsByTrack = ORDERED_MUSIC_TRACKS.map((track) => {
+  const items = lessons
+    .filter((entry) => entry.data.track === track.id)
+    .sort((a, b) => a.data.lessonNumber - b.data.lessonNumber);
+  return { track, items };
+});
+---
+
+<BaseLayout
+  title={`Música & Contrabaixo · ${profile.name}`}
+  description="Caderno de estudos musicais separado do portfólio de engenharia: trilhas progressivas de contrabaixo (4 cordas) e teoria musical."
+  lang={lang}
+>
+  <div class="py-6 sm:py-10 border-b border-base-content/10 min-w-0 max-w-full">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
+      <span>Caderno de Estudos · Fora do Código</span>
+    </div>
+
+    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-base-content break-words">
+      Música & Contrabaixo
+    </h1>
+
+    <p class="mt-2 text-sm sm:text-base text-base-content/75 max-w-2xl leading-relaxed break-words">
+      Anotações práticas e simuladores interativos organizados em trilhas progressivas. Este espaço fica separado do blog de engenharia de software para manter cada estudo no seu contexto.
+    </p>
+
+    <!-- Quick anchor links to each track -->
+    <nav aria-label="Trilhas musicais" class="flex flex-wrap gap-2 pt-6">
+      {lessonsByTrack.map(({ track, items }) => (
+        <a
+          href={`#trilha-${track.id}`}
+          class="btn btn-xs btn-ghost border border-base-content/15 hover:border-primary/40 font-mono text-xs gap-1.5"
+        >
+          <span>{track.title}</span>
+          <span class="badge badge-xs badge-primary badge-soft font-mono">
+            {items.length}
+          </span>
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="divide-y divide-base-content/10">
+    {lessonsByTrack.map(({ track, items }) => (
+      <section id={`trilha-${track.id}`} class="py-10 sm:py-12 scroll-mt-20">
+        <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-6">
+          <div class="space-y-1.5 max-w-2xl">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge badge-sm badge-primary badge-soft font-mono">
+                {track.badge}
+              </span>
+              {track.tuningHint && (
+                <span class="text-xs font-mono text-base-content/55">
+                  {track.tuningHint}
+                </span>
+              )}
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-base-content">
+              {track.title}
+            </h2>
+            <p class="text-sm text-base-content/75 leading-relaxed">
+              {track.description}
+            </p>
+          </div>
+
+          <span class="text-xs font-mono text-base-content/50 shrink-0">
+            {items.length} {items.length === 1 ? 'lição' : 'lições'}
+          </span>
+        </div>
+
+        {items.length > 0 ? (
+          <ol class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 list-none p-0 m-0">
+            {items.map((lesson) => (
+              <li class="min-w-0">
+                <MusicLessonCard lesson={lesson} />
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p class="text-sm font-mono text-base-content/50 py-6 border-t border-base-content/10">
+            Em breve novos estudos nesta trilha.
+          </p>
+        )}
+      </section>
+    ))}
+  </div>
+</BaseLayout>

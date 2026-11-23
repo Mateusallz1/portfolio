@@ -96,3 +96,49 @@
   height: auto;
   border-radius: 0.5rem;
 }
+
+/* -------------------------------------------------------------
+ * Horizontal Fretboard Scrollability Affordance Hints
+ * ----------------------------------------------------------- */
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes reveal-fade-start {
+  to {
+    --fade-start: var(--fade-size);
+  }
+}
+
+@keyframes hide-fade-end {
+  from {
+    --fade-end: var(--fade-size);
+  }
+}
+
+.fretboard-scroller {
+  overflow-x: auto;
+  --fade-size: 2.25rem;
+  scroll-padding-inline: var(--fade-size);
+  -webkit-overflow-scrolling: touch;
+}
+
+@supports (animation-timeline: scroll(self inline)) {
+  .fretboard-scroller {
+    mask:
+      linear-gradient(black, black) no-clip subtract,
+      linear-gradient(to right, black, transparent) 0 0 / var(--fade-start) 100% no-repeat no-clip,
+      linear-gradient(to right, transparent, black) 100% 0 / var(--fade-end) 100% no-repeat no-clip;
+    animation: reveal-fade-start linear both, hide-fade-end linear both;
+    animation-timeline: scroll(self inline);
+    animation-range: 0 var(--fade-size), calc(100% - var(--fade-size)) 100%;
+  }
+}

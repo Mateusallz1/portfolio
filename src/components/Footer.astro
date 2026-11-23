@@ -59,17 +59,30 @@ const currentYear = new Date().getFullYear();
       </a>
 
       {lang === 'pt' && (
-        <a
-          href={profile.whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-1.5"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12.031 2C6.518 2 2.032 6.485 2.032 12.001c0 1.954.561 3.845 1.625 5.467L2 22l4.67-1.611a9.98 9.98 0 005.361 1.612h.004c5.513 0 10-4.486 10-10.002 0-5.516-4.487-10-10.004-10zm0 18.293a8.27 8.27 0 01-4.223-1.157l-.303-.18-3.138 1.082 1.098-3.06-.197-.314a8.274 8.274 0 01-1.267-4.663c0-4.57 3.719-8.288 8.29-8.288 4.57 0 8.289 3.718 8.289 8.288 0 4.57-3.719 8.288-8.289 8.288z"/>
-          </svg>
-          WhatsApp
-        </a>
+        <>
+          <a
+            href="/pt/musica"
+            data-astro-prefetch="hover"
+            class="text-base-content/70 hover:text-primary transition-colors flex items-center gap-1.5"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
+            </svg>
+            Estudos de Música
+          </a>
+
+          <a
+            href={profile.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-emerald-500 hover:text-emerald-400 transition-colors flex items-center gap-1.5"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12.031 2C6.518 2 2.032 6.485 2.032 12.001c0 1.954.561 3.845 1.625 5.467L2 22l4.67-1.611a9.98 9.98 0 005.361 1.612h.004c5.513 0 10-4.486 10-10.002 0-5.516-4.487-10-10.004-10zm0 18.293a8.27 8.27 0 01-4.223-1.157l-.303-.18-3.138 1.082 1.098-3.06-.197-.314a8.274 8.274 0 01-1.267-4.663c0-4.57 3.719-8.288 8.29-8.288 4.57 0 8.289 3.718 8.289 8.288 0 4.57-3.719 8.288-8.289 8.288z"/>
+            </svg>
+            WhatsApp
+          </a>
+        </>
       )}
     </div>
   </div>

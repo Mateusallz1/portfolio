@@ -27,6 +27,12 @@ const ptNotes = allNotes
   .filter((n) => n.data.lang === lang)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
+
+// Fetch music studies (outside engineering)
+const ptMusicLessons = await getCollection(
+  'music',
+  (entry) => entry.data.lang === lang && !entry.data.draft
+);
 ---
 
 <BaseLayout
@@ -207,6 +213,31 @@ const ptNotes = allNotes
           ))}
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Secondary Music Studies Strip (Discreet, outside main engineering flow) -->
+  <section class="border-t border-base-content/10 pt-10 pb-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <span class="text-[11px] font-mono uppercase tracking-widest text-base-content/50 block">
+          Fora do Código · Caderno de Estudos ({ptMusicLessons.length} {ptMusicLessons.length === 1 ? 'lição' : 'lições'})
+        </span>
+        <h2 class="text-base sm:text-lg font-semibold text-base-content">
+          Trilhas de Música & Contrabaixo
+        </h2>
+        <p class="text-xs sm:text-sm text-base-content/70 max-w-xl leading-relaxed">
+          Anotações práticas e simuladores interativos organizados nas trilhas de Contrabaixo e Teoria Musical.
+        </p>
+      </div>
+
+      <a
+        href="/pt/musica"
+        data-astro-prefetch="hover"
+        class="text-xs font-mono text-base-content/70 hover:text-primary hover:underline shrink-0"
+      >
+        Explorar trilhas →
+      </a>
     </div>
   </section>
 </BaseLayout>

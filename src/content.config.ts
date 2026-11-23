@@ -89,4 +89,46 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { articles, notes, projects };
+/**
+ * Schema para Trilhas de Música & Contrabaixo
+ * Organiza aulas progressivas e módulos de teoria musical separados do blog de engenharia.
+ */
+const music = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/music' }),
+  schema: z
+    .object({
+      title: z
+        .string()
+        .min(5, 'O título da aula deve conter no mínimo 5 caracteres.')
+        .max(120, 'O título da aula não deve exceder 120 caracteres.'),
+      description: z
+        .string()
+        .min(20, 'A descrição deve ter pelo menos 20 caracteres.')
+        .max(250, 'A descrição não deve exceder 250 caracteres.'),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      lang: z.enum(['pt', 'en']),
+      track: z.enum(['teoria-musical', 'contrabaixo']),
+      lessonNumber: z.number().int().positive('Informe um número inteiro positivo para a ordem da aula.'),
+      level: z.enum(['Iniciante', 'Intermediário', 'Avançado']).default('Iniciante'),
+      instrument: z.string().optional(),
+      tuning: z.string().optional(),
+      practiceTime: z.string().optional(),
+      readingTime: z
+        .string()
+        .regex(/^\d+\s+min$/, 'O tempo de leitura deve seguir o padrão "X min" (ex: "5 min").'),
+      tags: z
+        .array(z.string().min(1, 'Tag não pode ser vazia'))
+        .min(1, 'Informe pelo menos uma tag para catalogação.'),
+      draft: z.boolean().default(false),
+    })
+    .refine(
+      (data) => !data.updatedDate || data.updatedDate >= data.pubDate,
+      {
+        message: 'A data de atualização (updatedDate) deve ser igual ou posterior à data de publicação (pubDate).',
+        path: ['updatedDate'],
+      }
+    ),
+});
+
+export const collections = { articles, notes, projects, music };

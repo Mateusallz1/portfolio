@@ -1,2 +1,3 @@
 # Cloudflare Pages Edge Redirects
 / /pt 302
+/pt/blog/geometria-da-harmonia-musical /pt/musica/teoria-musical/geometria-da-harmonia-musical 301

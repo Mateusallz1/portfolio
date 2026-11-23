@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { toCleanMusicSlug } from '../data/musicTracks';
 
 interface Props {
   lang: 'pt' | 'en';
@@ -9,6 +10,7 @@ const { lang } = Astro.props;
 
 const allArticles = await getCollection('articles');
 const allNotes = await getCollection('notes');
+const allMusic = await getCollection('music', (entry) => !entry.data.draft);
 
 const localIndex = [
   ...allArticles.map((a) => {
@@ -31,6 +33,17 @@ const localIndex = [
       url: `/${n.data.lang}/${n.data.lang === 'pt' ? 'notas' : 'notes'}/${slug}`,
       tags: n.data.tags,
       lang: n.data.lang,
+    };
+  }),
+  ...allMusic.map((m) => {
+    const slug = toCleanMusicSlug(m.id);
+    return {
+      type: m.data.track === 'contrabaixo' ? 'Música · Contrabaixo' : 'Música · Teoria',
+      title: m.data.title,
+      description: m.data.description,
+      url: `/${m.data.lang}/musica/${slug}`,
+      tags: m.data.tags,
+      lang: m.data.lang,
     };
   }),
 ];
